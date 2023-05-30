@@ -1,5 +1,15 @@
-h1 {
-  color: green; }
+.logo img {
+  width: 140px; }
 
-.header {
-  background-color: antiquewhite; }
+.hover--primary:hover {
+  transition: .3s;
+  color: #b99e83 !important; }
+
+.quantify {
+  background-color: #b99e83;
+  border-radius: 50%;
+  width: 17px;
+  height: 17px;
+  font-size: 0.8rem;
+  top: 8px;
+  right: 5px; }
