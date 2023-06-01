@@ -1,5 +1,87 @@
 
 @import 'variables';
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+ul {
+    list-style: none;
+}
+
+.color--light {
+    color: $text-light;
+    transition: .3s;
+    &:hover {
+        color: $primary-color;
+    }
+}
+
+.color--primary {
+    color: $primary-color;
+    &:hover {
+        color: $primary-color;
+    }
+}
+
+.col-2-4 {
+    flex: 0 0 auto;
+    width: 20%;
+}
+
+.lh-1-8 {
+    line-height: 1.8;
+}
+
+.rotate-90 {
+    transform: rotate(90deg);
+}
+
+.label {
+    font-size: 11px;
+    padding: 4px 8px;
+    color: $white-color;
+    text-align: center;
+    line-height: 1;
+}
+
+.label--new {
+    background-color: $primary-color;
+}
+
+.label--discount {
+    background-color: #263565;
+}
+
+.label--hot {
+    background-color: #c7636a;
+}
+
+.btn--primary {
+    background-color: $white-color;
+    transition: .3s;
+    font-weight: 500;
+    font-size: 15px;
+
+    &:hover {
+        background-color: $dark-color;
+        color: $white-color;
+    }
+}
+
+.btn--dark {
+    background-color: $dark-color;
+    &:hover {
+        background-color: $primary-color;
+    }
+}
+
+.font--primary {
+    font-family: "Playfair Display", Sans-serif;
+}
 
 .logo {
     img {
@@ -22,4 +104,155 @@
     font-size: 0.8rem;
     top: 8px;
     right: 5px;
+}
+
+.banner {
+    background: url('/img/banner.jpg') no-repeat center;
+    width: 100%;
+    height: 752px;
+}
+
+.content {
+    max-width: 670px;  
+    .content__now {
+        font-size: 18px;
+    }
+    
+    .content__desc {
+        font-size: 80px;
+    }
+}
+
+.mentor--items {
+    height: 420px;
+
+    img {
+        object-fit: cover;
+        object-position: center;
+        transition: .5s;
+    }
+
+    &:hover img {
+        transform: scale(1.1);
+    }
+}
+
+.product {
+    
+    button {
+        width: 85%;
+        font-weight: 500;
+        transform: translate(-50%, 150px);
+        transition: .4s;
+    }
+
+    .product--name {
+        font-size: 12px;
+        color: $primary-color;
+    }
+
+    .product-action {
+        li {
+            width: 45px;
+            height: 45px;
+            transform: translateX(15px);
+            transition: .4s;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .nth-2 {
+            transition-delay: 0.1s;
+        }
+
+        .nth-3 {
+            transition-delay: 0.2s;
+        }
+    }
+
+    .product--desc{
+        transition: .3s;
+        color: $dark-color;
+        text-decoration: none;
+        display: block;
+        margin-bottom: 8px;
+        &:hover {
+            color: $primary-color;
+        }
+    }
+
+    &:hover {
+        button{
+            transform: translate(-50%, 0);
+        }
+
+        .product-action li {
+            transform: translateX(0);
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+}
+
+.populated--title {
+    font-size: 45px;
+}
+
+.populated--banner {
+    background: url('/img/banner-2.jpg') no-repeat center;
+    height: 600px;
+}
+
+.instagram--img {
+    div {
+        opacity: 0;
+        transition: .4s;
+        transform: scale(0);
+    }
+
+    &:hover div{
+        opacity: 0.6;
+        transform: scale(1);
+    }
+}
+
+.footer {
+    background-color: #f5f3f2;
+}
+
+.email--sub {
+    input {
+        border: none;
+        outline: none;
+        width: 95%;
+        background-color: transparent;
+        padding-bottom: 8px;
+        border-bottom: 2px solid $dark-color;
+        transition: .3s;
+        &:focus {
+            border-color: $primary-color;
+        }
+    }
+}
+
+.footer__element--items {
+    button[type ="submit"] {
+        padding-bottom: 4px;
+        border: none;
+        border-bottom: 2px solid $dark-color;
+        background-color: transparent;
+        transition: .3s;
+        &:hover {
+            color: $primary-color;
+            border-color: $primary-color;
+        }
+    }
+}
+
+.social {
+    a {
+        width: 40px;
+        height: 40px;
+        border: 1px solid #dddddd;
+    }
 }
