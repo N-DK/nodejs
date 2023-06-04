@@ -1,9 +1,10 @@
+const Product = require('../modules/Products');
 
 class SiteController {
 
     // [GET] /
     home(req, res) {
-        res.render('home');
+        Product.find().then(data => res.json(data))
     }
 
     // [GET] /about

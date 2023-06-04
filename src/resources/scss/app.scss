@@ -12,6 +12,14 @@ ul {
     list-style: none;
 }
 
+.border-bottom-primary {
+    border-bottom: 1px solid #e4e4e4;
+}
+
+.border-top-primary {
+    border-top: 1px solid #e4e4e4;
+}
+
 .color--light {
     color: $text-light;
     transition: .3s;
@@ -76,6 +84,13 @@ ul {
     background-color: $dark-color;
     &:hover {
         background-color: $primary-color;
+    }
+}
+
+.btn--light {
+    background-color: $primary-color;
+    &:hover {
+        background-color: $dark-color;
     }
 }
 
@@ -255,4 +270,54 @@ ul {
         height: 40px;
         border: 1px solid #dddddd;
     }
+}
+
+.form-lg {
+    border-top: 1px solid #e4e4e4;
+    border-bottom: 1px solid #e4e4e4;
+}
+
+.modal.fade .modal-dialog {
+    transition: transform .3s ease-out;
+    transform: translate(100%, 0px);
+}
+
+.modal.show .modal-dialog {
+    transform: translate(0%, 0px);
+}
+
+.product__items {
+    
+    .product__items--img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .product__items--content {
+        p {
+            color: $text-light;
+        }
+    }
+
+    .product__items--name {
+        transition: .3s;
+        color: $black-color;
+        &:hover {
+            color: $primary-color!important;
+        }
+    }
+
+    .clear--product {
+        transition: .3s;
+        transform: translate(150%, -50%);
+    }
+
+    &:hover .clear--product{
+        transform: translate(0%, -50%);
+    }
+}
+
+#scroll-custom::-webkit-scrollbar
+{
+	background-color: transparent;
 }
