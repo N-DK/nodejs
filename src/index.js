@@ -16,7 +16,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(morgan('combined'));
 
 //Template engine handlebars
-app.engine('.hbs', handlebars.engine({extname: '.hbs'}));
+app.engine('.hbs', handlebars.engine({
+    extname: '.hbs', 
+    helpers: {
+      convertToPercent: function(discount) {return discount * 100},
+      calcCurrentPrice: function(cost, percent) {return Math.round(cost * (1 - percent))},
+      isPositive: function(val, options) {
+        if (val > 0){
+          return options.fn(this)
+        }
+      } 
+    }
+}));
 app.set('view engine', '.hbs');
 app.set('views', path.join(__dirname, 'resources/views'));
 
