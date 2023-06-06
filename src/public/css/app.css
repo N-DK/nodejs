@@ -16,6 +16,9 @@ ul {
 .border-bottom-primary {
   border-bottom: 1px solid #e4e4e4; }
 
+.border-right-primary {
+  border-right: 1px solid #e4e4e4; }
+
 .border-top-primary {
   border-top: 1px solid #e4e4e4; }
 
@@ -48,12 +51,24 @@ ul {
   .text--dark-hover:hover {
     color: #b99e83 !important; }
 
+.color--primary-hover {
+  color: #b99e83;
+  transition: .3s; }
+  .color--primary-hover:hover {
+    color: #212529; }
+
 .col-2-4 {
   flex: 0 0 auto;
   width: 20%; }
 
 .lh-1-8 {
   line-height: 1.8; }
+
+.bg--white--hover {
+  transition: .3s; }
+  .bg--white--hover:hover {
+    background-color: #b99e83;
+    color: white; }
 
 .rotate-90 {
   transform: rotate(90deg); }
@@ -408,3 +423,36 @@ ul {
 .page-header {
   padding: 75px 0;
   background: url("/img/pageHeader.jpg") no-repeat; }
+
+.page-header.shop {
+  background: url("/img/banner-shop.jpg") no-repeat; }
+
+.pagination .active {
+  background-color: #b99e83;
+  color: white; }
+
+select {
+  -webkit-appearance: none;
+  appearance: none; }
+
+.recent-posts__items .recent-posts__items--img img {
+  transition: .3s;
+  transform: scale(1); }
+
+.recent-posts__items:hover .recent-posts__items--img img {
+  transform: scale(1.2); }
+
+.posts .posts--img img {
+  transition: .3s;
+  transform: scale(1); }
+
+.posts .posts--img:hover img {
+  transform: scale(1.2); }
+
+.wishlist__list .wishlist__items {
+  transition: .3s; }
+  .wishlist__list .wishlist__items:hover {
+    background-color: #f2f2f2; }
+
+.wishlist__list .wishlist__items + .wishlist__items {
+  border-top: 1px solid #e4e4e4; }
