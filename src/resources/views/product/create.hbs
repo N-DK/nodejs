@@ -1,0 +1,35 @@
+<div class="container">
+    <form method="POST" action="/product/store">
+        <div class="mb-3 input--group">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="w-100 " name="name" id="name" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3 input--group">
+            <label for="describe" class="form-label">Describe</label>
+            <input type="text" class="w-100 " name="desc" id="describe" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3 input--group">
+            <label for="cost" class="form-label">Cost</label>
+            <input type="number" class="w-100 " name="cost" id="cost" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3 input--group">
+            <label for="discount" class="form-label">Discount</label>
+            <input type="number" step="any" class="w-100 " name="discount" id="discount" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3 input--group">
+            <label for="category" class="form-label">Category</label>
+            <input type="text" class="w-100 " name="category" id="category" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3 input--group">
+            <label for="image" class="form-label">Image</label>
+            <input type="text" class="w-100 " name="image" id="image" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3">
+            <input type="checkbox" value="true" class="" id="hot" name="hot">
+            <label class="form-check-label" for="hot">Hot</label>
+            <input type="checkbox" value="true" class="" id="new" name="new">
+            <label class="form-check-label" for="new">New</label>
+        </div>
+        <button type="submit" class="btn--primary btn--light text-white text-uppercase border-0 pt-2 pb-2 pe-4 ps-4 mt-2">Create new product</button>
+    </form>
+</div>

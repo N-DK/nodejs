@@ -6,9 +6,7 @@ const productsController = require('./products');
 function route(app) {
 
     app.use('/blogs', blogsController);
-
     app.use('/product', productsController);
-
     app.use('/', siteController);
 
 }

@@ -13,6 +13,18 @@ class ProductsController {
             })       
             .catch(next);
     }
+
+    // [GET] product/create
+    create(req, res, next) {
+        res.render('product/create')
+    }
+
+    // [POST]  product/store
+    async store(req, res, next) {
+        const product = new Product(req.body);
+        await product.save()
+        .then(() => res.redirect('/'));
+    }
 }   
 
 module.exports = new ProductsController;
