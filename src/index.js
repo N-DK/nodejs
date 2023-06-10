@@ -28,7 +28,16 @@ app.engine('.hbs', handlebars.engine({
         if (val > 0){
           return options.fn(this)
         }
-      } 
+      },
+      formatDate: function(isoDate) {
+        const date = new Date(isoDate);
+        const options = {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+        };
+        return date.toLocaleDateString('en-US', options);
+      },
     }
 }));
 app.set('view engine', '.hbs');

@@ -5,7 +5,7 @@ mongoose.plugin(slug);
 
 const Blog = new Schema({
     name: { type: String, default: "" },
-    author: { type: String, default: "Nothing information" },
+    content: { type: String, default: "Nothing information" },
     image: { type: String},
     category: { type: String},
     slug: { type: String, slug: "name" }

@@ -1,0 +1,63 @@
+<div class="d-block text-center page-header">
+    <h1 style="font-size: 55px;" class="font--primary text-white">My account</h1>
+    <div class="router--detail color--white--no-hover pb-4 text-center pt-4">
+        <a href="/" class="color--white text-decoration-none">Home </a>/
+        <span class="text-capitalize">My account</span>
+    </div>
+</div>
+<div class="container pt-5">
+    <div class="row">
+        <div class="col-6">
+            <form method="POST" action="">
+                <h4 class="font--primary mb-4">Login</h4>
+                <div class="mb-3 input--group pt-2 pb-2">
+                    <label for="name" class="form-label">Username or email address <span class="text-danger">*</span></label>
+                    <input type="text" class="w-100 " name="name" id="name" aria-describedby="emailHelp">
+                </div>
+                <div class="mb-3 input--group pt-2 pb-2">
+                    <label for="name" class="form-label">Password <span class="text-danger">*</span></label>
+                    <input type="password" class="w-100 " name="name" id="name" aria-describedby="emailHelp">
+                </div>
+                <div class="d-flex align-items-center justify-content-between pt-3 pb-3">
+                    <div class="">
+                        <input type="checkbox" name="" id="">
+                        <label class="fs-6" for="">Remember Me</label>
+                    </div>
+                    <div class="">
+                        <a class="color--light text-decoration-none" href="">Lost password?</a>
+                    </div>
+                </div>
+                <button type="submit" class="btn--primary btn--light text-white text-uppercase border-0 pt-2 pb-2 pe-5 ps-5 mt-2">log in</button>
+            </form>
+        </div>
+        <div class="col-6">
+            <form onsubmit="createPassword()" method="POST" action="/my-account/handleRegister">
+                <h4 class="font--primary mb-4">Register</h4>
+                <div class="mb-3 input--group pt-2 pb-2">
+                    <label for="" class="form-label">Email address <span class="text-danger">*</span></label>
+                    <input type="text" class="w-100 " name="email" class="emailRegister" id="email" aria-describedby="emailHelp" required>
+                </div>
+                <div class="mb-3 input--group pt-2 pb-2">
+                    <input type="hidden" name="password" class="password" value="123">
+                    <p class="color--light--no-hover">A link to set a new password will be sent to your email address.</p>
+                    <span class="fs-13"><i>Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our privacy policy.</i></span>
+                </div>
+                <button type="submit" class="btn-register btn--primary btn--light text-white text-uppercase border-0 pt-2 pb-2 pe-5 ps-5 mt-2">register</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    
+    function createPassword(e) {
+        let result = '';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const charactersLength = characters.length;
+        let counter = 0;
+        while (counter < 5) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            counter += 1;
+        }
+        document.querySelector('.password').value = result;    
+    }
+</script>

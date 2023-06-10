@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display&family=Roboto:wght@300;400;500&display=swap");
 * {
   padding: 0;
   margin: 0;
@@ -6,6 +7,9 @@
 
 ul {
   list-style: none; }
+
+body {
+  font-family: Roboto; }
 
 .fs-13 {
   font-size: 13px; }
@@ -277,7 +281,7 @@ ul {
 .form-type-number input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none; }
 
-.input--group input, .input--group textarea {
+.input--group span[contenteditable="true"], .input--group input, .input--group textarea {
   color: #767676;
   font-size: 14px;
   padding: 12px 24px;
@@ -287,6 +291,9 @@ ul {
 .input--group textarea {
   height: 133px;
   resize: none; }
+
+.input--group span[contenteditable="true"] {
+  min-height: 100px; }
 
 .your_star_rating .hidden {
   display: none; }
@@ -448,6 +455,14 @@ select {
 
 .posts .posts--img:hover img {
   transform: scale(1.2); }
+
+.posts .posts--content .wp-block-image {
+  display: flex;
+  justify-content: center; }
+
+.posts .posts--content figcaption {
+  display: block !important;
+  text-align: center; }
 
 .wishlist__list .wishlist__items {
   transition: .3s; }
