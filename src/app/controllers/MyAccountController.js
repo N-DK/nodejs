@@ -77,11 +77,12 @@ class MyAccountController {
     // [POST] /my-account/logout
     logout(req, res, next) {
         req.session.destroy();
+        return res.redirect('/my-account');
     }
 
     // [GET] /my-account/orders
     orders(req, res, next) {
-        res.send("Order")
+        res.render('my-account/orders')
     }
 
 }

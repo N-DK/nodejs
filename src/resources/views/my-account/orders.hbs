@@ -1,1 +1,87 @@
-<h1>orders</h1>
+<div class="d-block text-center page-header">
+    <h1 style="font-size: 55px;" class="font--primary text-white">My account</h1>
+    <div class="router--detail color--white--no-hover pb-4 text-center pt-4">
+        <a href="/" class="color--white text-decoration-none">Home </a>/
+        <span class="text-capitalize">My account</span>
+    </div>
+</div>
+<div class="container pt-5">
+    {{#if isNotSession}}
+    <div class="row">
+        <div class="col-6">
+            {{#if isLoginFail}}
+            <p class="text-danger">Email hoặc mật khẩu không đúng!</p>
+            {{/if}}
+            <form method="POST" action="/my-account/handleLogin">
+                <h4 class="font--primary mb-4">Login</h4>
+                <div class="mb-3 input--group pt-2 pb-2">
+                    <label for="name" class="form-label">Username or email address <span class="text-danger">*</span></label>
+                    <input type="text" class="w-100 " name="email" id="name" aria-describedby="emailHelp">
+                </div>
+                <div class="mb-3 input--group pt-2 pb-2">
+                    <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
+                    <input type="password" class="w-100 " name="password" id="password" aria-describedby="emailHelp">
+                </div>
+                <div class="d-flex align-items-center justify-content-between pt-3 pb-3">
+                    <div class="">
+                        <input type="checkbox" name="" id="">
+                        <label class="fs-6" for="">Remember Me</label>
+                    </div>
+                    <div class="">
+                        <a class="color--light text-decoration-none" href="">Lost password?</a>
+                    </div>
+                </div>
+                <button type="submit" class="btn--primary btn--light text-white text-uppercase border-0 pt-2 pb-2 pe-5 ps-5 mt-2">log in</button>
+            </form>
+        </div>
+        <div class="col-6">
+            <form onsubmit="createPassword()" method="POST" action="/my-account/handleRegister">
+                <h4 class="font--primary mb-4">Register</h4>
+                <div class="mb-3 input--group pt-2 pb-2">
+                    <label for="" class="form-label">Email address <span class="text-danger">*</span></label>
+                    <input type="text" class="w-100 " name="email" class="emailRegister" id="email" aria-describedby="emailHelp" required>
+                </div>
+                <div class="mb-3 input--group pt-2 pb-2">
+                    <input type="hidden" name="password" class="password" value="123">
+                    <p class="color--light--no-hover">A link to set a new password will be sent to your email address.</p>
+                    <span class="fs-13"><i>Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our privacy policy.</i></span>
+                </div>
+                <button type="submit" class="btn-register btn--primary btn--light text-white text-uppercase border-0 pt-2 pb-2 pe-5 ps-5 mt-2">register</button>
+            </form>
+        </div>
+    </div>
+    {{else}}
+    <div class="row">
+        <div class="col-3">
+            <a class="d-block mb-3 text-decoration-none text-dark text--dark-hover" href="/my-account">Dashboard</a>
+            <a class="d-block mb-3 color--primary " href="/my-account/orders">Orders</a>
+            <a class="d-block mb-3 text-decoration-none text-dark text--dark-hover" href="/my-account/downloads">Downloads</a>
+            <a class="d-block mb-3 text-decoration-none text-dark text--dark-hover" href="/my-account/addresses">Addresses</a>
+            <a class="d-block mb-3 text-decoration-none text-dark text--dark-hover" href="/my-account/edit-account">Account details</a>
+            <form method="POST" action="/my-account/logout">
+                <button class=" border-0 bg-white text--dark-hover" type="submit">Logout</button>
+            </form>
+        </div>
+        <div class="col-9">
+            <div style="background-color: #f5f3f2;" class="d-flex pt-4 pb-4 pe-3 ps-3 justify-content-between align-items-center">
+                <p class="m-0 fs-13">No order has been made yet.</p>
+                <a class="fs-13 text-decoration-none btn--primary btn--light text-white text-uppercase border-0 pt-2 pb-2 pe-4 ps-4" href="/shop">Browse products</a>
+            </div>
+        </div>
+    </div>
+    {{/if}}
+
+</div>
+<script>
+    function createPassword(e) {
+        let result = '';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const charactersLength = characters.length;
+        let counter = 0;
+        while (counter < 5) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            counter += 1;
+        }
+        document.querySelector('.password').value = result;    
+    }
+</script>

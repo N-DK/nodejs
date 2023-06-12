@@ -5,7 +5,8 @@ const myAccountController = require('../app/controllers/MyAccountController');
 
 router.post('/handleRegister', myAccountController.handleRegister);
 router.post('/handleLogin', myAccountController.handleLogin);
-router.post('/orders', myAccountController.orders);
+router.post('/logout', myAccountController.logout);
+router.get('/orders', myAccountController.orders);
 router.get('/:item', myAccountController.index);
 router.get('/', myAccountController.index);
 

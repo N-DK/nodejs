@@ -25,6 +25,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(morgan('combined'));
 
+app.use(function(req, res, next) {
+    res.locals.session = req.session;
+    next();
+});
+
+
 //Template engine handlebars
 app.engine('.hbs', handlebars.engine({
     extname: '.hbs', 

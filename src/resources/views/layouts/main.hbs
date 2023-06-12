@@ -63,36 +63,38 @@
             <div class="modal-content h-100">
                 <div style="max-height: 100vh;" class="bg-white w-100 p-5 d-flex flex-column h-100">
                     <h1 style="width: max-content" class="font--primary fs-5 pb-4 position-relative d-inline-block">Your cart
-                        <span style="font-size: 0.7rem; right: -20px; top: -3px;" class="quantify position-absolute d-flex justify-content-center align-items-center text-white">1</span>
+                        <span style="font-size: 0.7rem; right: -20px; top: -3px;" class="quantify position-absolute d-flex justify-content-center align-items-center text-white">0</span>
                     </h1>
                     <div class="overflow-auto content--cart border-top-primary pt-4 position-relative flex-grow-1 d-flex flex-column">
-                        <p class="ps-3 d-none">No products in the cart.</p>
-                        <ul id="scroll-custom" style="overflow-y: overlay;" class="p-0 m-0 flex-grow-1">
-                            <li class="pb-4">
-                                <div class="product__items d-flex align-items-center position-relative overflow-hidden">
-                                    <div class="product__items--img">
-                                        <img class="w-100 h-100" src="/img/product-1.jpg" alt="">
+                        <p class="ps-3">No products in the cart.</p>
+                        <div class="d-none">
+                            <ul id="scroll-custom" style="overflow-y: overlay;" class="p-0 m-0 flex-grow-1">
+                                <li class="pb-4">
+                                    <div class="product__items d-flex align-items-center position-relative overflow-hidden">
+                                        <div class="product__items--img">
+                                            <img class="w-100 h-100" src="/img/product-1.jpg" alt="">
+                                        </div>
+                                        <div class="product__items--content ms-3 me-4">
+                                            <a href="#" class="mb-2 text-decoration-none product__items--name">Modern Wood No. 0</a>
+                                            <p class="m-0">
+                                                <span class="product__items--quantify">2</span> x
+                                                <span class="product__items--price">$350</span>
+                                            </p>
+                                        </div>
+                                        <a class="clear--product position-absolute top-50 end-0 color--light" href="">
+                                            <i class="fa-regular fa-trash-can"></i>
+                                        </a>
                                     </div>
-                                    <div class="product__items--content ms-3 me-4">
-                                        <a href="#" class="mb-2 text-decoration-none product__items--name">Modern Wood No. 0</a>
-                                        <p class="m-0">
-                                            <span class="product__items--quantify">2</span> x
-                                            <span class="product__items--price">$350</span>
-                                        </p>
-                                    </div>
-                                    <a class="clear--product position-absolute top-50 end-0 color--light" href="">
-                                        <i class="fa-regular fa-trash-can"></i>
-                                    </a>
-                                </div>
-                            </li>
-                        </ul>
-                        <div class="pt-4 w-100 border-top-primary cart--submit border-bottom-primary pb-4">
-                            <p class="d-flex justify-content-between align-items-center">
-                                <span>Subtotal:</span>
-                                <span class=" fw-bold">$900</span>
-                            </p>    
-                            <button type="submit" class="btn--primary btn--light text-white text-uppercase border-0 pt-2 pb-2 w-100 mb-2">Check out</button>
-                            <a class="text-center w-100 d-block color--light" href="/cart">View cart</a>
+                                </li>
+                            </ul>
+                            <div class="pt-4 w-100 border-top-primary cart--submit border-bottom-primary pb-4">
+                                <p class="d-flex justify-content-between align-items-center">
+                                    <span>Subtotal:</span>
+                                    <span class=" fw-bold">$900</span>
+                                </p>    
+                                <button type="submit" class="btn--primary btn--light text-white text-uppercase border-0 pt-2 pb-2 w-100 mb-2">Check out</button>
+                                <a class="text-center w-100 d-block color--light" href="/cart">View cart</a>
+                            </div>
                         </div>
                     </div>
                     <div class=" position-absolute bottom-0 pb-3 text-center end-0 w-100">Free shipping on all orders over $75</div>
