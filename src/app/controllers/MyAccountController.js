@@ -1,12 +1,15 @@
 const User = require('../modules/Users');
-const nodeMailer = require('nodemailer');    
-
+const nodemailer = require('nodemailer');    
+const { mongooseToObject, multipleMongooseToObject } = require('../../util/mongoose')
 
 class MyAccountController {
     // [GET] /my-account
     index(req, res, next) {
-        
-        res.render('my-account');
+        if(!req.session.email) {
+            res.render('my-account', {isNotSession: true});
+        }else {
+            res.render('my-account', {email: req.session.email});
+        }
     }
 
     // [POST] /my-account/handleRegister
@@ -15,46 +18,72 @@ class MyAccountController {
         var password = req.body.password;
 
         User.findOne({email})
-            .then( async (data) => {
+            .then((data) => {
                 if(!data) {
-                    return new User(req.body);
-                }else {
-                    res.send("Email đã tồn tại");
-                }
-            })
-            .then(async (user) => {
-                await user.save()
-                .then(async () => {
-                    // Tùy chỉnh phương thức gửi email
-                    let transporter = nodeMailer.createTransport({
+                    const transporter = nodemailer.createTransport({
+                        port: 465,
                         service: 'gmail',
                         auth: {
                             user: 'nguyenkhoadang135759@gmail.com',
-                            pass: 'ngodangkhoa'
+                            pass: 'zioiiwjoipywmtoq',
                         }
                     });
-                    // Điền thông tin người gửi và người nhận email
                     let mailOptions = {
                         from: 'nguyenkhoadang135759@gmail.com',
                         to: email,
                         subject: 'Password to login',
-                        result: password,
+                        text: password,
                     };
-                    
-                    // Gửi email
-                    await transporter.sendMail(mailOptions, function(error, info){
+                    transporter.sendMail(mailOptions, (error, info) => {
                         if(error) {
-                            res.send(error);
+                            console.log(error);
                         } else {
-                            res.send('Email sent: ' + info.response);
+                            console.log('Email sent: ' + info.response);
                         }
                     });
-                })
-                .then(() => res.redirect('/')); 
+                    return new User(req.body);
+                }else {
+                    res.render('my-account', {isExist: true});
+                }
+            })
+            .then(async (user) => {
+                await user.save()
+                .then((user) => {
+                    req.session.email = user.email;
+                    return res.redirect('/my-account');
+                }); 
             }) 
             .catch(next);
         
     }
+
+    // [POST] /my-account/handleLogin
+    handleLogin(req, res, next) {
+        var email = req.body.email;
+        var password = req.body.password;
+
+        User.findOne({email, password})
+            .then(user => {
+                if(user) {
+                    req.session.email = user.email;
+                    return res.redirect('/my-account');
+                } else {
+                    res.render('my-account', {isLoginFail: true, isNotSession: true});
+                }
+            })
+            .catch(next);
+    }
+
+    // [POST] /my-account/logout
+    logout(req, res, next) {
+        req.session.destroy();
+    }
+
+    // [GET] /my-account/orders
+    orders(req, res, next) {
+        res.send("Order")
+    }
+
 }
 
 module.exports = new MyAccountController;

@@ -6,17 +6,21 @@
     </div>
 </div>
 <div class="container pt-5">
+    {{#if isNotSession}}
     <div class="row">
         <div class="col-6">
-            <form method="POST" action="">
+            {{#if isLoginFail}}
+            <p class="text-danger">Email hoặc mật khẩu không đúng!</p>
+            {{/if}}
+            <form method="POST" action="/my-account/handleLogin">
                 <h4 class="font--primary mb-4">Login</h4>
                 <div class="mb-3 input--group pt-2 pb-2">
                     <label for="name" class="form-label">Username or email address <span class="text-danger">*</span></label>
-                    <input type="text" class="w-100 " name="name" id="name" aria-describedby="emailHelp">
+                    <input type="text" class="w-100 " name="email" id="name" aria-describedby="emailHelp">
                 </div>
                 <div class="mb-3 input--group pt-2 pb-2">
-                    <label for="name" class="form-label">Password <span class="text-danger">*</span></label>
-                    <input type="password" class="w-100 " name="name" id="name" aria-describedby="emailHelp">
+                    <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
+                    <input type="password" class="w-100 " name="password" id="password" aria-describedby="emailHelp">
                 </div>
                 <div class="d-flex align-items-center justify-content-between pt-3 pb-3">
                     <div class="">
@@ -46,9 +50,29 @@
             </form>
         </div>
     </div>
+    {{else}}
+    <div class="row">
+        <div class="col-3">
+            <a class="d-block mb-3 color--primary text--dark-hover" href="/my-account/dashboard">Dashboard</a>
+            <a class="d-block mb-3 text-decoration-none text-dark text--dark-hover" href="/my-account/orders">Orders</a>
+            <a class="d-block mb-3 text-decoration-none text-dark text--dark-hover" href="/my-account/downloads">Downloads</a>
+            <a class="d-block mb-3 text-decoration-none text-dark text--dark-hover" href="/my-account/addresses">Addresses</a>
+            <a class="d-block mb-3 text-decoration-none text-dark text--dark-hover" href="/my-account/edit-account">Account details</a>
+            <form action="/my-account/logout">
+                <button class=" border-0 bg-white text--dark-hover" type="submit">Logout</button>
+            </form>
+        </div>
+        <div class="col-9">
+            <form class="color--light--no-hover" action="/my-account/logout">
+                <p>Hello <span class="text-dark">{{email}}</span> (not <span class="text-dark">{{email}}</span>? <button class=" border-0 bg-white text--dark-hover" type="submit">Logout</button>)</p>
+                From your account dashboard you can view your <a class="text-dark text--dark-hover text-decoration-none" href="">recent orders</a>, manage your <a class="text-dark text--dark-hover text-decoration-none" href="">shipping and billing addresses</a>, and <a class="text-dark text--dark-hover text-decoration-none" href="">edit your password and account details</a>.
+            </form>
+        </div>
+    </div>
+    {{/if}}
+
 </div>
 <script>
-    
     function createPassword(e) {
         let result = '';
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

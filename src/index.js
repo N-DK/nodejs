@@ -2,12 +2,19 @@
 
 const express = require('express');
 const app = express();
+const session = require('express-session')
 const morgan = require('morgan');
 const handlebars = require('express-handlebars');
 const path = require('path');
 const port = 3000
 const route = require('./routes');
 const db = require('./config/db');
+
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+}))
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
