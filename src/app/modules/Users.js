@@ -3,8 +3,9 @@ const Schema = mongoose.Schema;
 var slug = require('mongoose-slug-generator');
 mongoose.plugin(slug);
 
-const User = new Schema({   
+const User = new Schema({
     first_name: {type: String, default: ""},
+    display_name: {type: String, default: ""},
     last_name: {type: String, default: ""},
     email: {type: String, default: ""},
     password: {type: String, default: ""},

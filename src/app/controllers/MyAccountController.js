@@ -5,10 +5,10 @@ const { mongooseToObject, multipleMongooseToObject } = require('../../util/mongo
 class MyAccountController {
     // [GET] /my-account
     index(req, res, next) {
-        if(!req.session.email) {
+        if(!req.session.user) {
             res.render('my-account', {isNotSession: true});
         }else {
-            res.render('my-account', {email: req.session.email});
+            res.render('my-account', {user: req.session.user});
         }
     }
 
@@ -65,7 +65,7 @@ class MyAccountController {
         User.findOne({email, password})
             .then(user => {
                 if(user) {
-                    req.session.email = user.email;
+                    req.session.user = user;
                     return res.redirect('/my-account');
                 } else {
                     res.render('my-account', {isLoginFail: true, isNotSession: true});
@@ -83,6 +83,27 @@ class MyAccountController {
     // [GET] /my-account/orders
     orders(req, res, next) {
         res.render('my-account/orders')
+    }
+
+    // [GET] /my-account/edit-account
+    editAccount(req, res, next) {
+        res.render('my-account/edit-account');
+    }
+
+    //[PUT] /my-account/:id
+    update(req, res, next) {
+        User.findOne({_id: req.params.id})
+            .then(async user => {
+                if(req.body.current_password !== "" && req.body.current_password !== user.password) {
+                    return res.redirect('/my-account/edit-account');
+                }
+                if(req.body.password === "") {
+                    req.body.password = user.password;
+                }
+                await User.updateOne({_id: req.params.id}, req.body);
+            })
+            .then(() => res.redirect('/my-account'))
+            .catch(next);
     }
 
 }

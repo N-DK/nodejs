@@ -7,6 +7,8 @@ router.post('/handleRegister', myAccountController.handleRegister);
 router.post('/handleLogin', myAccountController.handleLogin);
 router.post('/logout', myAccountController.logout);
 router.get('/orders', myAccountController.orders);
+router.get('/edit-account', myAccountController.editAccount);
+router.put('/:id', myAccountController.update);
 router.get('/:item', myAccountController.index);
 router.get('/', myAccountController.index);
 
