@@ -18,6 +18,7 @@
                         <td class="font--primary">Quantify</td>
                         <td class="font--primary">Subtotal</td>
                     </tr>
+                    {{#each carts}}
                     <tr>
                         <td>
                             <div class="cart__product d-flex align-items-center pt-3 pb-3">
@@ -26,7 +27,7 @@
                                 </div>
                                 <div class="cart__product--img me-3">
                                     <a href="#">
-                                        <img width="80px" height="80px" src="/img/product-1.jpg" alt="">
+                                        <img width="80px" height="80px" src="{{this.product_image}}" alt="">
                                     </a>
                                 </div>
                             </div>
@@ -34,14 +35,14 @@
                         <td>
                             <div class="cart__product pt-3 pb-3">
                                 <div style="height: 80px" class=" d-flex align-items-center cart__product--img me-3">
-                                    <a href="#" class="text--dark-hover text-dark text-decoration-none mb-1 d-inline-block">Terrazzo Florals Grey (Ob16Tz01)</a>
+                                    <a href="#" class="text--dark-hover text-dark text-decoration-none mb-1 d-inline-block">{{this.product_name}}</a>
                                 </div>
                             </div>
                         </td>
                         <td>
                             <div class="cart__product pt-3 pb-3">
                                 <div style="height: 80px" class=" d-flex align-items-center cart__product--img me-3">
-                                    <span>$225</span>
+                                    <span>${{this.product_price}}</span>
                                 </div>
                             </div>
                         </td>
@@ -52,7 +53,7 @@
                                         <div class="btn-minus fs-6">
                                             <i class="fa-solid fa-minus"></i>
                                         </div>
-                                        <input value="1" class="w-100 h-100 border-0 text-center" id="quantity" min="1" name="quantity" type="number" />
+                                        <input value="{{this.quantify}}" class="w-100 h-100 border-0 text-center" id="quantity" min="1" name="quantity" type="number" />
                                         <div class="btn-plus fs-6 ">
                                             <i class="fa-solid fa-plus"></i>
                                         </div>
@@ -63,61 +64,12 @@
                         <td>
                             <div class="cart__product pt-3 pb-3">
                                 <div style="height: 80px" class=" d-flex align-items-center cart__product--img me-3">
-                                    <span>$225</span>
+                                    <span>${{this.total_price}}</span>
                                 </div>
                             </div>
                         </td>
                     </tr>
-                    <tr>
-                        <td>
-                            <div class="cart__product d-flex align-items-center pt-3 pb-3">
-                                <div class="cart__product--clear ps-3 pe-3">
-                                    <i class="fa-solid fa-xmark"></i>
-                                </div>
-                                <div class="cart__product--img me-3">
-                                    <a href="#">
-                                        <img width="80px" height="80px" src="/img/product-1.jpg" alt="">
-                                    </a>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="cart__product pt-3 pb-3">
-                                <div style="height: 80px" class=" d-flex align-items-center cart__product--img me-3">
-                                    <a href="#" class="text--dark-hover text-dark text-decoration-none mb-1 d-inline-block">Terrazzo Florals Grey (Ob16Tz01)</a>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="cart__product pt-3 pb-3">
-                                <div style="height: 80px" class=" d-flex align-items-center cart__product--img me-3">
-                                    <span>$225</span>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div style="width: 130px" class="cart__product pt-3 pb-3">
-                                <div style="height: 80px" class=" d-flex align-items-center cart__product--img me-3">
-                                    <div class="form-type-number border--primary d-flex h-50 align-items-center pe-3 ps-3">
-                                        <div class="btn-minus fs-6">
-                                            <i class="fa-solid fa-minus"></i>
-                                        </div>
-                                        <input value="1" class="w-100 h-100 border-0 text-center" id="quantity" min="1" name="quantity" type="number" />
-                                        <div class="btn-plus fs-6 ">
-                                            <i class="fa-solid fa-plus"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="cart__product pt-3 pb-3">
-                                <div style="height: 80px" class=" d-flex align-items-center cart__product--img me-3">
-                                    <span>$225</span>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
+                    {{/each}}
                 </table>
                 <div style="width: 400px; height: 50px" class="d-flex overflow-hidden">
                     <div style="width: 60%" class="input--group">

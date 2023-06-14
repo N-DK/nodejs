@@ -11,7 +11,7 @@
                 <a href="" class="color--light text-decoration-none text-capitalize">{{product.category}} </a>/
                 <span class="text-capitalize">{{product.name}}</span>
             </div>
-            <h1 class="font--primary text-uppercase fs-3 pt-2 ">{{product.name}}</h1>
+            <h1 class="product--name font--primary text-uppercase fs-3 pt-2 ">{{product.name}}</h1>
             <p class="pb-5 ">
                 <span class="pe-1 fs-4 color--primary">${{calcCurrentPrice product.cost product.discount}}</span>
                 <span class="fs-4"><del>${{product.cost}}</del></span>
@@ -20,25 +20,45 @@
             <div class="border-bottom-primary pt-4 pb-4 border-top-primary">
                 <p class="product--detail__desc color--light--no-hover">{{product.desc}}</p>
                 <p class="color--primary fw-normal">In Stock</p>
+                {{#if session.user}}
+                <form method="POST" action="/cart/add-to-cart/{{product._id}}" type="hidden">
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="form-type-number border--primary d-flex h-100 align-items-center pe-3 ps-3">
+                                <div class="btn-minus fs-6">
+                                    <i class="fa-solid fa-minus"></i>
+                                </div>
+                                <input value="1" class="w-100 h-100 border-0 text-center" id="quantity" min="1" name="quantify" type="number" />
+                                <div class="btn-plus fs-6 ">
+                                    <i class="fa-solid fa-plus"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-9">
+                            <input type="hidden" name="product_id" value="{{product._id}}">
+                            <input type="hidden" name="user_id" value="{{session.user._id}}">
+                            <button type="submit" id="add-to-cart" class="h-100 btn--primary btn--light text-white text-uppercase border-0 pt-2 pb-2 w-100">add to cart</button>
+                        </div>
+                    </div>
+                </form>
+                {{else}}
                 <div class="row">
                     <div class="col-3">
                         <div class="form-type-number border--primary d-flex h-100 align-items-center pe-3 ps-3">
                             <div class="btn-minus fs-6">
                                 <i class="fa-solid fa-minus"></i>
                             </div>
-                            <input value="1" class="w-100 h-100 border-0 text-center" id="quantity" min="1" name="quantity" type="number" />
+                            <input value="1" class="w-100 h-100 border-0 text-center" id="quantity" min="1" name="quantify" type="number" />
                             <div class="btn-plus fs-6 ">
                                 <i class="fa-solid fa-plus"></i>
                             </div>
                         </div>
                     </div>
                     <div class="col-9">
-                        <form action="/cart/add-to-cart" type="hidden">
-                            
-                            <button type="submit" class="h-100 btn--primary btn--light text-white text-uppercase border-0 pt-2 pb-2 w-100">add to cart</button>
-                        </form>
+                        <button type="submit" class="btn-add h-100 btn--primary btn--light text-white text-uppercase border-0 pt-2 pb-2 w-100">add to cart</button>
                     </div>
                 </div>
+                {{/if}}
                 <a href="#" class="color--light text-decoration-none text-uppercase mt-4 d-inline-block">
                     <i class="fa-regular fa-heart"></i>
                     add to wishlist
@@ -557,4 +577,22 @@
             }
         })
     })
+
+    const btnAddToCart = document.querySelector('.btn-add');
+    if(btnAddToCart !== null) {
+        btnAddToCart.addEventListener('click', () => {
+            const carts = JSON.parse(localStorage.getItem('cart')) ?? [];
+            const product = {
+                product_name: document.querySelector('.product--name').innerHTML,
+                quantify: parseInt(document.querySelector('#quantity').value),
+            }
+            const checkProductExist = carts.find((cart) => cart.product_name === product.product_name);
+            if(checkProductExist === undefined) {
+                carts.push(product);
+            }else {
+                checkProductExist.quantify += parseInt(document.querySelector('#quantity').value); 
+            }
+            localStorage.setItem('cart', JSON.stringify(carts))
+        })
+    }
 </script>

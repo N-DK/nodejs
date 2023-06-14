@@ -9,8 +9,7 @@ const path = require('path');
 const port = 3000
 const route = require('./routes');
 const db = require('./config/db');
-var methodOverride = require('method-override')
-
+var methodOverride = require('method-override');
 app.use(session({
   secret: 'keyboard cat',
   resave: false,
@@ -27,12 +26,6 @@ app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(morgan('combined'));
-
-app.use(function(req, res, next) {
-    res.locals.session = req.session;
-    next();
-});
-
 
 //Template engine handlebars
 app.engine('.hbs', handlebars.engine({
@@ -54,6 +47,10 @@ app.engine('.hbs', handlebars.engine({
         };
         return date.toLocaleDateString('en-US', options);
       },
+      calcTotal: function(arr) {
+        const carts = arr ?? [];
+        return carts.reduce((total, num) => total + num.total_price, 0);
+      }
     }
 }));
 app.set('view engine', '.hbs');

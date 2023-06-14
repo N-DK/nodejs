@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 var slug = require('mongoose-slug-generator');
 mongoose.plugin(slug);
-
 const Product = new Schema({
     name: { type: String, default: "" },
     desc: { type: String, default: "Nothing information" },

@@ -6,7 +6,6 @@ router.use('/about', siteController.about);
 router.use('/contact', siteController.contact);
 router.use('/shop', siteController.shop);
 router.use('/wishlist', siteController.wishlist);
-router.use('/cart', siteController.cart);
 router.use('/', siteController.home);
 
 

@@ -1,11 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const blogsController = require('../app/controllers/BlogsController');
+const cartController = require('../app/controllers/CartController');
 
-
-router.get('/create', blogsController.create);
-router.post('/store', blogsController.store);
-router.get('/:slug', blogsController.show);
-router.get('/', blogsController.index);
+router.post('/add-to-cart/:id', cartController.addToCart);
+router.get('/', cartController.index);
 
 module.exports = router;

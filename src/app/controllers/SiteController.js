@@ -7,7 +7,7 @@ class SiteController {
     home(req, res, next) {
         Product.find({})
             .then(products => {
-                res.render('home', { products : multipleMongooseToObject(products) });
+                res.render('home', { products : multipleMongooseToObject(products)});
             })
             .catch(next);
     }
@@ -30,11 +30,6 @@ class SiteController {
     //[GET] /wishlist
     wishlist(req, res) {
         res.render('wishlist');
-    }
-
-    //[GET] /cart
-    cart(req, res) {
-        res.render('cart');
     }
 
 }

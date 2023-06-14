@@ -158,7 +158,9 @@ body {
   width: 85%;
   font-weight: 500;
   transform: translate(-50%, 150px);
-  transition: .4s; }
+  transition: .4s;
+  opacity: 0;
+  visibility: hidden; }
 
 .product .product--name {
   font-size: 12px;
@@ -188,7 +190,9 @@ body {
     color: #b99e83; }
 
 .product:hover button {
-  transform: translate(-50%, 0); }
+  transform: translate(-50%, 0);
+  opacity: 1;
+  visibility: visible; }
 
 .product:hover .product-action li {
   transform: translateX(0);
@@ -471,3 +475,12 @@ select {
 
 .wishlist__list .wishlist__items + .wishlist__items {
   border-top: 1px solid #e4e4e4; }
+
+.loading__container {
+  background-color: rgba(0, 0, 0, 0.6); }
+  .loading__container i {
+    animation: spin 0.7s linear infinite; }
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg); } }
