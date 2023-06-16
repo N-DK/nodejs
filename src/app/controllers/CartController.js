@@ -33,9 +33,14 @@ class CartController {
                         .then(() => res.redirect(`/product/${products.slug}`))
                         .catch(next);
             })
-
     }
 
+    // [DELETE] /cart/delete/:id
+    destroy(req, res, next) {
+        Cart.deleteOne({product_id: req.params.id})
+            .then(() => res.redirect('back'))
+            .catch(next);
+    }
 }
 
 module.exports = new CartController
