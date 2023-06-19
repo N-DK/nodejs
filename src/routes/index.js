@@ -4,9 +4,19 @@ const siteController = require('./site');
 const productsController = require('./products');
 const myAccountController = require('./myAccount');
 const cartController = require('./cart');
+const shopController = require('./shop');
 const Cart = require('../app/modules/Cart');
+const Products = require('../app/modules/Products');
 
 function route(app) {
+    
+    app.use((req, res, next) => {
+        Products.find({})
+            .then(products => {
+                res.locals.dataProduct = products;
+                next();
+            }).catch(next);
+    })
 
     const totalQuantify = async function(user_id) {
         try {
@@ -19,24 +29,26 @@ function route(app) {
     };
 
     app.use(function(req, res, next) {
-    Cart.find({})
-        .then(carts => req.session.carts = carts.map(cart => cart.toObject()))
-        next();
+        Cart.find({})
+            .then(carts => req.session.carts = carts.map(cart => cart.toObject()))
+            next();
     })
       
     app.use(function(req, res, next) {
         res.locals.session = req.session;
         next();
     });
+
       
     app.use(async (req, res, next) => {
-    const user = req.session.user ?? {};
-    const userId = user._id;
-    const cartQuantity = userId ? await totalQuantify(userId) : 0;
-    res.locals.cartQuantity = cartQuantity;
-    next();
+        const user = req.session.user ?? {};
+        const userId = user._id;
+        const cartQuantity = userId ? await totalQuantify(userId) : 0;
+        res.locals.cartQuantity = cartQuantity;
+        next();
     });
 
+    app.use('/shop', shopController);
     app.use('/cart', cartController);
     app.use('/my-account', myAccountController);
     app.use('/blogs', blogsController);

@@ -30,7 +30,7 @@ class ProductsController {
     category(req, res, next) {
         Product.find({slug_category: req.params.slug})
             .then(products => {
-                res.render('shop', { products : multipleMongooseToObject(products)});
+                res.render('shop/category', { products : multipleMongooseToObject(products), title: req.params.slug});
             })
             .catch(next);
     }

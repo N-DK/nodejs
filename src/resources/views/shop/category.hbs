@@ -1,8 +1,8 @@
 <div class="d-block text-center page-header shop">
-    <h1 style="font-size: 55px;" class="font--primary text-white">Shop</h1>
+    <h1 style="font-size: 55px;" class="font--primary text-white text-capitalize">{{title}}</h1>
     <div class="router--detail color--white--no-hover pb-4 text-center pt-4">
         <a href="/" class="color--white text-decoration-none">Home </a>/
-        <span class="text-capitalize">Shop</span>
+        <span class="text-capitalize">{{title}}</span>
     </div>
 </div>
 <div class="pt-4">
@@ -37,7 +37,7 @@
             <div class="col-9">
                 <div class="shop">
                     <div class="d-flex justify-content-between mb-4 align-items-center">
-                        <p class="color--light--no-hover mb-0">There are <span class="text-dark">{{lengthArr dataProduct}} products</span> available</p>
+                        <p class="color--light--no-hover mb-0">There are <span class="text-dark">{{lengthArr products}} products</span> available</p>
                         <div class="d-flex align-items-center">
                             <div class="me-5 color--light--no-hover">
                                 <span class="text-dark me-2">Show</span>
@@ -109,7 +109,7 @@
                         </div>
                         {{/each}}
                     </div>
-                    <div class="pagination mt-4 mb-5 d-flex justify-content-center" data-active="{{page_active}}" data-l-products="{{lengthArr dataProduct}}">
+                    <div class="pagination mt-4 mb-5 d-flex justify-content-center" data-active="{{page_active}}" data-l-products="{{lengthArr products}}">
                     </div>
                 </div>
             </div>
