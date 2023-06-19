@@ -43,7 +43,7 @@
                 <span class="quantify position-absolute d-flex justify-content-center align-items-center text-white">0</span>
             </li>
             <li class="nav-item position-relative">
-                <a class="nav-link hover--primary fs-5 text-dark" data-bs-target="#modalCart" data-bs-toggle="modal" href="/cart">
+                <a id="isPathCart" class="nav-link hover--primary fs-5 text-dark" data-bs-target="#modalCart" data-bs-toggle="modal" href="#">
                     <i class="fa-solid fa-bag-shopping"></i>
                 </a>
                 <span class="quantify position-absolute d-flex justify-content-center align-items-center text-white" id="cartQuantity">{{cartQuantity}}</span>
@@ -51,3 +51,9 @@
         </ul>
     </div>
 </div>
+<script>
+    if($(location).attr('pathname') === "/cart") {
+        $('#isPathCart').removeAttr("data-bs-target"); //setter
+        $('#isPathCart').removeAttr("data-bs-toggle"); //setter
+    }
+</script>

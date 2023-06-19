@@ -5,71 +5,76 @@
         <span class="text-capitalize">Cart</span>
     </div>
 </div>
+{{#if session.user}}
+<input type="hidden" name="" value="{{session.user._id}}" id="userIdCart">
+{{/if}}
 <div class="container mt-5 pb-5">
     <div class="pt-4">
-        <p class="fs-13 color--primary mb-2 d-none">Your cart is currently empty.</p>
-        <div class="row mb-5">
+        {{#if session.carts}}
+        <div id="cart__content" class="row mb-5">
             <div class="col-9">
                 <table class="table border--primary">
-                    <tr>
-                        <td></td>
-                        <td class="font--primary">Product</td>
-                        <td class="font--primary">Price</td>
-                        <td class="font--primary">Quantify</td>
-                        <td class="font--primary">Subtotal</td>
-                    </tr>
-                    {{#each carts}}
-                    <tr>
-                        <td>
-                            <div class="cart__product d-flex align-items-center pt-3 pb-3">
-                                <div class="cart__product--clear ps-3 pe-3">
-                                    <i class="fa-solid fa-xmark"></i>
+                    <tbody id="tbody">
+                        <tr>
+                            <td></td>
+                            <td class="font--primary">Product</td>
+                            <td class="font--primary">Price</td>
+                            <td class="font--primary">Quantify</td>
+                            <td class="font--primary">Subtotal</td>
+                        </tr>
+                        {{#each carts}}
+                        <tr class="carts" data-id="{{this.product_id}}">
+                            <td>
+                                <div class="cart__product d-flex align-items-center pt-3 pb-3">
+                                    <div class="btn-destroy cart__product--clear ps-3 pe-3">
+                                        <i class="fa-solid fa-xmark" data-id="{{this.product_id}}"></i>
+                                    </div>
+                                    <div class="cart__product--img me-3">
+                                        <a href="#">
+                                            <img width="80px" height="80px" src="{{this.product_image}}" alt="">
+                                        </a>
+                                    </div>
                                 </div>
-                                <div class="cart__product--img me-3">
-                                    <a href="#">
-                                        <img width="80px" height="80px" src="{{this.product_image}}" alt="">
-                                    </a>
+                            </td>
+                            <td>
+                                <div class="cart__product pt-3 pb-3">
+                                    <div style="height: 80px" class=" d-flex align-items-center cart__product--img me-3">
+                                        <a href="#" class="text--dark-hover text-dark text-decoration-none mb-1 d-inline-block">{{this.product_name}}</a>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="cart__product pt-3 pb-3">
-                                <div style="height: 80px" class=" d-flex align-items-center cart__product--img me-3">
-                                    <a href="#" class="text--dark-hover text-dark text-decoration-none mb-1 d-inline-block">{{this.product_name}}</a>
+                            </td>
+                            <td>
+                                <div class="cart__product pt-3 pb-3">
+                                    <div style="height: 80px" class=" d-flex align-items-center cart__product--img me-3">
+                                        <span>${{this.product_price}}</span>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="cart__product pt-3 pb-3">
-                                <div style="height: 80px" class=" d-flex align-items-center cart__product--img me-3">
-                                    <span>${{this.product_price}}</span>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div style="width: 130px" class="cart__product pt-3 pb-3">
-                                <div style="height: 80px" class=" d-flex align-items-center cart__product--img me-3">
-                                    <div class="form-type-number border--primary d-flex h-50 align-items-center pe-3 ps-3">
-                                        <div class="btn-minus fs-6">
-                                            <i class="fa-solid fa-minus"></i>
-                                        </div>
-                                        <input value="{{this.quantify}}" class="w-100 h-100 border-0 text-center" id="quantity" min="1" name="quantity" type="number" />
-                                        <div class="btn-plus fs-6 ">
-                                            <i class="fa-solid fa-plus"></i>
+                            </td>
+                            <td>
+                                <div style="width: 130px" class="cart__product pt-3 pb-3">
+                                    <div style="height: 80px" class=" d-flex align-items-center cart__product--img me-3">
+                                        <div class="form-type-number border--primary d-flex h-50 align-items-center pe-3 ps-3">
+                                            <div class="btn-minus fs-6">
+                                                <i class="fa-solid fa-minus"></i>
+                                            </div>
+                                            <input value="{{this.quantify}}" class="w-100 h-100 border-0 text-center" id="quantity" min="1" name="quantity" type="number" />
+                                            <div class="btn-plus fs-6 ">
+                                                <i class="fa-solid fa-plus"></i>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="cart__product pt-3 pb-3">
-                                <div style="height: 80px" class=" d-flex align-items-center cart__product--img me-3">
-                                    <span>${{this.total_price}}</span>
+                            </td>
+                            <td>
+                                <div class="cart__product pt-3 pb-3">
+                                    <div style="height: 80px" class=" d-flex align-items-center cart__product--img me-3">
+                                        <span class="totalPrice">${{this.total_price}}</span>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                    </tr>
-                    {{/each}}
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
                 </table>
                 <div style="width: 400px; height: 50px" class="d-flex overflow-hidden">
                     <div style="width: 60%" class="input--group">
@@ -84,21 +89,68 @@
                     <div class="p-3">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <span>Subtotal</span>
-                            <span class="fs-4">$11,125</span>
+                            <span id="cart_subTotal" class="fs-4">${{calcTotal session.carts}}</span>
                         </div>
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <span>Total</span>
-                            <span class="fs-4 fw-bold">$11,125</span>
+                            <span id="cart_total" class="fs-4 fw-bold">${{calcTotal session.carts}}</span>
                         </div>
                         <button type="submit" class="mt-3 btn--primary btn--light text-white text-uppercase border-0 pt-2 pb-2 w-100 mb-2">proceed to checkout</button>
                     </div>
                 </div>
             </div>
         </div>
+        {{#isZero cartQuantity}}
+        <p class="fs-13 color--primary mb-2">Your cart is currently empty.</p>
+        {{/isZero}}
+        {{else}}
+        <div id="cart__content" class="row mb-5">
+            <div class="col-9">
+                <table class="table border--primary">
+                    <tbody id="tbody">
+                        <tr>
+                            <td></td>
+                            <td class="font--primary">Product</td>
+                            <td class="font--primary">Price</td>
+                            <td class="font--primary">Quantify</td>
+                            <td class="font--primary">Subtotal</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="width: 400px; height: 50px" class="d-flex overflow-hidden">
+                    <div style="width: 60%" class="input--group">
+                        <input type="text" name="" class="h-100 w-100 d-flex algin-items-center lh-1" id="" placeholder="Coupon code">
+                    </div>
+                    <button type="submit" class=" flex-grow-1 btn--primary btn--light text-white text-uppercase border-0 pt-2 pb-2">apply coupon</button>
+                </div>
+            </div>
+            <div class="col-3">
+                <div style="background-color: #f8f8f8;" class="cart--total">
+                    <h5 style="background-color: #eeeeee;" class="font--primary p-3">Cart Totals</h5>
+                    <div class="p-3">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span>Subtotal</span>
+                            <span id="cart_subTotal" class="fs-4">${{calcTotal session.carts}}</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span>Total</span>
+                            <span id="cart_total" class="fs-4 fw-bold">${{calcTotal session.carts}}</span>
+                        </div>
+                        <button type="submit" class="mt-3 btn--primary btn--light text-white text-uppercase border-0 pt-2 pb-2 w-100 mb-2">proceed to checkout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/if}}
+        <p id="no-product" class="fs-13 color--primary mb-2 d-none">Your cart is currently empty.</p>
         <a href="/" class="fw-bold text-decoration-none text-dark text--dark-hover">Return to shop</a>
-    </div>
+    </div>  
 </div>
 <script>
+    if($('#userIdCart').val() === undefined) {
+        const carts = JSON.parse(localStorage.getItem('cart')) ?? [];
+        renderCart(carts);
+    }
     $('.btn-plus, .btn-minus').on('click', function(e) {
         const isNegative = $(e.target).closest('.btn-minus').is('.btn-minus');
         const input = $(e.target).closest('.form-type-number').find('input');
@@ -106,4 +158,111 @@
             input[0][isNegative ? 'stepDown' : 'stepUp']()
         }
     })
+
+    $('.btn-destroy').click((e) => {
+        const product_id = $(e.target).data('id');
+        for(const cartItem of $('.carts')) {
+            if(cartItem.dataset.id === product_id) {
+                cartItem.remove();
+                $('#cartQuantity').html(`${parseInt($('#cartQuantity').text()) - parseInt(cartItem.querySelector('#quantity').value)}`);
+                $('.cartQuantity').html(`${parseInt($('.cartQuantity').text()) - parseInt(cartItem.querySelector('#quantity').value)}`);
+            }
+        }
+        let total = 0;
+        for(const cartItem of $('.carts')) {
+            total += parseInt((cartItem.querySelector('.totalPrice').innerText).replace("$", ""))
+        }
+        $('#cart_subTotal').html(`$${total}`);
+        $('#cart_total').html(`$${total}`);
+        if(total === 0) {
+            $('#cart__content').addClass("d-none");
+            $('#no-product').removeClass("d-none");
+        }
+        if($('#userIdCart').val() === undefined) {
+            var carts = JSON.parse(localStorage.getItem('cart')) ?? [];
+            var indexCartItems = carts.findIndex((cart) => cart.product_id == product_id);
+            if(indexCartItems > -1) {
+                carts.splice(indexCartItems, 1);
+            }
+            localStorage.setItem('cart', JSON.stringify(carts))
+        } else {
+            $.ajax({
+                url: "/cart/delete/" + product_id,
+                type: "DELETE",
+            })
+        }
+    })
+
+    function renderCart(carts) {  
+        if(carts.length === 0) {
+            $('#cart__content').addClass("d-none");
+            $('#no-product').removeClass("d-none");
+            return;
+        }
+        const html = carts.map(cart => {
+            return `
+                <tr class="carts" data-id="${cart.product_id}">
+                    <td>
+                        <div class="cart__product d-flex align-items-center pt-3 pb-3">
+                            <div class="btn-destroy cart__product--clear ps-3 pe-3">
+                                <i class="fa-solid fa-xmark" data-id="${cart.product_id}"></i>
+                            </div>
+                            <div class="cart__product--img me-3">
+                                <a href="#">
+                                    <img width="80px" height="80px" src="${cart.product_image}" alt="">
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="cart__product pt-3 pb-3">
+                            <div style="height: 80px" class=" d-flex align-items-center cart__product--img me-3">
+                                <a href="#" class="text--dark-hover text-dark text-decoration-none mb-1 d-inline-block">${cart.product_name}</a>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="cart__product pt-3 pb-3">
+                            <div style="height: 80px" class=" d-flex align-items-center cart__product--img me-3">
+                                <span>$${cart.product_price}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="width: 130px" class="cart__product pt-3 pb-3">
+                            <div style="height: 80px" class=" d-flex align-items-center cart__product--img me-3">
+                                <div class="form-type-number border--primary d-flex h-50 align-items-center pe-3 ps-3">
+                                    <div class="btn-minus fs-6">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </div>
+                                    <input value="${cart.quantify}" class="w-100 h-100 border-0 text-center" id="quantity" min="1" name="quantity" type="number" />
+                                    <div class="btn-plus fs-6 ">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="cart__product pt-3 pb-3">
+                            <div style="height: 80px" class=" d-flex align-items-center cart__product--img me-3">
+                                <span class="totalPrice">$${cart.quantify * cart.product_price}</span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            `
+        })
+        $('#tbody').append(html.join(""));
+        let total = 0;
+        for(const cartItem of $('.carts')) {
+            total += parseInt((cartItem.querySelector('.totalPrice').innerText).replace("$", ""))
+        }
+        $('#cart_subTotal').html(`$${total}`);
+        $('#cart_total').html(`$${total}`);
+        if(total === 0) {
+            $('#cart__content').addClass("d-none");
+            $('#no-product').removeClass("d-none");
+        }
+    } 
 </script>

@@ -1,10 +1,11 @@
 <div class="container">
     <div class="row mb-5 pb-5">
-        <div class="col-7">
+        <div id="img_container" class="col-7">
             <div class="product__detail--img">
                 <img class="w-100" src="{{product.image}}" alt="">
             </div>
         </div>
+        {{!-- parent: 1 1 1 1 children children--}}
         <div class="col-5">
             <div class="router--detail color--light--no-hover pb-4">
                 <a href="/" class="color--light text-decoration-none">Home </a>/
@@ -12,8 +13,8 @@
                 <span class="text-capitalize">{{product.name}}</span>
             </div>
             <h1 class="product--name font--primary text-uppercase fs-3 pt-2 ">{{product.name}}</h1>
-            <p class="pb-5 ">
-                <span class="pe-1 fs-4 color--primary">${{calcCurrentPrice product.cost product.discount}}</span>
+            <p class="pb-5 router--priceContainer">
+                <span id="price" class="pe-1 fs-4 color--primary">${{calcCurrentPrice product.cost product.discount}}</span>
                 <span class="fs-4"><del>${{product.cost}}</del></span>
                 <span style="font-size: 12px;" class="ps-3 fw-bold">Saved {{convertToPercent product.discount}}%</span>
             </p>
@@ -55,7 +56,7 @@
                         </div>
                     </div>
                     <div class="col-9">
-                        <button type="submit" class="btn-add h-100 btn--primary btn--light text-white text-uppercase border-0 pt-2 pb-2 w-100">add to cart</button>
+                        <button type="submit" data-id="{{product._id}}" class="btn-add h-100 btn--primary btn--light text-white text-uppercase border-0 pt-2 pb-2 w-100">add to cart</button>
                     </div>
                 </div>
                 {{/if}}
@@ -540,6 +541,9 @@
     </section>
 </div>
 <script>
+    const productDesc = document.querySelector('.product--detail__desc');
+    const string = productDesc.innerText;
+    productDesc.innerHTML = string;
     $('.btn-plus, .btn-minus').on('click', function(e) {
         const isNegative = $(e.target).closest('.btn-minus').is('.btn-minus');
         const input = $(e.target).closest('.form-type-number').find('input');
@@ -578,13 +582,74 @@
         })
     })
 
-    const btnAddToCart = document.querySelector('.btn-add');
+    const btnAddToCart = $('.btn-add');
     if(btnAddToCart !== null) {
-        btnAddToCart.addEventListener('click', () => {
+        btnAddToCart.click((e) => {
+            if($( "#cart--container" ).hasClass("d-none")) {
+                $('#cart--container').removeClass("d-none");
+            }
+            if($('#cart-noProduct').length === 1) {
+                $('#cart-noProduct').addClass("d-none");
+            }
+            var total = 0;
+            var isFound = false;
+            var quantify = parseInt($('#quantity').val());
+            var product_id = $(e.target).data('id');
+            var product_name = $(e.target).parent().parent().parent().parent().children("div.router--detail").children("span").text();
+            var product_price = parseInt(($(e.target).parent().parent().parent().parent().children("p.router--priceContainer").children("span#price").text()).replace("$", ""));
+            var product_image = $(e.target).parent().parent().parent().parent().parent().children("div#img_container").children("div.product__detail--img").children("img").attr("src");
+            $('#cartQuantity').html(`${parseInt($('#cartQuantity').text()) + quantify}`);
+            $('.cartQuantity').html(`${parseInt($('.cartQuantity').text()) + quantify}`);
+            for(const cartItem of $('.cart--items')) {
+                if(cartItem.dataset.id === product_id) {
+                    cartItem.querySelector('.product__items--quantify').innerText = parseInt(cartItem.querySelector('.product__items--quantify').innerText) + quantify;     
+                    isFound = true;
+                }
+                total += parseInt(cartItem.querySelector('.product__items--quantify').innerText) * parseInt((cartItem.querySelector('.product__items--price').innerText).replace("$", ""));
+            }
+            if(!isFound) {
+                if($('.cart--list').length === 0) {
+                    $('#cart--container').append(`
+                        <ul id="scroll-custom" style="overflow-y: overlay;" class="p-0 m-0 flex-grow-1 cart--list"></ul>
+                        <div class="pt-4 w-100 border-top-primary cart--submit border-bottom-primary pb-4">
+                                <p class="d-flex justify-content-between align-items-center">
+                                    <span>Subtotal:</span>
+                                    <span class=" fw-bold" id="subTotal">${{calcTotal session.carts}}</span>
+                                </p>    
+                                <button type="submit" class="btn--primary btn--light text-white text-uppercase border-0 pt-2 pb-2 w-100 mb-2">Check out</button>
+                                <a class="text-center w-100 d-block color--light" href="/cart">View cart</a>
+                        </div>
+                    `);
+                }
+                $('.cart--list').append(`
+                    <li class="pb-4 cart--items" data-id="${product_id}">
+                        <div class="product__items d-flex align-items-center position-relative overflow-hidden">
+                            <div class="product__items--img">
+                                <img class="w-100 h-100" src="${product_image}" alt="">
+                            </div>
+                            <div class="product__items--content ms-3 me-4">
+                                <a href="#" class="mb-2 text-decoration-none product__items--name">${product_name}</a>
+                                <p class="m-0">
+                                    <span class="product__items--quantify">${quantify}</span> x
+                                    <span class="product__items--price">$${product_price}</span>
+                                </p>
+                            </div>
+                            <a class="btn-delete clear--product position-absolute top-50 end-0 color--light" href="#" >
+                                <i class="fa-regular fa-trash-can" data-id="${product_id}"></i>
+                            </a>
+                        </div>
+                    </li>
+                `)
+                total += product_price;
+            }
+            $('#subTotal').html(`$${total}`);
             const carts = JSON.parse(localStorage.getItem('cart')) ?? [];
             const product = {
-                product_name: document.querySelector('.product--name').innerHTML,
-                quantify: parseInt(document.querySelector('#quantity').value),
+                product_id: product_id,
+                product_image: product_image,
+                product_name: product_name,
+                product_price: product_price,
+                quantify: quantify,
             }
             const checkProductExist = carts.find((cart) => cart.product_name === product.product_name);
             if(checkProductExist === undefined) {
@@ -595,4 +660,5 @@
             localStorage.setItem('cart', JSON.stringify(carts))
         })
     }
+    
 </script>

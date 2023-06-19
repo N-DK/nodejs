@@ -23,8 +23,12 @@ class SiteController {
     }
 
     // [GET] /shop
-    shop(req, res) {
-        res.render('shop');
+    shop(req, res, next) {
+        Product.find({})
+        .then(products => {
+            res.render('shop', { products : multipleMongooseToObject(products)});
+        })
+        .catch(next);
     }
 
     //[GET] /wishlist

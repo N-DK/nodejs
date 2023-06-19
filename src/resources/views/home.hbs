@@ -50,7 +50,7 @@
             {{#if session.user}}
             <input type="hidden" name="" value="{{session.user._id}}" id="user_id">
             {{/if}}
-            {{#each products}}
+            {{#each (limit products 3)}}
             <li class="product--items col-4">
                 <div class="product">
                     <div class="position-relative overflow-hidden">
@@ -138,162 +138,55 @@
     </div>
     <div class="populated--container container">
         <ul class="product--list row p-0">
+            {{#each (limit products 4)}}
             <li class="product--items col-3">
                 <div class="product">
-                    <a class="" href="#">
-                        <div class="position-relative overflow-hidden">
-                            <img class="w-100 h-100" src="/img/product-1.jpg" alt="">
-                            <button class="position-absolute start-50 bottom-0 mb-4 pt-3 pb-3 btn--primary text-uppercase border-0 z" >add to cart</button>
-                            <ul class="product-action position-absolute top-0 pt-3 end-0 pe-3">
-                                <li class="bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
-                                    <a class="text-dark" href="#">
-                                        <i class="fa-regular fa-heart"></i>
-                                    </a>
-                                </li>
-                                <li class="nth-2 bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
-                                    <a class="text-dark rotate-90" href="#">
-                                        <i class="fa-solid fa-arrow-right-arrow-left "></i>
+                    <div class="position-relative overflow-hidden">
+                        <a class="" href="/product/{{this.slug}}">
+                            <img class="w-100 h-100" src="{{this.image}}" alt="">
+                        </a>
+                        <button class="add-to-cart position-absolute start-50 bottom-0 mb-4 pt-3 pb-3 btn--primary text-uppercase border-0 z-n1" data-id="{{this._id}}" data-bs-target="#modalCart" data-bs-toggle="modal">add to cart</button>
+                        <ul class="product-action position-absolute top-0 pt-3 end-0 pe-3">
+                            <li class="bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
+                                <a class="text-dark" href="#">
+                                    <i class="fa-regular fa-heart"></i>
+                                </a>
+                            </li>
+                            <li class="nth-2 bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
+                                <a class="text-dark rotate-90" href="#">
+                                    <i class="fa-solid fa-arrow-right-arrow-left"></i>
 
-                                    </a>
-                                </li>
-                                <li class="nth-3 bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
-                                    <a class="text-dark" href="#">
-                                        <i class="fa-solid fa-eye"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                            <ul class="product-label position-absolute top-0 pt-3 start-0 ps-3">
-                                <p class="label label--discount text-uppercase">-51%</p>
-                                <p class="label label--hot text-uppercase">hot</p>
-                            </ul>
-                        </div>
-                    </a>
+                                </a>
+                            </li>
+                            <li class="nth-3 bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
+                                <a class="text-dark" href="#">
+                                    <i class="fa-solid fa-eye"></i>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="product-label position-absolute top-0 pt-3 start-0 ps-3">
+                            {{#isPositive this.discount}}
+                            <p class="label label--discount text-uppercase">-{{convertToPercent this.discount}}%</p>
+                            {{/isPositive}}
+                            {{#if this.hot}}
+                            <p class="label label--hot text-uppercase">hot</p>
+                            {{/if}}
+                            {{#if this.new}}
+                            <p class="label label--new text-uppercase">new</p>
+                            {{/if}}
+                        </ul>
+                    </div>
                     <div class="product--content pt-4">
-                        <h6 class="product--name text-uppercase text-center">cocomi</h6>
-                        <a href="#" class="product--desc text-uppercase text-center">TIMEX EASY READER WHITE</a>
+                        <h6 class="product--name text-uppercase text-center">{{this.category}}</h6>
+                        <a href="#" class="product--desc text-uppercase text-center">{{this.name}}</a>
                         <p class="text-center">
-                            <span class="pe-1 fs-5 fw-bold">$225</span>
-                            <span><del>$460</del></span>
+                            <span class="pe-1 fs-5 fw-bold product--price">${{calcCurrentPrice this.cost this.discount}}</span>
+                            <span><del>${{this.cost}}</del></span>
                         </p>
                     </div>
                 </div>
             </li>
-            <li class="product--items col-3">
-                <div class="product">
-                    <a class="" href="#">
-                        <div class="position-relative overflow-hidden">
-                            <img class="w-100 h-100" src="/img/product-2.jpg" alt="">
-                            <button class="position-absolute start-50 bottom-0 mb-4 pt-3 pb-3 btn--primary text-uppercase border-0">add to cart</button>
-                            <ul class="product-action position-absolute top-0 pt-3 end-0 pe-3">
-                                <li class="bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
-                                    <a class="text-dark" href="#">
-                                        <i class="fa-regular fa-heart"></i>
-                                    </a>
-                                </li>
-                                <li class="nth-2 bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
-                                    <a class="text-dark rotate-90" href="#">
-                                        <i class="fa-solid fa-arrow-right-arrow-left "></i>
-
-                                    </a>
-                                </li>
-                                <li class="nth-3 bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
-                                    <a class="text-dark" href="#">
-                                        <i class="fa-solid fa-eye"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                            <ul class="product-label position-absolute top-0 pt-3 start-0 ps-3">
-                                <p class="label label--new text-uppercase">new</p>
-                            </ul>
-                        </div>
-                    </a>
-                    <div class="product--content pt-4">
-                        <h6 class="product--name text-uppercase text-center">cocomi</h6>
-                        <a href="#" class="product--desc text-uppercase text-center">TIMEX EASY READER WHITE</a>
-                        <p class="text-center">
-                            <span class="pe-1 fs-5 fw-bold">$225</span>
-                            <span><del>$460</del></span>
-                        </p>
-                    </div>
-                </div>
-            </li>
-            <li class="product--items col-3">
-                <div class="product">
-                    <a class="" href="#">
-                        <div class="position-relative overflow-hidden">
-                            <img class="w-100 h-100" src="/img/product-3.jpg" alt="">
-                            <button class="position-absolute start-50 bottom-0 mb-4 pt-3 pb-3 btn--primary text-uppercase border-0" >add to cart</button>
-                            <ul class="product-action position-absolute top-0 pt-3 end-0 pe-3">
-                                <li class="bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
-                                    <a class="text-dark" href="#">
-                                        <i class="fa-regular fa-heart"></i>
-                                    </a>
-                                </li>
-                                <li class="nth-2 bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
-                                    <a class="text-dark rotate-90" href="#">
-                                        <i class="fa-solid fa-arrow-right-arrow-left "></i>
-
-                                    </a>
-                                </li>
-                                <li class="nth-3 bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
-                                    <a class="text-dark" href="#">
-                                        <i class="fa-solid fa-eye"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                            <ul class="product-label position-absolute top-0 pt-3 start-0 ps-3">
-                            </ul>
-                        </div>
-                    </a>
-                    <div class="product--content pt-4">
-                        <h6 class="product--name text-uppercase text-center">cocomi</h6>
-                        <a href="#" class="product--desc text-uppercase text-center">TIMEX EASY READER WHITE</a>
-                        <p class="text-center">
-                            <span class="pe-1 fs-5 fw-bold">$225</span>
-                            <span><del>$460</del></span>
-                        </p>
-                    </div>
-                </div>
-            </li>
-            <li class="product--items col-3">
-                <div class="product">
-                    <a class="" href="#">
-                        <div class="position-relative overflow-hidden">
-                            <img class="w-100 h-100" src="/img/product-4.jpg" alt="">
-                            <button class="position-absolute start-50 bottom-0 mb-4 pt-3 pb-3 btn--primary text-uppercase border-0">add to cart</button>
-                            <ul class="product-action position-absolute top-0 pt-3 end-0 pe-3">
-                                <li class="bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
-                                    <a class="text-dark" href="#">
-                                        <i class="fa-regular fa-heart"></i>
-                                    </a>
-                                </li>
-                                <li class="nth-2 bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
-                                    <a class="text-dark rotate-90" href="#">
-                                        <i class="fa-solid fa-arrow-right-arrow-left "></i>
-
-                                    </a>
-                                </li>
-                                <li class="nth-3 bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
-                                    <a class="text-dark" href="#">
-                                        <i class="fa-solid fa-eye"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                            <ul class="product-label position-absolute top-0 pt-3 start-0 ps-3">
-                                <p class="label label--discount text-uppercase">-31%</p>
-                            </ul>
-                        </div>
-                    </a>
-                    <div class="product--content pt-4">
-                        <h6 class="product--name text-uppercase text-center">cocomi</h6>
-                        <a href="#" class="product--desc text-uppercase text-center">TIMEX EASY READER WHITE</a>
-                        <p class="text-center">
-                            <span class="pe-1 fs-5 fw-bold">$225</span>
-                            <span><del>$460</del></span>
-                        </p>
-                    </div>
-                </div>
-            </li>
+            {{/each}}
         </ul>
     </div>
 </section>
@@ -348,9 +241,13 @@
     </div>
 </section>
 <script>
-    {{!-- var fruitCount = $(this).data('id'); --}}
-
     $(".add-to-cart").click((e) => {
+        if($( "#cart--container" ).hasClass("d-none")) {
+            $('#cart--container').removeClass("d-none");
+        }
+        if($('#cart-noProduct').length === 1) {
+            $('#cart-noProduct').addClass("d-none");
+        }
         var total = 0;
         var isFound = false;
         var product_id = $(e.target).data('id');
@@ -393,8 +290,8 @@
                                 <span class="product__items--price">$${product_price}</span>
                             </p>
                         </div>
-                        <a class="clear--product position-absolute top-50 end-0 color--light" href="">
-                            <i class="fa-regular fa-trash-can"></i>
+                        <a class="btn-delete clear--product position-absolute top-50 end-0 color--light" href="#" >
+                            <i class="fa-regular fa-trash-can" data-id="${product_id}"></i>
                         </a>
                     </div>
                 </li>
@@ -402,17 +299,35 @@
             total += product_price;
         }
         $('#subTotal').html(`$${total}`);
-        $.ajax({
-            url: '/cart/add-to-cart/' + product_id,
-            type: 'POST',
-            data: {
+        if($('#user_id').val() === undefined) {
+            const carts = JSON.parse(localStorage.getItem('cart')) ?? [];
+            const product = {
                 product_id: product_id,
-                user_id: $('#user_id').val(),
+                product_image: product_image,
+                product_name: product_name,
+                product_price: product_price,
                 quantify: 1,
-                total_price: {type: Number, default: 0},
-            },
-            success: function(response) {
             }
-        });
+            const checkProductExist = carts.find((cart) => cart.product_name === product.product_name);
+            if(checkProductExist === undefined) {
+                carts.push(product);
+            }else {
+                checkProductExist.quantify += 1; 
+            }
+            localStorage.setItem('cart', JSON.stringify(carts))
+        } else {
+            $.ajax({
+                url: '/cart/add-to-cart/' + product_id,
+                type: 'POST',
+                data: {
+                    product_id: product_id,
+                    user_id: $('#user_id').val(),
+                    quantify: 1,
+                    total_price: {type: Number, default: 0},
+                },
+                success: function(response) {
+                }
+            });
+        }
     });
 </script>

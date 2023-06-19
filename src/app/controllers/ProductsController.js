@@ -1,6 +1,6 @@
 
 const Product = require('../modules/Products');
-const { mongooseToObject } = require('../../util/mongoose')
+const { mongooseToObject, multipleMongooseToObject } = require('../../util/mongoose')
 
 class ProductsController {
     // [GET]  product/:slug
@@ -24,6 +24,15 @@ class ProductsController {
         const product = new Product(req.body);
         await product.save()
         .then(() => res.redirect('/'));
+    }
+
+    // [GET] product/category/:slug
+    category(req, res, next) {
+        Product.find({slug_category: req.params.slug})
+            .then(products => {
+                res.render('shop', { products : multipleMongooseToObject(products)});
+            })
+            .catch(next);
     }
 }   
 

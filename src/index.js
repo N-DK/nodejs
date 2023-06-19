@@ -38,6 +38,36 @@ app.engine('.hbs', handlebars.engine({
           return options.fn(this)
         }
       },
+      isZero: function(val, options) {
+        if (val === 0){
+          return options.fn(this)
+        }
+      },
+      lengthArr: function (arr) {
+        return arr.length;
+      },
+      getCategory: function(arr) {
+        let result = [];
+        if (!Array.isArray(arr)) { return []; }
+        for(const a of arr) {
+          const category = {
+            name: a.category,
+            quantify: 1,
+            slug: a.slug_category
+          }
+          var checkExistCategory = result.find(item => item.name === category.name);
+          if(checkExistCategory === undefined) {
+            result.push(category);
+          }else {
+            checkExistCategory.quantify += 1;
+          }
+        }
+        return result;
+      },
+      limit: function(arr, limit) {
+        if (!Array.isArray(arr)) { return []; }
+        return arr.slice(0, limit);
+      },
       formatDate: function(isoDate) {
         const date = new Date(isoDate);
         const options = {

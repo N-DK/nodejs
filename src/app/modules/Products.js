@@ -8,10 +8,11 @@ const Product = new Schema({
     image: { type: String},
     category: { type: String},
     cost: {type: Number},
-    discount: {type: Number},
+    discount: {type: mongoose.Types.Decimal128},
     hot: {type: Boolean, default: false},
     new: {type: Boolean, default: false},
-    slug: { type: String, slug: "name" }
+    slug: { type: String, slug: "name" },
+    slug_category: {type: String, slug: "category"},
 }, {
     timestamps: true,
 });

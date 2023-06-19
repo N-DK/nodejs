@@ -27,6 +27,9 @@
         </footer>
     </div>
     <div id="modalAccount" class="modal fade">
+        {{#if session.user}}
+        <input type="hidden" name="" value="{{session.user._id}}" id="userId">
+        {{/if}}
         <div style="width: 400px" class="modal-dialog m-0 position-absolute end-0 h-100">
             <div class="modal-content h-100">
                 <div class="bg-white w-100 p-5">
@@ -67,8 +70,7 @@
                         <span style="font-size: 0.7rem; right: -20px; top: -3px;" class="quantify position-absolute d-flex justify-content-center align-items-center text-white cartQuantity">{{cartQuantity}}</span>
                     </h1>
                     <div id="cart--container" class="overflow-auto content--cart border-top-primary pt-4 position-relative flex-grow-1 d-flex flex-column">
-                        {{#if session.user}}
-                        {{#isPositive cartQuantity}}
+                        {{#if session.carts}}
                         <ul id="scroll-custom" style="overflow-y: overlay;" class="p-0 m-0 flex-grow-1 cart--list">
                             {{#each session.carts}}
                             <li class="pb-4 cart--items" data-id="{{this.product_id}}">
@@ -98,9 +100,9 @@
                             <button type="submit" class="btn--primary btn--light text-white text-uppercase border-0 pt-2 pb-2 w-100 mb-2">Check out</button>
                             <a class="text-center w-100 d-block color--light" href="/cart">View cart</a>
                         </div>
-                        {{/isPositive}}
-                        {{else}}
+                        {{#isZero cartQuantity}}
                         <p class="ps-3">No products in the cart.</p>
+                        {{/isZero}}
                         {{/if}}
                     </div>
                     <div id="cart-noProduct" class="border-top-primary pt-4 d-none">
@@ -117,7 +119,11 @@
 </body>
 </html>
 <script>
-    $('.btn-delete').click((e) => {
+    if($('#userId').val() === undefined) {
+        const carts = JSON.parse(localStorage.getItem('cart')) ?? [];
+        renderCart(carts);
+    }
+    $(document).on('click', '.btn-delete', (e) => {
         var product_id = $(e.target).data('id');
         for(const cartItem of $('.cart--items')) {
             if(cartItem.dataset.id === product_id) {
@@ -127,12 +133,64 @@
             }
         }
         updateCart();
-        $.ajax({
-            url: '/cart/delete/' + product_id,
-            type: 'DELETE',
+        if($('#userId').val() === undefined) {
+            var carts = JSON.parse(localStorage.getItem('cart')) ?? [];
+            var indexCartItems = carts.findIndex((cart) => cart.product_id == product_id);
+            if(indexCartItems > -1) {
+                carts.splice(indexCartItems, 1);
+            }
+            localStorage.setItem('cart', JSON.stringify(carts))
+        } else {
+            $.ajax({
+                url: '/cart/delete/' + product_id,
+                type: 'DELETE',
+            })
+        }
+    });
+    function renderCart(carts) {
+        const html = carts.map(cart => {
+            return `
+                <li class="pb-4 cart--items" data-id="${cart.product_id}">
+                    <div class="product__items d-flex align-items-center position-relative overflow-hidden">
+                        <div class="product__items--img">
+                            <img class="w-100 h-100" src="${cart.product_image}" alt="">
+                        </div>
+                        <div class="product__items--content ms-3 me-4">
+                            <a href="#" class="mb-2 text-decoration-none product__items--name">${cart.product_name}</a>
+                            <p class="m-0">
+                                <span class="product__items--quantify">${cart.quantify}</span> x
+                                <span class="product__items--price">$${cart.product_price}</span>
+                            </p>
+                        </div>
+                        <a class="btn-delete clear--product position-absolute top-50 end-0 color--light" href="#">
+                            <i class="fa-regular fa-trash-can" data-id="${cart.product_id}"></i>
+                        </a>
+                    </div>
+                </li>
+            `
         })
-    })
-
+        if($('.cart--list').length === 0) {
+            $('#cart--container').append(`
+                <ul id="scroll-custom" style="overflow-y: overlay;" class="p-0 m-0 flex-grow-1 cart--list"></ul>
+                <div class="pt-4 w-100 border-top-primary cart--submit border-bottom-primary pb-4">
+                        <p class="d-flex justify-content-between align-items-center">
+                            <span>Subtotal:</span>
+                            <span class=" fw-bold" id="subTotal">${{calcTotal session.carts}}</span>
+                        </p>    
+                        <button type="submit" class="btn--primary btn--light text-white text-uppercase border-0 pt-2 pb-2 w-100 mb-2">Check out</button>
+                        <a class="text-center w-100 d-block color--light" href="/cart">View cart</a>
+                </div>
+            `);
+        }
+        $('.cart--list').append(html.join(""));
+        var cartQuantify = 0;
+        for(const cart of carts) {
+            cartQuantify += cart.quantify;
+        }
+        $('#cartQuantity').html(`${cartQuantify}`);
+        $('.cartQuantity').html(`${cartQuantify}`);
+        updateCart();
+    }
     function updateCart() {
         var total = 0;
         for(const cartItem of $('.cart--items')) {
