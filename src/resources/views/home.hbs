@@ -93,7 +93,9 @@
                         <a href="#" class="product--desc text-uppercase text-center">{{this.name}}</a>
                         <p class="text-center">
                             <span class="pe-1 fs-5 fw-bold product--price">${{calcCurrentPrice this.cost this.discount}}</span>
+                            {{#isPositive this.discount}}
                             <span><del>${{this.cost}}</del></span>
+                            {{/isPositive}}
                         </p>
                     </div>
                 </div>
@@ -181,7 +183,9 @@
                         <a href="#" class="product--desc text-uppercase text-center">{{this.name}}</a>
                         <p class="text-center">
                             <span class="pe-1 fs-5 fw-bold product--price">${{calcCurrentPrice this.cost this.discount}}</span>
+                            {{#isPositive this.discount}}
                             <span><del>${{this.cost}}</del></span>
+                            {{/isPositive}}
                         </p>
                     </div>
                 </div>
@@ -248,6 +252,9 @@
         if($('#cart-noProduct').length === 1) {
             $('#cart-noProduct').addClass("d-none");
         }
+        if($('#cart-noProduct_1').length === 1) {
+            $('#cart-noProduct_1').addClass("d-none");
+        }
         var total = 0;
         var isFound = false;
         var product_id = $(e.target).data('id');
@@ -272,7 +279,7 @@
                                 <span>Subtotal:</span>
                                 <span class=" fw-bold" id="subTotal">${{calcTotal session.carts}}</span>
                             </p>    
-                            <button type="submit" class="btn--primary btn--light text-white text-uppercase border-0 pt-2 pb-2 w-100 mb-2">Check out</button>
+                            <a href="/checkout" class="d-block text-center text-decoration-none btn--primary btn--light text-white text-uppercase border-0 pt-2 pb-2 w-100 mb-2">Check out</a>
                             <a class="text-center w-100 d-block color--light" href="/cart">View cart</a>
                     </div>
                 `);

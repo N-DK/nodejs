@@ -6,9 +6,13 @@ const { mongooseToObject, multipleMongooseToObject } = require('../../util/mongo
 class CartController {
     //[GET] /carts
     index(req, res, next) {
-        Cart.find({})
+        if(req.session.user) {
+            Cart.find({user_id: req.session.user._id})
             .then(carts => res.render('cart', {carts: multipleMongooseToObject(carts)}))
             .catch(next);
+        } else  {
+            res.render('cart');
+        }
     }
 
     // [POST] /cart/add-to-cart/:id

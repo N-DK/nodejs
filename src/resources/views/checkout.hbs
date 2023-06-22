@@ -1,0 +1,264 @@
+<div class="d-block text-center page-header">
+    <h1 style="font-size: 55px;" class="font--primary text-white">Checkout</h1>
+    <div class="router--detail color--white--no-hover pb-4 text-center pt-4">
+        <a href="/" class="color--white text-decoration-none">Home </a>/
+        <span class="text-capitalize">Checkout</span>
+    </div>
+</div>
+<div class="container mt-5">
+    {{#if session.user}}
+    {{else}}
+    <div class="pt-1">
+        <div style="background-color: #eeeeee; font-size: 15px" class="mt-3 ps-5 pt-2 pb-2">
+            <span class="fw-bold">Returning customer?</span>
+            <a href="#" class="text-dark text--dark-hover" data-bs-target="#modalAccount" data-bs-toggle="modal">Click here to login</a>
+        </div>
+    </div>
+    {{/if}}
+    <div class="pt-1">
+        <div style="background-color: #eeeeee; font-size: 15px" class="mt-3 ps-5 pt-2 pb-2">
+            <span class="fw-bold">Have a coupon?</span>
+            <a href="#" id="btn-show-coupon" class="text-dark text--dark-hover">Click here to enter your code</a>
+        </div>
+        <div id="coupon" class="pt-4">
+            <p class="fs-15 color--light--no-hover">If you have a coupon code, please apply it below.</p>
+            <div class="d-flex overflow-hidden">
+                <div style="width: 570px" class="input--group">
+                    <input type="text" name="" class="h-100 w-100 d-flex algin-items-center lh-1" id="" placeholder="Coupon code">
+                </div>
+                <button type="submit" class="ms-4 ps-4 pe-4 btn--primary btn--light text-white text-uppercase border-0 pt-2 pb-2">apply coupon</button>
+            </div>
+        </div>
+    </div>
+    {{#if isExist}}
+    <p class="text-danger">Email này đã tồn tại</p> 
+    {{/if}}
+    <form method="POST" id="formCheckout" action="/checkout/order">
+        <div class="row mt-5">
+            <div class="col-8">
+                <h4 class="font--primary mb-5">Billing details</h4>
+                <form  class="">
+                    <div class="input--group row mb-4">
+                        <div class="col-6">
+                            <label for="first_name" class="form-label">First name <span class="text-danger">*</span></label>
+                            <input class="w-100" type="text" name="first_name" id="first_name" value="{{session.user.first_name}}">
+                        </div>
+                        <div class="col-6">
+                            <label for="last_name" class="form-label">Last name <span class="text-danger">*</span></label>
+                            <input class="w-100" type="text" name="last_name" id="last_name" value="{{session.user.last_name}}" >
+                        </div>
+                    </div>
+                    <div class="input--group mb-4">
+                        <label for="display_name" class="form-label">Company name (optional)</label>
+                        <input class="w-100" type="text" name="display_name" id="display_name" value="{{session.user.display_name}}">
+                    </div>
+                    <div class="input--group mb-4">
+                        <label for="address" class="form-label">Street address <span class="text-danger">*</span></label>
+                        <input class="w-100" type="text" name="address" id="address" placeholder="House number and street name">
+                    </div>
+                    <div class="input--group mb-4">
+                        <label for="town" class="form-label">Town / City <span class="text-danger">*</span></label>
+                        <input class="w-100" type="text" name="town" id="town">
+                    </div>
+                    <div class="input--group mb-4">
+                        <label for="zip_code" class="form-label">ZIP Code <span class="text-danger">*</span></label>
+                        <input class="w-100" type="text" name="zip_code" id="zip_code">
+                    </div>
+                    <div class="input--group mb-4">
+                        <label for="phone" class="form-label">Phone <span class="text-danger">*</span></label>
+                        <input class="w-100" type="text" name="phone" id="phone">
+                    </div>
+                    <div class="input--group mb-4">
+                        <label for="email" class="form-label">Email address <span class="text-danger">*</span></label>
+                        <input class="w-100" type="text" name="email" id="email" value="{{session.user.email}}">
+                    </div>
+                    <div class="input--group mb-4 d-flex align-items-center">
+                        <input type="checkbox" value="true" class="" id="create_account" name="create_account">
+                        <label class=" ms-2 form-check-label" for="create_account">Create an account?</label>
+                    </div>
+                    <div class="input--group mt-4">
+                        <label for="notes" class="form-label">Order notes (optional)</label>
+                        <textarea type="text" name="notes" id="notes" class="w-100" placeholder="Notes about your order, e.g.special notes for delivery"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="col-4">
+                <h4 class="font--primary mb-5">Your order</h4>
+                <div class="border--primary p-3">
+                    <div style="font-size: 15px;" class="d-flex justify-content-between border-bottom-primary pb-3 mb-3">
+                        <span class=" text-uppercase fw-bold">product</span>
+                        <span class=" text-uppercase fw-bold">subtotal</span>
+                    </div>
+                    {{#if session.user}}
+                    {{#if session.carts}}
+                    <ul id="scroll-custom" style="overflow-y: overlay;" class="mb-3 p-0 m-0 flex-grow-1 carts--list border-bottom-primary">
+                        {{#each session.carts}}
+                        <li class="pb-4 checkout--items" data-id="{{this.product_id}}">
+                            <div class="product__items d-flex align-items-center position-relative overflow-hidden">
+                                <div class="product__items--img">
+                                    <img class="w-100 h-100" src="{{this.product_image}}" alt="">
+                                </div>
+                                <div class="product__items--content ms-3 me-4">
+                                    <a href="#" class="mb-2 text-decoration-none product__items--name">{{this.product_name}}</a>
+                                    <p class="m-0">
+                                        <span class="product__items--quantify">{{this.quantify}}</span> x
+                                        <span class="product__items--price">${{this.product_price}}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        {{/each}}
+                    </ul>
+                    <input type="hidden" name="products[]" value="{{session.carts}}">
+                    {{/if}}
+                    {{else}}
+                    <ul id="scroll-custom" style="overflow-y: overlay;" class="mb-3 p-0 m-0 flex-grow-1 checkout--list border-bottom-primary">
+                    <input type="hidden" id="checkoutList" name="products[]" value="[]">
+                    </ul>
+                    {{/if}}
+                    <div style="font-size: 15px;" class="d-flex justify-content-between border-bottom-primary pb-3 mb-3">
+                        <span class=" text-uppercase fw-bold">subtotal</span>
+                        <span id="checkout_subTotal" class=" text-uppercase fw-bold">${{calcTotal session.carts}}</span>
+                    </div>
+                    <div class="border-bottom-primary pb-3 mb-3">
+                        <p class=" text-uppercase fw-bold">shipping</p>
+                        <p class="m-0 d-flex align-items-center mb-2">
+                            <input type="radio" name="shipping" id="flat" value="20" checked="true">
+                            <label class="ms-2 color--light--no-hover" for="flat">Flat rate: <span class=" text-dark">$20</span></label>
+                        </p>
+                        <p class="m-0 d-flex align-items-center mb-2">
+                            <input type="radio" name="shipping" id="free" value="0">
+                            <label class="ms-2 color--light--no-hover" for="free">Free shipping</label>
+                        </p>
+                        <p class="m-0 d-flex align-items-center">
+                            <input type="radio" name="shipping" id="local" value="0">
+                            <label class="ms-2 color--light--no-hover" for="local">Local pickup</label>
+                        </p>
+                    </div>
+                    <div style="font-size: 15px;" class="d-flex justify-content-between border-bottom-primary pb-3 mb-3">
+                        <span class=" text-uppercase fw-bold">total</span>
+                        <span id="checkout_total" class="text-uppercase fw-bold color--primary">${{calcTotal session.carts}}</span>
+                    </div>
+                    <div>
+                        <div class="mb-2">
+                            <p class="m-0 d-flex align-items-center mb-2 flex-wrap">
+                                <input type="radio" name="payment_method" id="bank" value="Direct bank transfer" checked="true">
+                                <label class="ms-2 color--light--no-hover" for="bank">Direct bank transfer</label>
+                                <span id="bank-text" style="padding-left: 23px;" class="w-100 fs-15 color--light--no-hover mt-2 d-none">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.</span>
+                            </p>
+                        </div>
+                        <div class="mb-2">
+                            <p class="m-0 d-flex align-items-center mb-2 flex-wrap">
+                                <input type="radio" name="payment_method" id="check_payments" value="Check payments" >
+                                <label class="ms-2 color--light--no-hover" for="check_payments">Check payments</label>
+                                <span id="check_payments-text" style="padding-left: 23px;" class="w-100 fs-15 color--light--no-hover mt-2 d-none">Please send a check to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</span>
+                            </p>
+                        </div>
+                        <div class="mb-2">
+                            <p class="m-0 d-flex align-items-center mb-2 flex-wrap">
+                                <input type="radio" name="payment_method" id="cash" value="Cash on delivery" >
+                                <label class="ms-2 color--light--no-hover" for="cash">Cash on delivery</label>
+                                <span id="cash-text" style="padding-left: 23px;" class="w-100 fs-15 color--light--no-hover mt-2 d-none">Pay with cash upon delivery.</span>
+                            </p>
+                        </div>
+                        <p class="color--light--no-hover fs-15 mt-3"><i>Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our privacy policy.</i></p>
+                        <button type="submit" id="btn_place_order" class="btn--primary btn--light text-white text-uppercase border-0 pt-3 pb-3 w-100 mb-2">place order</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    const carts = JSON.parse(localStorage.getItem('cart')) ?? [];
+    $('#checkoutList').val(JSON.stringify(carts));
+    const html = carts.map(cart => {
+        return `
+            <li class="pb-4 checkout--items" data-id="${cart.product_id}">
+                <div class="product__items d-flex align-items-center position-relative overflow-hidden">
+                    <div class="product__items--img">
+                        <img class="w-100 h-100" src="${cart.product_image}" alt="">
+                    </div>
+                    <div class="product__items--content ms-3 me-4">
+                        <a href="#" class="mb-2 text-decoration-none product__items--name">${cart.product_name}</a>
+                        <p class="m-0">
+                            <span class="product__items--quantify">${cart.quantify}</span> x
+                            <span class="product__items--price">$${cart.product_price}</span>
+                        </p>
+                    </div>
+                </div>
+            </li>
+        `
+    })
+    $('.checkout--list').append(html.join(""));
+    let total = 0;
+    for(const cartItem of $('.checkout--items')) {
+        total += (parseInt(cartItem.querySelector('.product__items--quantify').innerText) * parseInt((cartItem.querySelector('.product__items--price').innerText).replace("$", "")));
+    }
+    $('#checkout_subTotal').html(`$${total}`);
+    if($("#flat").is(':checked')) {
+        $('#checkout_total').html(`$${total + parseInt($("#flat").val())}`);
+    }
+    $('input[name=shipping]').change(function(){
+        if($(this).is(':checked')){
+            $('#checkout_total').html(`$${total + parseInt($(this).val())}`);
+        }
+    });
+
+    var isToggle = true;
+    $('#btn-show-coupon').click((e)=> {
+        e.preventDefault();
+        if(isToggle) {
+            $("#coupon").height(110);
+            isToggle = false;
+        } else {
+            $("#coupon").height(0);
+            isToggle = true;
+        }
+    })
+    $(document).ready(function() {
+        $("#formCheckout").validate({
+            errorClass: "error fail-alert",
+            rules: {
+                first_name : {
+                    required: true,
+                    minlength: 3,
+                },
+                last_name: {
+                    required: true,
+                    minlength: 3,
+                },
+                phone: {
+                    required: true,
+                },
+                zip_code: {
+                    required: true,
+                    minlength: 2,
+                },
+                email: {
+                    required: true,
+                    email: true,
+                },
+                town: {
+                    required: true,
+                    minlength: 3,
+                },
+                address: {
+                    required: true,
+                },
+            },
+            messages : {
+                first_name: {
+                    minlength: "Name should be at least 3 characters"
+                },
+                last_name: {
+                    minlength: "Name should be at least 3 characters"
+                },
+                email: {
+                    email: "The email should be in the format: abc@domain.tld"
+                },
+            }
+        });
+    });
+
+</script>

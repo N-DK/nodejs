@@ -15,8 +15,10 @@
             <h1 class="product--name font--primary text-uppercase fs-3 pt-2 ">{{product.name}}</h1>
             <p class="pb-5 router--priceContainer">
                 <span id="price" class="pe-1 fs-4 color--primary">${{calcCurrentPrice product.cost product.discount}}</span>
+                {{#isPositive this.discount}}
                 <span class="fs-4"><del>${{product.cost}}</del></span>
                 <span style="font-size: 12px;" class="ps-3 fw-bold">Saved {{convertToPercent product.discount}}%</span>
+                {{/isPositive}}
             </p>
             <div class="border-bottom-primary pt-4 pb-4 border-top-primary">
                 <p class="product--detail__desc color--light--no-hover">{{product.desc}}</p>

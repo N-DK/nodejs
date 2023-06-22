@@ -21,6 +21,10 @@ body {
     font-size: 13px;
 }
 
+.fs-15 {
+    font-size: 15px;
+}
+
 .bg--primary {
     background-color: $primary-color;
 }
@@ -648,4 +652,31 @@ select {
 
 @keyframes spin {
     100% { transform: rotate(360deg); }
+}
+
+input[name="delivery"]:checked + label{
+    color: $dark-color;
+}
+
+input[name="pay"]:checked + label {
+    color: $dark-color;
+}
+
+input[name="pay"]:checked ~ span {
+    display: block!important;
+}
+
+#coupon {
+    height: 0;
+    overflow: hidden;
+    transition: .3s;
+}
+
+label.error.fail-alert {
+    color: #c7636a;
+    font-size: 14px;
+}
+
+.order__container {
+    width: 770px;
 }

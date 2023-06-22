@@ -68,8 +68,8 @@ app.engine('.hbs', handlebars.engine({
         if (!Array.isArray(arr)) { return []; }
         return arr.slice(0, limit);
       },
-      formatDate: function(isoDate) {
-        const date = new Date(isoDate);
+      formatDate: function(isDate) {
+        const date = new Date(isDate);
         const options = {
           year: 'numeric',
           month: 'short',
@@ -80,7 +80,8 @@ app.engine('.hbs', handlebars.engine({
       calcTotal: function(arr) {
         const carts = arr ?? [];
         return carts.reduce((total, num) => total + num.total_price, 0);
-      }
+      }, 
+      minus: (a, b) => {return a - b},
     }
 }));
 app.set('view engine', '.hbs');

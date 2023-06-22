@@ -27,6 +27,11 @@ class SiteController {
         res.render('wishlist');
     }
 
+    //[GET] /checkout
+    checkout(req, res, next) {
+        res.render("checkout");
+    }
+
 }
 
 module.exports = new SiteController;

@@ -5,6 +5,7 @@ const productsController = require('./products');
 const myAccountController = require('./myAccount');
 const cartController = require('./cart');
 const shopController = require('./shop');
+const checkoutController = require('./checkout');
 const Cart = require('../app/modules/Cart');
 const Products = require('../app/modules/Products');
 
@@ -29,9 +30,14 @@ function route(app) {
     };
 
     app.use(function(req, res, next) {
-        Cart.find({})
-            .then(carts => req.session.carts = carts.map(cart => cart.toObject()))
+        if(req.session.user) {
+            Cart.find({user_id: req.session.user._id})
+                .then(carts => req.session.carts = carts.map(cart => cart.toObject()))
+                .catch(next);
             next();
+        } else {
+            next();
+        }
     })
       
     app.use(function(req, res, next) {
@@ -48,6 +54,7 @@ function route(app) {
         next();
     });
 
+    app.use('/checkout', checkoutController);
     app.use('/shop', shopController);
     app.use('/cart', cartController);
     app.use('/my-account', myAccountController);
