@@ -1,3 +1,9 @@
+{{#if session.user}}
+<input type="hidden" name="" class="user_id" value="{{session.user._id}}">
+{{/if}}
+{{#if order.key}}
+<input type="hidden" name="" value="{{order.key}}" id="order_key">
+{{/if}}
 <div class="d-block text-center page-header">
     <h1 style="font-size: 55px;" class="font--primary text-white">Checkout</h1>
     <div class="router--detail color--white--no-hover pb-4 text-center pt-4">
@@ -70,6 +76,9 @@
     </div>
 </div>
 <script>
+    if($('.user_id').val() === undefined && $('#order_key').val() !== undefined) {
+        localStorage.removeItem('cart');
+    }
     function formatDate(isDate) {
         const date = new Date(isDate);
         const options = {
@@ -81,4 +90,5 @@
     }
     
     $('#date-text').html(formatDate(new Date()))
+    
 </script>

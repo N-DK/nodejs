@@ -2,13 +2,27 @@ const Order = require('../modules/Orders');
 const User = require('../modules/Users');
 const Cart = require('../modules/Cart');
 const nodemailer = require('nodemailer');
-
+const { mongooseToObject, multipleMongooseToObject } = require('../../util/mongoose')
 class CheckoutController {
     
     // [POST] /checkout/order
     async order(req, res, next) {
-        req.body.products = JSON.parse(req.body.products);
+        if(req.session.carts) {
+            req.body.products = req.session.carts;
+        } else {
+            req.body.products = JSON.parse(req.body.products);
+        }
         req.body.total = parseInt(req.body.shipping) + req.body.products.reduce((total, num) => total + (num.quantify * num.product_price), 0);
+        var flag = false;
+        let key = '';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const charactersLength = characters.length;
+        let counter = 0;
+        while (counter < 10) {
+            key += characters.charAt(Math.floor(Math.random() * charactersLength));
+            counter += 1;
+        }
+        req.body.key = "wc_order_"+key;
         if(req.body.create_account) {
             var email = req.body.email;
             let result = '';
@@ -29,6 +43,7 @@ class CheckoutController {
             User.findOne({email})
                 .then(async (data) => {
                     if(!data) {
+                        flag = true;
                         const transporter = nodemailer.createTransport({
                             port: 465,
                             service: 'gmail',
@@ -55,32 +70,42 @@ class CheckoutController {
                         .then((user) => {
                             req.session.email = user.email;
                         }); 
-                    }else {
+                    } else {
                         res.render('checkout', {isExist: true});
-                        return ;
+                        return;
                     }
                 })
-                .then(async () => {
+                .catch(next);
+                if(flag == true) {
                     const order = new Order(req.body);
                     await order.save()
-                        .then(() => res.render('checkout/order-received', {order: req.body}))
-                })
-                .catch(next);
+                        .then(() => {
+                            return res.redirect(`/checkout/order-received/?key=${req.body.key}`);
+                        })
+                }
         } else {
             const order = new Order(req.body);
             await order.save()
                 .then(async () => {
                     if(req.session.user) {
-                        await Cart.deleteMany({user_id: req.session.user._id});
+                        await Cart.deleteMany({user_id: req.session.user._id})
+                            .then(() => {
+                                delete req.session.carts
+                                res.locals.cartQuantity = 0;
+                            })
                     }
                 })
-                .then(() => res.render('checkout/order-received', {order: req.body}))
+                .then(() => {
+                    return res.redirect(`/checkout/order-received/?key=${req.body.key}`);
+                })
                 .catch(next);
         }
     }
     //[GET]  /checkout/order-received
     orderReceived(req, res, next) {
-        res.render('checkout/order-received');
+        Order.findOne({key: req.query.key})
+            .then((order) => res.render('checkout/order-received', {order: mongooseToObject(order)}))
+            .catch(next);
     }
 }
 

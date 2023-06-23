@@ -2,7 +2,8 @@
     <h1 style="font-size: 55px;" class="font--primary text-white">My account</h1>
     <div class="router--detail color--white--no-hover pb-4 text-center pt-4">
         <a href="/" class="color--white text-decoration-none">Home </a>/
-        <span class="text-capitalize">My account</span>
+        <a href="/my-account" class="color--white text-decoration-none">My account </a>/
+        <span class="text-capitalize">Order</span>
     </div>
 </div>
 <div class="container pt-5">
@@ -55,7 +56,6 @@
         <div class="col-3">
             <a class="d-block mb-3 text-decoration-none text-dark text--dark-hover" href="/my-account">Dashboard</a>
             <a class="d-block mb-3 color--primary text--dark-hover" href="/my-account/orders">Orders</a>
-            <a class="d-block mb-3 text-decoration-none text-dark text--dark-hover" href="/my-account/downloads">Downloads</a>
             <a class="d-block mb-3 text-decoration-none text-dark text--dark-hover" href="/my-account/addresses">Addresses</a>
             <a class="d-block mb-3 text-decoration-none text-dark text--dark-hover" href="/my-account/edit-account">Account details</a>
             <form method="POST" action="/my-account/logout">
@@ -63,10 +63,29 @@
             </form>
         </div>
         <div class="col-9">
+            {{#if session.orders}}
+            <table class="table border--primary table-bordered">
+                <tr>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+                {{#each session.orders}}
+                <tr>
+                    <td>{{formatDate this.createdAt}}</td>
+                    <td>On hold</td>
+                    <td>${{this.total}} for {{lengthArr this.products}} item</td>
+                    <td><a href="order-view/{{this.key}}" class="color--light text-decoration-none">View</a></td>
+                </tr>
+                {{/each}}
+            </table>
+            {{else}}
             <div style="background-color: #f5f3f2;" class="d-flex pt-4 pb-4 pe-3 ps-3 justify-content-between align-items-center">
                 <p class="m-0 fs-13">No order has been made yet.</p>
                 <a class="fs-13 text-decoration-none btn--primary btn--light text-white text-uppercase border-0 pt-2 pb-2 pe-4 ps-4" href="/shop">Browse products</a>
             </div>
+            {{/if}}
         </div>
     </div>
     {{/if}}

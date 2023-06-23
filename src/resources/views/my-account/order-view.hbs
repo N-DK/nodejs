@@ -2,7 +2,8 @@
     <h1 style="font-size: 55px;" class="font--primary text-white">My account</h1>
     <div class="router--detail color--white--no-hover pb-4 text-center pt-4">
         <a href="/" class="color--white text-decoration-none">Home </a>/
-        <span class="text-capitalize">My account</span>
+        <a href="/my-account" class="color--white text-decoration-none">My account </a>/
+        <span class="text-capitalize">Order</span>
     </div>
 </div>
 <div class="container pt-5">
@@ -53,8 +54,8 @@
     {{else}}
     <div class="row">
         <div class="col-3">
-            <a class="d-block mb-3 color--primary text--dark-hover" href="/my-account">Dashboard</a>
-            <a class="d-block mb-3 text-decoration-none text-dark text--dark-hover" href="/my-account/orders">Orders</a>
+            <a class="d-block mb-3 text-decoration-none text-dark text--dark-hover" href="/my-account">Dashboard</a>
+            <a class="d-block mb-3 color--primary text--dark-hover" href="/my-account/orders">Orders</a>
             <a class="d-block mb-3 text-decoration-none text-dark text--dark-hover" href="/my-account/addresses">Addresses</a>
             <a class="d-block mb-3 text-decoration-none text-dark text--dark-hover" href="/my-account/edit-account">Account details</a>
             <form method="POST" action="/my-account/logout">
@@ -62,17 +63,64 @@
             </form>
         </div>
         <div class="col-9">
-            <form method="POST" class="color--light--no-hover" action="/my-account/logout">
-                <p>Hello <span class="text-dark">{{user.email}}</span> (not <span class="text-dark">{{user.email}}</span>? <button class=" border-0 bg-white text--dark-hover" type="submit">Logout</button>)</p>
-                From your account dashboard you can view your <a class="text-dark text--dark-hover text-decoration-none" href="">recent orders</a>, manage your <a class="text-dark text--dark-hover text-decoration-none" href="">shipping and billing addresses</a>, and <a class="text-dark text--dark-hover text-decoration-none" href="">edit your password and account details</a>.
-            </form>
+            {{!-- Can sua neu tim kiem thay order--}}
+            {{!-- {{#if session.orders}}
+
+            {{else}}
+            <div style="background-color: #f5f3f2;" class="d-flex pt-4 pb-4 pe-3 ps-3 justify-content-between align-items-center">
+                <p class="m-0 fs-13">No order has been made yet.</p>
+                <a class="fs-13 text-decoration-none btn--primary btn--light text-white text-uppercase border-0 pt-2 pb-2 pe-4 ps-4" href="/shop">Browse products</a>
+            </div>
+            {{/if}} --}}
+            <p>Order was placed on {{formatDate order.createdAt}} and is currently On hold.</p>
+            <div class="border--primary p-5 fs-13">
+                <h4 class="text-center pb-4">Order details</h4>
+                <div class="pb-3 mb-4 border-bottom-primary">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class=" text-uppercase fw-bold">Products:</span>
+                        <span class="text-uppercase fw-bold">total</span>
+                    </div>
+                    <ul style="overflow-y: overlay; max-height: 200px" class="pt-2 p-0 m-0 ">
+                        {{#each order.products}}
+                        <div class="product__items d-flex justify-content-between align-items-center mt-2">
+                            <div class="d-flex align-items-center">
+                                <div style="width: 50px; height: 50px" class="product__items--img">
+                                    <img class="w-100 h-100" src="{{this.product_image}}" alt="">
+                                </div>
+                                <a href="#" class="ms-2 me-2 text-decoration-none product__items--name">{{this.product_name}}</a>
+                                <p class="m-0">
+                                    <span class="product__items--quantify">x {{this.quantify}}</span>
+                                </p>
+                            </div>
+                            <span class=" fw-bold">${{this.product_price}}</span>
+                        </div>
+                        {{/each}}
+                    </ul>
+                </div>
+                <div class="d-flex justify-content-between pb-3 mb-4 align-items-center border-bottom-primary">
+                    <span class=" text-uppercase fw-bold">subtotal:</span>
+                    <span class=" fw-bold">${{minus order.total order.shipping}}</span>
+                </div>
+                <div class="d-flex justify-content-between pb-3 mb-4 align-items-center border-bottom-primary">
+                    <span class=" text-uppercase fw-bold">shipping:</span>
+                    <p class="m-0 color--light--no-hover"><span class="color--primary">$20</span> via Flat rate</p>
+                </div>
+                <div class="d-flex justify-content-between pb-3 mb-4 align-items-center border-bottom-primary">
+                    <span class=" text-uppercase fw-bold">payment method:</span>
+                    <span class="color--light--no-hover">{{order.payment_method}}</span>
+                </div>
+                <div class="d-flex justify-content-between pb-3 mb-4 align-items-center">
+                    <span class=" text-uppercase fw-bold">total:</span>
+                    <span class="color--primary fw-bold">${{order.total}}</span>
+                </div>
+            </div>
         </div>
     </div>
     {{/if}}
 
 </div>
 <script>
-    function createPassword() {
+    function createPassword(e) {
         let result = '';
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         const charactersLength = characters.length;

@@ -1,4 +1,5 @@
 const User = require('../modules/Users');
+const Order = require('../modules/Orders');
 const nodemailer = require('nodemailer');    
 const { mongooseToObject, multipleMongooseToObject } = require('../../util/mongoose')
 
@@ -106,6 +107,11 @@ class MyAccountController {
             .catch(next);
     }
 
+    // [GET] /my-account/order-view/:key
+    orderView(req, res, next) {
+        Order.findOne({key: req.params.key})
+            .then((order) => {res.render('my-account/order-view', {order: mongooseToObject(order)})})
+    }
 }
 
 module.exports = new MyAccountController;

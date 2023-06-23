@@ -72,10 +72,13 @@
                         <label for="email" class="form-label">Email address <span class="text-danger">*</span></label>
                         <input class="w-100" type="text" name="email" id="email" value="{{session.user.email}}">
                     </div>
+                    {{#if session.user}}
+                    {{else}}
                     <div class="input--group mb-4 d-flex align-items-center">
                         <input type="checkbox" value="true" class="" id="create_account" name="create_account">
                         <label class=" ms-2 form-check-label" for="create_account">Create an account?</label>
                     </div>
+                    {{/if}} 
                     <div class="input--group mt-4">
                         <label for="notes" class="form-label">Order notes (optional)</label>
                         <textarea type="text" name="notes" id="notes" class="w-100" placeholder="Notes about your order, e.g.special notes for delivery"></textarea>
@@ -90,6 +93,7 @@
                         <span class=" text-uppercase fw-bold">subtotal</span>
                     </div>
                     {{#if session.user}}
+                    <input type="hidden" name="user_id" class="user_id" value="{{session.user._id}}">
                     {{#if session.carts}}
                     <ul id="scroll-custom" style="overflow-y: overlay;" class="mb-3 p-0 m-0 flex-grow-1 carts--list border-bottom-primary">
                         {{#each session.carts}}
@@ -109,7 +113,6 @@
                         </li>
                         {{/each}}
                     </ul>
-                    <input type="hidden" name="products[]" value="{{session.carts}}">
                     {{/if}}
                     {{else}}
                     <ul id="scroll-custom" style="overflow-y: overlay;" class="mb-3 p-0 m-0 flex-grow-1 checkout--list border-bottom-primary">
@@ -260,5 +263,4 @@
             }
         });
     });
-
 </script>

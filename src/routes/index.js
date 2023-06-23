@@ -7,7 +7,9 @@ const cartController = require('./cart');
 const shopController = require('./shop');
 const checkoutController = require('./checkout');
 const Cart = require('../app/modules/Cart');
+const Order = require('../app/modules/Orders');
 const Products = require('../app/modules/Products');
+const { order } = require('../app/controllers/CheckoutController');
 
 function route(app) {
     
@@ -33,6 +35,17 @@ function route(app) {
         if(req.session.user) {
             Cart.find({user_id: req.session.user._id})
                 .then(carts => req.session.carts = carts.map(cart => cart.toObject()))
+                .catch(next);
+            next();
+        } else {
+            next();
+        }
+    })
+
+    app.use(function(req, res, next) {
+        if(req.session.user) {
+            Order.find({user_id: req.session.user._id})
+                .then(orders => req.session.orders = orders.map(order => order.toObject()))
                 .catch(next);
             next();
         } else {
