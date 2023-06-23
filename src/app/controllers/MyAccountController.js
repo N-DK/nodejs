@@ -83,12 +83,29 @@ class MyAccountController {
 
     // [GET] /my-account/orders
     orders(req, res, next) {
-        res.render('my-account/orders')
+        if(req.session.user) {
+            res.render('my-account/orders')
+        } else {
+            res.render('my-account/orders', {isNotSession: true})
+        }
+    }
+
+    // [GET] /my-account/address
+    address(req, res, next) {
+        if(req.session.user) {
+            res.render('my-account/address')
+        } else {
+            res.render('my-account/address', {isNotSession: true})
+        }
     }
 
     // [GET] /my-account/edit-account
     editAccount(req, res, next) {
-        res.render('my-account/edit-account');
+        if(!req.session.user) {
+            res.render('my-account/edit-account', {isNotSession: true});
+        }else {
+            res.render('my-account/edit-account', {user: req.session.user});
+        }
     }
 
     //[PUT] /my-account/:id
@@ -101,9 +118,15 @@ class MyAccountController {
                 if(req.body.password === "") {
                     req.body.password = user.password;
                 }
-                await User.updateOne({_id: req.params.id}, req.body);
+                await User.updateOne({_id: req.params.id}, req.body)
+                    .then(user => console.log(user));
             })
-            .then(() => res.redirect('/my-account'))
+            .then(() => {
+                req.session.user.first_name = req.body.first_name;
+                req.session.user.last_name = req.body.last_name;
+                req.session.user.display_name = req.body.display_name;
+                return res.redirect('/my-account');
+            })
             .catch(next);
     }
 
