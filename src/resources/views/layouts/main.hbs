@@ -28,9 +28,6 @@
         </footer>
     </div>
     <div id="modalAccount" class="modal fade">
-        {{#if session.user}}
-        <input type="hidden" name="" value="{{session.user._id}}" id="userId">
-        {{/if}}
         <div style="width: 400px" class="modal-dialog m-0 position-absolute end-0 h-100">
             <div class="modal-content h-100">
                 <div class="bg-white w-100 p-5">
@@ -114,14 +111,78 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>v
+    <div class="modal fade" id="ModalWishlist" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+        <div style="max-width: 570px;" class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                    <div class="modal-header bg-dark">
+                        <h5 class="modal-title text-white fs-15" id="modalTitleId">Wishlist (<span class="wishlistQuantify">{{lengthArr session.wishlist}}</span>)</h5>
+                        <button style="background-color: transparent;" type="button" class="fs-15 text-white border-0" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                <div class="modal-body p-0">
+                    <div class="container-fluid p-0">
+                        {{#if session.wishlist}}
+                        <table id="wishlist-table" class="table table-bordered m-0 table-striped">
+                            <tbody id="tbody_wishlist">
+                                {{#each session.wishlist}}
+                                <tr class="wishlist--items" data-id="{{this.product_id}}">
+                                    <td class="text-center"> 
+                                        <div class="wishlist__product--clear">
+                                            <i class="fa-solid fa-xmark" data-id="{{this.product_id}}"></i>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="wishlist__product--img">
+                                            <a href="#">
+                                                <img width="80px" height="80px" src="{{this.product_image}}" alt="">
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="wishlist__product--content fs-15">
+                                            <a href="/product/{{this.product_slug}}" style="font-weight: 500;" class="fs-15 text--dark-hover text-dark text-decoration-none mb-1 d-inline-block">{{this.product_name}}</a>
+                                            <p class="color--light--no-hover mb-2">${{this.product_price}}</p>
+                                            <p class="color--light--no-hover mb-1">{{formatDate this.createdAt}}</p>
+                                        </div>                              
+                                    </td>
+                                    <td>
+                                        <div class="d-flex justify-content-center flex-column h-100">
+                                            <p class="color--light--no-hover mb-2">In Stock</p>
+                                            <a href="#" style="font-weight: 500;" data-bs-target="#modalCart" data-bs-toggle="modal" data-id="{{this.product_id}}" class="add-to-cart text--dark-hover text-dark text-decoration-none">Add to cart</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                        {{else}}
+                            <table id="wishlist-table" class="table table-bordered m-0 table-striped">
+                                <tbody id="tbody_wishlist"></tbody>
+                            </table>
+                            <p class="text-center pb-5 pt-3 no-wishlist color--light--no-hover d-none">There are no products on the wishlist!</p>
+                        {{/if}}
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-between bg-dark">
+                    <a href="/wishlist" class=" text-uppercase fs-15 text-white">open wishlist page</a>
+                    <a class=" text-uppercase fs-15 text-white" data-bs-dismiss="modal">continue shopping</a>
+                </div>
+            </div>
+        </div>
+    </div> 
+    {{#if session.user}}
+        <input type="hidden" name="" value="{{session.user._id}}" id="user_id">
+    {{/if}}
 </body>
 </html>
 <script>
-    if($('#userId').val() === undefined) {
+    if($('#user_id').val() === undefined) {
         const carts = JSON.parse(localStorage.getItem('cart')) ?? [];
+        const wishlist = JSON.parse(localStorage.getItem('wishlist')) ?? [];
+        renderWishlist(wishlist);
         renderCart(carts);
     }
+    
     $(document).on('click', '.btn-delete', (e) => {
         var product_id = $(e.target).data('id');
         for(const cartItem of $('.cart--items')) {
@@ -132,13 +193,13 @@
             }
         }
         updateCart();
-        if($('#userId').val() === undefined) {
+        if($('#user_id').val() === undefined) {
             var carts = JSON.parse(localStorage.getItem('cart')) ?? [];
             var indexCartItems = carts.findIndex((cart) => cart.product_id == product_id);
             if(indexCartItems > -1) {
                 carts.splice(indexCartItems, 1);
             }
-            localStorage.setItem('cart', JSON.stringify(carts))
+            localStorage.setItem('cart', JSON.stringify(carts));
         } else {
             $.ajax({
                 url: '/cart/delete/' + product_id,
@@ -146,6 +207,35 @@
             })
         }
     });
+
+    $(document).on('click', '.wishlist__product--clear', (e) => {
+        var product_id = $(e.target).data('id');
+        for(const wishlistItems of $('.wishlist--items')) {
+            if(wishlistItems.dataset.id === product_id) {
+                wishlistItems.remove();
+                $('#wishlistQuantify').html(`${parseInt($('#wishlistQuantify').text()) - 1}`);
+                $('.wishlistQuantify').html(`${parseInt($('.wishlistQuantify').text()) - 1}`);
+            }
+        }
+        if($('.wishlist--items').length == 0) {
+            $('#wishlist-table').addClass('d-none');
+            $('.no-wishlist').removeClass('d-none');
+        }
+        if($('#user_id').val() === undefined) {
+            var wishlist = JSON.parse(localStorage.getItem('wishlist')) ?? [];
+            var indexCartItems = wishlist.findIndex((item) => item.product_id == product_id);
+            if(indexCartItems > -1) {
+                wishlist.splice(indexCartItems, 1);
+            }
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        } else {
+            $.ajax({
+                url: '/wishlist/delete/' + product_id,
+                type: 'DELETE',
+            })
+        }
+    })
+
     function renderCart(carts) {
         const html = carts.map(cart => {
             return `
@@ -190,6 +280,48 @@
         $('.cartQuantity').html(`${cartQuantify}`);
         updateCart();
     }
+
+    function renderWishlist(wishlist) {
+        const html = wishlist.map(item => {
+            return `
+                <tr class="wishlist--items" data-id="${item.product_id}">
+                    <td class="text-center"> 
+                        <div class="wishlist__product--clear">
+                            <i class="fa-solid fa-xmark" data-id="${item.product_id}"></i>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div class="wishlist__product--img">
+                            <a href="#">
+                                <img width="80px" height="80px" src="${item.product_image}" alt="">
+                            </a>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="wishlist__product--content fs-15">
+                            <a href="/product/${item.product_slug}" style="font-weight: 500;" class="fs-15 text--dark-hover text-dark text-decoration-none mb-1 d-inline-block">${item.product_name}</a>
+                            <p class="color--light--no-hover mb-2">$${item.product_price}</p>
+                            <p class="color--light--no-hover mb-1">June 6, 2023</p>
+                        </div>                              
+                    </td>
+                    <td>
+                        <div class="d-flex justify-content-center flex-column h-100">
+                            <p class="color--light--no-hover mb-2">In Stock</p>
+                            <a href="#" style="font-weight: 500;" data-bs-target="#modalCart" data-bs-toggle="modal" data-id="${item.product_id}" class="add-to-cart text--dark-hover text-dark text-decoration-none">Add to cart</a>
+                        </div>
+                    </td>
+                </tr>
+            `
+        })
+        $('#tbody_wishlist').append(html.join(""));
+        var cartQuantify = 0;
+        for(const item of wishlist) {
+            cartQuantify += 1;
+        }
+        $('#wishlistQuantify').html(`${cartQuantify}`);
+        $('.wishlistQuantify').html(`${cartQuantify}`);
+    }
+    
     function updateCart() {
         var total = 0;
         for(const cartItem of $('.cart--items')) {

@@ -8,10 +8,10 @@
 {{#if session.user}}
 <input type="hidden" name="" value="{{session.user._id}}" id="userIdCart">
 <input type="hidden" name="" value="{{cartQuantity}}" id="cartQuantify">
-
 {{/if}}
 <div class="container mt-5 pb-5">
     <div class="pt-4">
+        {{#if session.user}}
         {{#if session.carts}}
         <div id="cart__content" class="row mb-5">
             <div class="col-9">
@@ -102,9 +102,9 @@
                 </div>
             </div>
         </div>
-        {{#isZero cartQuantity}}
+        {{else}}
         <p class="fs-13 color--primary mb-2">Your cart is currently empty.</p>
-        {{/isZero}}
+        {{/if}}
         {{else}}
         <div id="cart__content" class="row mb-5">
             <div class="col-9">
@@ -145,7 +145,7 @@
         </div>
         {{/if}}
         <p id="no-product" class="fs-13 color--primary mb-2 d-none">Your cart is currently empty.</p>
-        <a href="/" class="fw-bold text-decoration-none text-dark text--dark-hover">Return to shop</a>
+        <a href="/shop" class="fw-bold text-decoration-none text-dark text--dark-hover">Return to shop</a>
     </div>  
 </div>
 <script>

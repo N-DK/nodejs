@@ -6,7 +6,9 @@ const myAccountController = require('./myAccount');
 const cartController = require('./cart');
 const shopController = require('./shop');
 const checkoutController = require('./checkout');
+const wishlistController = require('./wishlist')
 const Cart = require('../app/modules/Cart');
+const Wishlist = require('../app/modules/Wishlist');
 const Order = require('../app/modules/Orders');
 const Products = require('../app/modules/Products');
 const { order } = require('../app/controllers/CheckoutController');
@@ -44,6 +46,17 @@ function route(app) {
 
     app.use(function(req, res, next) {
         if(req.session.user) {
+            Wishlist.find({user_id: req.session.user._id})
+                .then(wishlist => req.session.wishlist = wishlist.map(item => item.toObject()))
+                .catch(next);
+            next();
+        } else {
+            next();
+        }
+    })
+
+    app.use(function(req, res, next) {
+        if(req.session.user) {
             Order.find({user_id: req.session.user._id})
                 .then(orders => req.session.orders = orders.map(order => order.toObject()))
                 .catch(next);
@@ -67,6 +80,7 @@ function route(app) {
         next();
     });
 
+    app.use('/wishlist', wishlistController);
     app.use('/checkout', checkoutController);
     app.use('/shop', shopController);
     app.use('/cart', cartController);

@@ -1,3 +1,6 @@
+{{#if session.user}}
+<input type="hidden" name="" id="userIdWishlist" value="{{session.user._id}}">
+{{/if}}
 <div class="d-block text-center page-header">
     <h1 style="font-size: 55px;" class="font--primary text-white">Wishlist</h1>
     <div class="router--detail color--white--no-hover pb-4 text-center pt-4">
@@ -7,75 +10,129 @@
 </div>
 <div class="container mt-5 pb-5">
     <div class="pt-4">
-        <p class="color--light--no-hover mb-4 d-none">There are no products on the wishlist!</p>
+        {{#if session.user}}
+        {{#if session.wishlist}}
         <ul class="p-0 border--primary wishlist__list mb-4">
-            <li class="wishlist__items">   
+            {{#each session.wishlist}}
+            <li class="wishlist--items" data-id="{{this.product_id}}">   
                 <div class="wishlist">
                     <div class="row">
                         <div class="col-8">
                             <div class="wishlist__product d-flex align-items-center border-right-primary pt-3 pb-3">
                                 <div class="wishlist__product--clear ps-3 pe-3">
-                                    <i class="fa-solid fa-xmark"></i>
+                                    <i class="fa-solid fa-xmark" data-id="{{this.product_id}}"></i>
                                 </div>
                                 <div class="wishlist__product--img me-3">
                                     <a href="#">
-                                        <img width="80px" height="80px" src="/img/product-1.jpg" alt="">
+                                        <img width="80px" height="80px" src="{{this.product_image}}" alt="">
                                     </a>
                                 </div>
                                 <div class="wishlist__product--content">
-                                    <a href="#" class="text--dark-hover text-dark text-decoration-none mb-1 d-inline-block">Terrazzo Florals Grey (Ob16Tz01)</a>
-                                    <p class="color--light--no-hover mb-1">$550</p>
-                                    <p class="color--light--no-hover mb-1">June 6, 2023</p>
+                                    <a href="#" class="text--dark-hover text-dark text-decoration-none mb-1 d-inline-block">{{this.product_name}}</a>
+                                    <p class="color--light--no-hover mb-1">${{this.product_price}}</p>
+                                    <p class="color--light--no-hover mb-1">{{formatDate this.createdAt}}</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="ps-3 d-flex justify-content-center flex-column h-100">
                                 <p class="color--light--no-hover mb-2">In Stock</p>
-                                <a href="#" class="text--dark-hover text-dark text-decoration-none text-uppercase">add to cart</a>
+                                <a href="#" data-id="{{this.product_id}}" data-bs-target="#modalCart" data-bs-toggle="modal" class="add-to-cart text--dark-hover text-dark text-decoration-none text-uppercase">add to cart</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </li>
-            <li class="wishlist__items">   
-                <div class="wishlist">
-                    <div class="row">
-                        <div class="col-8">
-                            <div class="wishlist__product d-flex align-items-center border-right-primary pt-3 pb-3">
-                                <div class="wishlist__product--clear ps-3 pe-3">
-                                    <i class="fa-solid fa-xmark"></i>
-                                </div>
-                                <div class="wishlist__product--img me-3">
-                                    <a href="#">
-                                        <img width="80px" height="80px" src="/img/product-1.jpg" alt="">
-                                    </a>
-                                </div>
-                                <div class="wishlist__product--content">
-                                    <a href="#" class="text--dark-hover text-dark text-decoration-none mb-1 d-inline-block">Terrazzo Florals Grey (Ob16Tz01)</a>
-                                    <p class="color--light--no-hover mb-1">$550</p>
-                                    <p class="color--light--no-hover mb-1">June 6, 2023</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="ps-3 d-flex justify-content-center flex-column h-100">
-                                <p class="color--light--no-hover mb-2">In Stock</p>
-                                <a href="#" class="text--dark-hover text-dark text-decoration-none text-uppercase">add to cart</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </li>
+            {{/each}}
         </ul>
-        <div class="link d-flex align-items-center">
-            <span class=" d-inline-block me-3">Wishlist link: </span>
-            <div style="width: 630px; height: 50px" class="d-flex overflow-hidden">
-                <div class="border--primary w-75 d-flex align-items-center pe-4 ps-4">
-                    <span class="d-flex algin-items-center lh-1" >http://localhost:3000/wishlist</span>
-                </div>
-                <button type="submit" class=" flex-grow-1 btn--primary btn--light text-white text-uppercase border-0 pt-2 pb-2">copy</button>
-            </div>
-        </div>
+        <p class="color--light--no-hover mb-5 no-wishlist d-none">There are no products on the wishlist!</p>
+        {{else}}
+        <p class="color--light--no-hover mb-5">There are no products on the wishlist!</p>
+        {{/if}}
+        {{else}}
+        <ul class="p-0 border--primary wishlist__list mb-4"></ul>
+        <p class="color--light--no-hover mb-5 no-wishlist d-none">There are no products on the wishlist!</p>
+        {{/if}}
     </div>
 </div>
+<script>
+    if($('#userIdWishlist').val() === undefined) {
+        const wishlist = JSON.parse(localStorage.getItem('wishlist')) ?? [];
+        renderWishlist(wishlist);
+    }
+
+    $(document).on('click', '.wishlist__product--clear', (e) => {
+        var product_id = $(e.target).data('id');
+        for(const wishlistItems of $('.wishlist--items')) {
+            if(wishlistItems.dataset.id === product_id) {
+                wishlistItems.remove();
+                $('#wishlistQuantify').html(`${parseInt($('#wishlistQuantify').text()) - 1}`);
+                $('.wishlistQuantify').html(`${parseInt($('.wishlistQuantify').text()) - 1}`);
+            }
+        }
+        if($('.wishlist--items').length == 0) {
+            $('.wishlist__list').addClass('d-none');
+            $('.no-wishlist').removeClass('d-none');
+        }
+        if($('#userId').val() === undefined) {
+            var wishlist = JSON.parse(localStorage.getItem('wishlist')) ?? [];
+            var indexCartItems = wishlist.findIndex((item) => item.product_id == product_id);
+            if(indexCartItems > -1) {
+                wishlist.splice(indexCartItems, 1);
+            }
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        } else {
+            $.ajax({
+                url: '/wishlist/delete/' + product_id,
+                type: 'DELETE',
+            })
+        }
+    })
+
+    function renderWishlist(wishlist) {
+        if(wishlist.length == 0) {
+            $('.wishlist__list').addClass('d-none');
+            $('.no-wishlist').removeClass('d-none');
+        }
+        const html = wishlist.map(item => {
+            return `
+                <li class="wishlist__items" data-id="${item.product_id}">   
+                    <div class="wishlist">
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="wishlist__product d-flex align-items-center border-right-primary pt-3 pb-3">
+                                    <div class="wishlist__product--clear ps-3 pe-3">
+                                        <i class="fa-solid fa-xmark" data-id="${item.product_id}"></i>
+                                    </div>
+                                    <div class="wishlist__product--img me-3">
+                                        <a href="#">
+                                            <img width="80px" height="80px" src="/img/product-1.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="wishlist__product--content">
+                                        <a href="#" class="text--dark-hover text-dark text-decoration-none mb-1 d-inline-block">Terrazzo Florals Grey (Ob16Tz01)</a>
+                                        <p class="color--light--no-hover mb-1">$550</p>
+                                        <p class="color--light--no-hover mb-1">June 6, 2023</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="ps-3 d-flex justify-content-center flex-column h-100">
+                                    <p class="color--light--no-hover mb-2">In Stock</p>
+                                    <a href="#" data-id="{{this.product_id}}" data-bs-target="#modalCart" data-bs-toggle="modal" class="add-to-cart text--dark-hover text-dark text-decoration-none text-uppercase">add to cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            `
+        })
+        $('.wishlist__list').append(html.join(""));
+        var cartQuantify = 0;
+        for(const item of wishlist) {
+            cartQuantify += 1;
+        }
+        $('#wishlistQuantify').html(`${cartQuantify}`);
+        $('.wishlistQuantify').html(`${cartQuantify}`);
+    }
+</script>

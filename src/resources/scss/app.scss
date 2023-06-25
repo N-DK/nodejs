@@ -342,12 +342,14 @@ body {
     border-bottom: 1px solid #e4e4e4;
 }
 
-.modal.fade .modal-dialog {
+#modalAccount.modal.fade .modal-dialog,
+#modalCart.modal.fade .modal-dialog {
     transition: transform .3s ease-out;
     transform: translate(100%, 0px);
 }
 
-.modal.show .modal-dialog {
+#modalAccount.modal.show .modal-dialog,
+#modalCart.modal.show .modal-dialog {
     transform: translate(0%, 0px);
 }
 
@@ -679,4 +681,10 @@ label.error.fail-alert {
 
 .order__container {
     width: 770px;
+}
+
+#wishlist-table {
+    td {
+        vertical-align: middle;
+    }
 }

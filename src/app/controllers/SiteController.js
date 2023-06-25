@@ -22,11 +22,6 @@ class SiteController {
         res.render('contact');
     }
 
-    //[GET] /wishlist
-    wishlist(req, res) {
-        res.render('wishlist');
-    }
-
     //[GET] /checkout
     checkout(req, res, next) {
         res.render("checkout");
