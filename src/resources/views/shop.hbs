@@ -78,8 +78,8 @@
                                             </a>
                                         </li>
                                         <li class="nth-3 bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
-                                            <a class="text-dark" href="#">
-                                                <i class="fa-solid fa-eye"></i>
+                                            <a class="text-dark btn-open-view" data-bs-toggle="modal" data-bs-target="#modalView" href="#">
+                                                <i class="fa-solid fa-eye" data-id="{{this._id}}"></i>
                                             </a>
                                         </li>
                                     </ul>
@@ -101,7 +101,7 @@
                                     <p class="text-center">
                                         <span class="pe-1 fs-5 fw-bold product--price">${{calcCurrentPrice this.cost this.discount}}</span>
                                         {{#isPositive this.discount}}
-                                        <span><del>${{this.cost}}</del></span>
+                                        <span class="product--cost"><del>${{this.cost}}</del></span>
                                         {{/isPositive}}
                                     </p>
                                 </div>
@@ -128,7 +128,19 @@
         var total = 0;
         var isFound = false;
         var product_id = $(e.target).data('id');
-        if($(e.target)[0].nodeName.toLowerCase() == "button") {
+        if($('input[name=quantify]').val() === undefined) {
+            var quantify = 1;
+        } else {
+            var quantify = parseInt($('input[name=quantify]').val());
+        }
+        if($(e.target).attr('id') === 'addCartModalView') {
+            console.log("addCartModalView");
+            var product_name = $(e.target).parent().parent().parent().parent().children("h1.product--name").text();
+            var product_price = parseInt(($(e.target).parent().parent().parent().parent().children("p.router--priceContainer").children("span#price").text()).replace("$", ""));
+            var product_image = $(e.target).parent().parent().parent().parent().parent().children().children().children("img").attr("src");
+            $('#modalView').modal('hide');
+        }
+        else if($(e.target)[0].nodeName.toLowerCase() == "button") {
             console.log("button");
             var product_name = $(e.target).parent().parent().children("div.product--content").children("a.product--desc").text();
             var product_price = parseInt(($(e.target).parent().parent().children("div.product--content").children("p").children("span.product--price").text()).replace("$", ""));
@@ -140,11 +152,11 @@
             var product_image = $(e.target).parent().parent().parent().children("td#wishlist__img").children("div.wishlist__product--img").children("a").children("img").attr("src");
         }
         
-        $('#cartQuantity').html(`${parseInt($('#cartQuantity').text()) + 1}`);
-        $('.cartQuantity').html(`${parseInt($('.cartQuantity').text()) + 1}`);
+        $('#cartQuantity').html(`${parseInt($('#cartQuantity').text()) + quantify}`);
+        $('.cartQuantity').html(`${parseInt($('.cartQuantity').text()) + quantify}`);
         for(const cartItem of $('.cart--items')) {
             if(cartItem.dataset.id === product_id) {
-                cartItem.querySelector('.product__items--quantify').innerText = parseInt(cartItem.querySelector('.product__items--quantify').innerText) + 1;     
+                cartItem.querySelector('.product__items--quantify').innerText = parseInt(cartItem.querySelector('.product__items--quantify').innerText) + quantify;     
                 isFound = true;
             }
             total += parseInt(cartItem.querySelector('.product__items--quantify').innerText) * parseInt((cartItem.querySelector('.product__items--price').innerText).replace("$", ""));
@@ -172,7 +184,7 @@
                         <div class="product__items--content ms-3 me-4">
                             <a href="#" class="mb-2 text-decoration-none product__items--name">${product_name}</a>
                             <p class="m-0">
-                                <span class="product__items--quantify">1</span> x
+                                <span class="product__items--quantify">${quantify}</span> x
                                 <span class="product__items--price">$${product_price}</span>
                             </p>
                         </div>
@@ -192,13 +204,13 @@
                 product_image: product_image,
                 product_name: product_name,
                 product_price: product_price,
-                quantify: 1,
+                quantify: quantify,
             }
             const checkProductExist = carts.find((cart) => cart.product_name === product.product_name);
             if(checkProductExist === undefined) {
                 carts.push(product);
             }else {
-                checkProductExist.quantify += 1; 
+                checkProductExist.quantify += quantify; 
             }
             localStorage.setItem('cart', JSON.stringify(carts))
         } else {
@@ -208,7 +220,7 @@
                 data: {
                     product_id: product_id,
                     user_id: $('#user_id').val(),
-                    quantify: 1,
+                    quantify: quantify,
                     total_price: {type: Number, default: 0},
                 },
                 success: function(response) {
@@ -293,6 +305,67 @@
                 success: function(response) {
                 }
             });
+        }
+    })
+
+    $('.btn-open-view').click((e) => {
+        var product_id = $(e.target).data('id');
+        var product_name = $(e.target).parent().parent().parent().parent().parent().children("div.product--content").children("a.product--desc").text();
+        var product_price = parseInt(($(e.target).parent().parent().parent().parent().parent().children("div.product--content").children("p").children("span.product--price").text()).replace("$", ""));
+        var product_image = $(e.target).parent().parent().parent().parent().children("a").children("img").attr("src");
+        var product_label = $(e.target).parent().parent().parent().parent().children("ul.product-label").html();
+        var product_cost = ($(e.target).parent().parent().parent().parent().parent().children("div.product--content").children("p").children("span.product--cost").html()) ?? ""; 
+        if($(e.target).parent().parent().parent().parent().children("ul.product-label").children("p.label--discount").text()) {
+            var product_discount = 'Saved ' + ($(e.target).parent().parent().parent().parent().children("ul.product-label").children("p.label--discount").text()).replace("-", ""); 
+        } else {
+            var product_discount = "";
+        }
+        $('.modal__view--container').html(`
+            <div class="row">
+                <div class="col-6">
+                    <div class=" position-relative">
+                        <img class="w-100" src="${product_image}" alt="">
+                        <ul class="product-label position-absolute top-0 pt-3 start-0 ps-3">
+                            ${product_label}
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <h1 class="product--name font--primary text-uppercase fs-3 pt-2 ">${product_name}</h1>
+                    <p class="pb-3 pt-2 router--priceContainer">
+                        <span id="price" class="pe-1 fs-4 color--primary">$${product_price}</span>
+                        <span class="fs-4">${product_cost}</span>
+                        <span style="font-size: 12px;" class="ps-3 fw-bold">${product_discount}</span>
+                    </p>
+                    <div class="pt-4 pb-4 border-top-primary">
+                        <p class="product--detail__desc color--light--no-hover">Donec accumsan auctor iaculis. Sed suscipit arcu ligula, at egestas magna molestie a. Proin ac ex maximus, ultrices justo</p>
+                        <p class="color--primary fw-normal">In Stock</p>
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="form-type-number border--primary d-flex h-100 align-items-center pe-3 ps-3">
+                                    <div class="btn-minus fs-6">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </div>
+                                    <input value="1" class="w-100 h-100 border-0 text-center" id="quantity" min="1" name="quantify" type="number" />
+                                    <div class="btn-plus fs-6 ">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-9">
+                                <button type="submit" data-bs-target="#modalCart" data-bs-toggle="modal" data-id="${product_id}" id="addCartModalView" class="add-to-cart h-100 btn--primary btn--light text-white text-uppercase border-0 pt-2 pb-2 w-100">add to cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `)
+    })
+    $(document).on('click', '.btn-plus, .btn-minus',(e) => {
+        const isNegative = $(e.target).closest('.btn-minus').is('.btn-minus');
+        const input = $(e.target).closest('.form-type-number').find('input');
+        if (input.is('input')) {
+            input[0][isNegative ? 'stepDown' : 'stepUp']()
         }
     })
     
