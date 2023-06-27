@@ -103,9 +103,10 @@ body {
   font-size: 15px; }
   .btn--primary:hover {
     background-color: #212529;
-    color: white; }
+    color: white !important; }
 
 .btn--dark {
+  transition: .3s;
   background-color: #212529; }
   .btn--dark:hover {
     background-color: #b99e83; }

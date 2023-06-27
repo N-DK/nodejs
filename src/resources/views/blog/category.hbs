@@ -2,7 +2,8 @@
     <h1 style="font-size: 55px;" class="font--primary text-white">Blog</h1>
     <div class="router--detail color--white--no-hover pb-4 text-center pt-4">
         <a href="/" class="color--white text-decoration-none">Home </a>/
-        <span class="text-capitalize">Blog</span>
+        <a href="/blogs" class="color--white text-decoration-none">Blogs </a>/
+        <span class="text-capitalize">{{title}}</span>
     </div>
 </div>
 <div class="pt-4">
@@ -123,7 +124,7 @@
                             {{/each}}
                         </div>
                     </div>
-                    <div class="pagination mt-4 mb-5 d-flex justify-content-center " data-active="{{page_active}}" data-l-blogs="{{lengthArr dataBlogs}}">
+                    <div class="pagination mt-4 mb-5 d-flex justify-content-center " data-active="{{page_active}}" data-l-blogs="{{lengthArr blogs}}">
                     </div>
                 </div>
             </div>

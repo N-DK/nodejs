@@ -4,9 +4,14 @@ const { mongooseToObject, multipleMongooseToObject } = require('../../util/mongo
 class BlogsController {
 
     index(req, res, next) {
+        var per_page = req.params.per_page ?? 2;
+        var page = 1;
+        var quantifySkip = (page - 1) * parseInt(per_page);
         Blog.find({})
+            .skip(quantifySkip)
+            .limit(per_page)
             .then(blogs => {
-                res.render('blogs', {blogs: multipleMongooseToObject(blogs)})
+                res.render('blogs', {blogs: multipleMongooseToObject(blogs), page_active: page})
             })
             .catch(next);
     }
@@ -34,6 +39,28 @@ class BlogsController {
             .then(() => res.redirect('/blogs')); 
     }
 
+    // [GET] blogs/page/:page
+    changePage(req, res, next) {
+        var per_page = req.params.per_page ?? 2;
+        var page = parseInt(req.params.page);
+        var quantifySkip = (page - 1) * parseInt(per_page);
+        Blog.find({})
+            .skip(quantifySkip)
+            .limit(per_page)
+            .then(blogs => {
+                res.render('blogs', {blogs: multipleMongooseToObject(blogs), page_active: page})
+            })
+            .catch(next);
+    }
+
+    // [GET] /Blogs/category/:slug
+    category(req, res, next) {
+        Blog.find({slug_category: req.params.slug})
+            .then(blogs => {
+                res.render('blog/category', { blogs : multipleMongooseToObject(blogs), title: req.params.slug});
+            })
+            .catch(next);
+    }
 
 }
 

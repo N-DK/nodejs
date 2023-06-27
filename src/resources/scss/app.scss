@@ -137,11 +137,12 @@ body {
 
     &:hover {
         background-color: $dark-color;
-        color: $white-color;
+        color: $white-color !important;
     }
 }
 
 .btn--dark {
+    transition: .3s;
     background-color: $dark-color;
     &:hover {
         background-color: $primary-color;

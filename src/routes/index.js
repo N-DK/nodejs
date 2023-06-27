@@ -11,6 +11,7 @@ const Cart = require('../app/modules/Cart');
 const Wishlist = require('../app/modules/Wishlist');
 const Order = require('../app/modules/Orders');
 const Products = require('../app/modules/Products');
+const Blogs = require('../app/modules/Blogs');
 const { order } = require('../app/controllers/CheckoutController');
 
 function route(app) {
@@ -19,6 +20,14 @@ function route(app) {
         Products.find({})
             .then(products => {
                 res.locals.dataProduct = products.map(product => product.toObject());
+                next();
+            }).catch(next);
+    })
+
+    app.use((req, res, next) => {
+        Blogs.find({})
+            .then(blogs => {
+                res.locals.dataBlogs = blogs.map(blog => blog.toObject());
                 next();
             }).catch(next);
     })
