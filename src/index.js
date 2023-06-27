@@ -67,7 +67,8 @@ app.engine('.hbs', handlebars.engine({
       },
       limit: function(arr, limit) {
         if (!Array.isArray(arr)) { return []; }
-        return arr.slice(0, limit);
+        console.log(arr.slice(0, limit))
+        return limit >= arr.length ? arr : arr.slice(0, limit);
       },
       formatDate: function(isDate) {
         const date = new Date(isDate);

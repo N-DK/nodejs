@@ -18,7 +18,7 @@ function route(app) {
     app.use((req, res, next) => {
         Products.find({})
             .then(products => {
-                res.locals.dataProduct = products;
+                res.locals.dataProduct = products.map(product => product.toObject());
                 next();
             }).catch(next);
     })

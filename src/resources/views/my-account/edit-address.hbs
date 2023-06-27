@@ -63,22 +63,43 @@
             </form>
         </div>
         <div class="col-9">
-            <p class="color--light--no-hover fs-15">The following addresses will be used on the checkout page by default.</p>
-            <div>
-                <h3 class="font--primary mb-4">Shipping address</h3>
-                {{#if session.user.address}}
-                <ul class="p-0 m-0">
-                    <a href="/my-account/address/edit-address" class="text-dark text--dark-hover text-decoration-none d-block">Edit</a>
-                    <li class="color--light--no-hover"><i>{{session.user.first_name}} {{session.user.last_name}}</i></li>
-                    <li class="color--light--no-hover"><i>{{session.user.address.street_address}}</i></li>
-                    <li class="color--light--no-hover"><i>{{session.user.address.zip_code}}</i></li>
-                    <li class="color--light--no-hover"><i>{{session.user.address.city}}</i></li>
-                </ul>
-                {{else}}
-                <a href="/my-account/address/edit-address" class="text-dark text--dark-hover text-decoration-none d-block">Add</a>
-                <span class="color--light--no-hover"><i>You have not set up this type of address yet.</i></span>
-                {{/if}}
-            </div>
+            <form action="/my-account/edit-address/{{session.user._id}}?_method=PUT" method="POST">
+                <div class="input--group row mb-4">
+                    <div class="col-6">
+                        <label for="first_name" class="form-label">First name <span class="text-danger">*</span></label>
+                        <input class="w-100" type="text" name="first_name" id="first_name" value="{{session.user.first_name}}">
+                    </div>
+                    <div class="col-6">
+                        <label for="last_name" class="form-label">Last name <span class="text-danger">*</span></label>
+                        <input class="w-100" type="text" name="last_name" id="last_name" value="{{session.user.last_name}}" >
+                    </div>
+                </div>
+                <div class="input--group mb-4">
+                    <label for="company_name" class="form-label">Company name (optional)</label>
+                    <input class="w-100" type="text" name="company_name" id="company_name" value="{{session.user.address.company_name}}">
+                </div>
+                <div class="input--group mb-4">
+                    <label for="street_address" class="form-label">Street address <span class="text-danger">*</span></label>
+                    <input class="w-100" value="{{session.user.address.street_address}}" type="text" name="street_address" id="street_address" placeholder="House number and street name">
+                </div>
+                <div class="input--group mb-4">
+                    <label for="city" class="form-label">Town / City <span class="text-danger">*</span></label>
+                    <input class="w-100" type="text" name="city" id="city" value="{{session.user.address.city}}">
+                </div>
+                <div class="input--group mb-4">
+                    <label for="zip_code" class="form-label">ZIP Code <span class="text-danger">*</span></label>
+                    <input class="w-100" type="text" name="zip_code" id="zip_code" value="{{session.user.address.zip_code}}">
+                </div>
+                <div class="input--group mb-4">
+                    <label for="phone" class="form-label">Phone <span class="text-danger">*</span></label>
+                    <input class="w-100" type="text" name="phone" id="phone" value="{{session.user.address.phone}}">
+                </div>
+                <div class="input--group mb-4">
+                    <label for="email" class="form-label">Email address <span class="text-danger">*</span></label>
+                    <input class="w-100" type="text" name="email" id="email" value="{{session.user.email}}">
+                </div>
+                <button type="submit" class="btn--primary btn--light text-white border-0 pt-2 pb-2 pe-4 ps-4 mt-3">Save address</button>
+            </form>
         </div>
     </div>
     {{/if}}

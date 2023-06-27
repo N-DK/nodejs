@@ -14,12 +14,12 @@
         {{#if session.wishlist}}
         <ul class="p-0 border--primary wishlist__list mb-4">
             {{#each session.wishlist}}
-            <li class="wishlist--items" data-id="{{this.product_id}}">   
+            <li class="wishlist__items" data-id="{{this.product_id}}">   
                 <div class="wishlist">
                     <div class="row">
                         <div class="col-8">
                             <div class="wishlist__product d-flex align-items-center border-right-primary pt-3 pb-3">
-                                <div class="wishlist__product--clear ps-3 pe-3">
+                                <div class="wishlist--clear ps-3 pe-3">
                                     <i class="fa-solid fa-xmark" data-id="{{this.product_id}}"></i>
                                 </div>
                                 <div class="wishlist__product--img me-3">
@@ -28,8 +28,8 @@
                                     </a>
                                 </div>
                                 <div class="wishlist__product--content">
-                                    <a href="#" class="text--dark-hover text-dark text-decoration-none mb-1 d-inline-block">{{this.product_name}}</a>
-                                    <p class="color--light--no-hover mb-1">${{this.product_price}}</p>
+                                    <a href="#" class="wishlist__product--content-name text--dark-hover text-dark text-decoration-none mb-1 d-inline-block">{{this.product_name}}</a>
+                                    <p class=" wishlist__product--content-price color--light--no-hover mb-1">${{this.product_price}}</p>
                                     <p class="color--light--no-hover mb-1">{{formatDate this.createdAt}}</p>
                                 </div>
                             </div>
@@ -61,20 +61,20 @@
         renderWishlist(wishlist);
     }
 
-    $(document).on('click', '.wishlist__product--clear', (e) => {
+    $(document).on('click', '.wishlist--clear', (e) => {
         var product_id = $(e.target).data('id');
-        for(const wishlistItems of $('.wishlist--items')) {
+        for(const wishlistItems of $('.wishlist__items')) {
             if(wishlistItems.dataset.id === product_id) {
                 wishlistItems.remove();
                 $('#wishlistQuantify').html(`${parseInt($('#wishlistQuantify').text()) - 1}`);
                 $('.wishlistQuantify').html(`${parseInt($('.wishlistQuantify').text()) - 1}`);
             }
         }
-        if($('.wishlist--items').length == 0) {
+        if($('.wishlist__items').length == 0) {
             $('.wishlist__list').addClass('d-none');
             $('.no-wishlist').removeClass('d-none');
         }
-        if($('#userId').val() === undefined) {
+        if($('#userIdWishlist').val() === undefined) {
             var wishlist = JSON.parse(localStorage.getItem('wishlist')) ?? [];
             var indexCartItems = wishlist.findIndex((item) => item.product_id == product_id);
             if(indexCartItems > -1) {
@@ -84,10 +84,104 @@
         } else {
             $.ajax({
                 url: '/wishlist/delete/' + product_id,
+                data: {
+                    user_id: $('#userIdWishlist').val(),
+                },
                 type: 'DELETE',
             })
         }
     })
+
+    $(document).on('click', '.add-to-cart', (e) => {
+        if($( "#cart--container" ).hasClass("d-none")) {
+            $('#cart--container').removeClass("d-none");
+        }
+        if($('#cart-noProduct_1').length === 1) {
+            $('#cart-noProduct_1').addClass("d-none");
+        }
+        var total = 0;
+        var isFound = false;
+        var product_id = $(e.target).data('id');
+        var product_name = $(e.target).parent().parent().parent().children().children("div.wishlist__product").children("div.wishlist__product--content").children("a.wishlist__product--content-name").text();
+        var product_price = parseInt(($(e.target).parent().parent().parent().children().children("div.wishlist__product").children("div.wishlist__product--content").children("p.wishlist__product--content-price").text()).replace("$", ""));
+        var product_image = $(e.target).parent().parent().parent().children().children("div.wishlist__product").children("div.wishlist__product--img").children("a").children("img").attr("src")
+        
+        $('#cartQuantity').html(`${parseInt($('#cartQuantity').text()) + 1}`);
+        $('.cartQuantity').html(`${parseInt($('.cartQuantity').text()) + 1}`);
+        for(const cartItem of $('.cart--items')) {
+            if(cartItem.dataset.id === product_id) {
+                cartItem.querySelector('.product__items--quantify').innerText = parseInt(cartItem.querySelector('.product__items--quantify').innerText) + 1;     
+                isFound = true;
+            }
+            total += parseInt(cartItem.querySelector('.product__items--quantify').innerText) * parseInt((cartItem.querySelector('.product__items--price').innerText).replace("$", ""));
+        }
+        if(!isFound) {
+            if($('.cart--list').length === 0) {
+                $('#cart--container').append(`
+                    <ul id="scroll-custom" style="overflow-y: overlay;" class="p-0 m-0 flex-grow-1 cart--list"></ul>
+                    <div class="pt-4 w-100 border-top-primary cart--submit border-bottom-primary pb-4">
+                            <p class="d-flex justify-content-between align-items-center">
+                                <span>Subtotal:</span>
+                                <span class=" fw-bold" id="subTotal">${{calcTotal session.carts}}</span>
+                            </p>    
+                            <a href="/checkout" class="d-block text-center text-decoration-none btn--primary btn--light text-white text-uppercase border-0 pt-2 pb-2 w-100 mb-2">Check out</a>
+                            <a class="text-center w-100 d-block color--light" href="/cart">View cart</a>
+                    </div>
+                `);
+            }
+            $('.cart--list').append(`
+                <li class="pb-4 cart--items" data-id="${product_id}">
+                    <div class="product__items d-flex align-items-center position-relative overflow-hidden">
+                        <div class="product__items--img">
+                            <img class="w-100 h-100" src="${product_image}" alt="">
+                        </div>
+                        <div class="product__items--content ms-3 me-4">
+                            <a href="#" class="mb-2 text-decoration-none product__items--name">${product_name}</a>
+                            <p class="m-0">
+                                <span class="product__items--quantify">1</span> x
+                                <span class="product__items--price">$${product_price}</span>
+                            </p>
+                        </div>
+                        <a class="btn-delete clear--product position-absolute top-50 end-0 color--light" href="#" >
+                            <i class="fa-regular fa-trash-can" data-id="${product_id}"></i>
+                        </a>
+                    </div>
+                </li>
+            `)
+            total += product_price;
+        }
+        $('#subTotal').html(`$${total}`);
+        if($('#user_id').val() === undefined) {
+            const carts = JSON.parse(localStorage.getItem('cart')) ?? [];
+            const product = {
+                product_id: product_id,
+                product_image: product_image,
+                product_name: product_name,
+                product_price: product_price,
+                quantify: 1,
+            }
+            const checkProductExist = carts.find((cart) => cart.product_name === product.product_name);
+            if(checkProductExist === undefined) {
+                carts.push(product);
+            }else {
+                checkProductExist.quantify += 1; 
+            }
+            localStorage.setItem('cart', JSON.stringify(carts))
+        } else {
+            $.ajax({
+                url: '/cart/add-to-cart/' + product_id,
+                type: 'POST',
+                data: {
+                    product_id: product_id,
+                    user_id: $('#user_id').val(),
+                    quantify: 1,
+                    total_price: {type: Number, default: 0},
+                },
+                success: function(response) {
+                }
+            });
+        }
+    });
 
     function renderWishlist(wishlist) {
         if(wishlist.length == 0) {
@@ -101,25 +195,25 @@
                         <div class="row">
                             <div class="col-8">
                                 <div class="wishlist__product d-flex align-items-center border-right-primary pt-3 pb-3">
-                                    <div class="wishlist__product--clear ps-3 pe-3">
+                                    <div class="wishlist--clear ps-3 pe-3">
                                         <i class="fa-solid fa-xmark" data-id="${item.product_id}"></i>
                                     </div>
                                     <div class="wishlist__product--img me-3">
                                         <a href="#">
-                                            <img width="80px" height="80px" src="/img/product-1.jpg" alt="">
+                                            <img width="80px" height="80px" src="${item.product_image}" alt="">
                                         </a>
                                     </div>
                                     <div class="wishlist__product--content">
-                                        <a href="#" class="text--dark-hover text-dark text-decoration-none mb-1 d-inline-block">Terrazzo Florals Grey (Ob16Tz01)</a>
-                                        <p class="color--light--no-hover mb-1">$550</p>
-                                        <p class="color--light--no-hover mb-1">June 6, 2023</p>
+                                        <a href="#" class="wishlist__product--content-name text--dark-hover text-dark text-decoration-none mb-1 d-inline-block">${item.product_name}</a>
+                                        <p class=" wishlist__product--content-price color--light--no-hover mb-1">$${item.product_price}</p>
+                                        <p class="color--light--no-hover mb-1">${item.createAt}</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="ps-3 d-flex justify-content-center flex-column h-100">
                                     <p class="color--light--no-hover mb-2">In Stock</p>
-                                    <a href="#" data-id="{{this.product_id}}" data-bs-target="#modalCart" data-bs-toggle="modal" class="add-to-cart text--dark-hover text-dark text-decoration-none text-uppercase">add to cart</a>
+                                    <a href="#" data-id="${item.product_id}" data-bs-target="#modalCart" data-bs-toggle="modal" class="add-to-cart text--dark-hover text-dark text-decoration-none text-uppercase">add to cart</a>
                                 </div>
                             </div>
                         </div>

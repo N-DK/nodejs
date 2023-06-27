@@ -127,21 +127,21 @@
                                 {{#each session.wishlist}}
                                 <tr class="wishlist--items" data-id="{{this.product_id}}">
                                     <td class="text-center"> 
-                                        <div class="wishlist__product--clear">
+                                        <div class="wishlist__product--clear" data-id="{{this.product_id}}">
                                             <i class="fa-solid fa-xmark" data-id="{{this.product_id}}"></i>
                                         </div>
                                     </td>
-                                    <td class="text-center">
+                                    <td id="wishlist__img" class="text-center">
                                         <div class="wishlist__product--img">
                                             <a href="#">
                                                 <img width="80px" height="80px" src="{{this.product_image}}" alt="">
                                             </a>
                                         </div>
                                     </td>
-                                    <td>
+                                    <td id="wishlist__content">
                                         <div class="wishlist__product--content fs-15">
-                                            <a href="/product/{{this.product_slug}}" style="font-weight: 500;" class="fs-15 text--dark-hover text-dark text-decoration-none mb-1 d-inline-block">{{this.product_name}}</a>
-                                            <p class="color--light--no-hover mb-2">${{this.product_price}}</p>
+                                            <a href="/product/{{this.product_slug}}" style="font-weight: 500;" class="wishlist__product--content-name fs-15 text--dark-hover text-dark text-decoration-none mb-1 d-inline-block">{{this.product_name}}</a>
+                                            <p class="color--light--no-hover mb-2 wishlist__product--content-price">${{this.product_price}}</p>
                                             <p class="color--light--no-hover mb-1">{{formatDate this.createdAt}}</p>
                                         </div>                              
                                     </td>
@@ -155,6 +155,7 @@
                                 {{/each}}
                             </tbody>
                         </table>
+                        <p class="text-center pb-5 pt-3 no-wishlist color--light--no-hover d-none">There are no products on the wishlist!</p>
                         {{else}}
                             <table id="wishlist-table" class="table table-bordered m-0 table-striped">
                                 <tbody id="tbody_wishlist"></tbody>
@@ -231,6 +232,9 @@
         } else {
             $.ajax({
                 url: '/wishlist/delete/' + product_id,
+                data: {
+                    user_id: $('#user_id').val(),
+                },
                 type: 'DELETE',
             })
         }
@@ -290,14 +294,14 @@
                             <i class="fa-solid fa-xmark" data-id="${item.product_id}"></i>
                         </div>
                     </td>
-                    <td class="text-center">
+                    <td id="wishlist__img" class="text-center">
                         <div class="wishlist__product--img">
                             <a href="#">
                                 <img width="80px" height="80px" src="${item.product_image}" alt="">
                             </a>
                         </div>
                     </td>
-                    <td>
+                    <td id="wishlist__content">
                         <div class="wishlist__product--content fs-15">
                             <a href="/product/${item.product_slug}" style="font-weight: 500;" class="fs-15 text--dark-hover text-dark text-decoration-none mb-1 d-inline-block">${item.product_name}</a>
                             <p class="color--light--no-hover mb-2">$${item.product_price}</p>
@@ -332,5 +336,15 @@
             $('#cart--container').addClass("d-none");
             $('#cart-noProduct').removeClass("d-none");
         }
+    }
+
+    function create() {
+        const date = new Date();
+        const options = {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        };
+        return date.toLocaleDateString('en-US', options);
     }
 </script>

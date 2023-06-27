@@ -99,6 +99,15 @@ class MyAccountController {
         }
     }
 
+    // [GET] /my-account/address/edit-address
+    editAddress(req, res, next) {
+        if(req.session.user) {
+            res.render('my-account/edit-address')
+        } else {
+            res.render('my-account/edit-address', {isNotSession: true})
+        }
+    }
+
     // [GET] /my-account/edit-account
     editAccount(req, res, next) {
         if(!req.session.user) {
@@ -119,7 +128,6 @@ class MyAccountController {
                     req.body.password = user.password;
                 }
                 await User.updateOne({_id: req.params.id}, req.body)
-                    .then(user => console.log(user));
             })
             .then(() => {
                 req.session.user.first_name = req.body.first_name;
@@ -127,6 +135,26 @@ class MyAccountController {
                 req.session.user.display_name = req.body.display_name;
                 return res.redirect('/my-account');
             })
+            .catch(next);
+    }
+
+    // [PUT] /my-account/edit-address/:id 
+    updateAddress(req, res, next) {
+        var address = {
+            zip_code: req.body.zip_code,
+            phone: req.body.phone,
+            street_address: req.body.street_address,
+            company_name: req.body.company_name,
+            city: req.body.city ?? "",
+        }
+        User.find({_id: req.params.id})
+            .then(async () => {
+                await User.updateOne({_id: req.params.id}, {address: address})
+                    .then(() => {
+                        req.session.user.address = address
+                        return res.redirect('/my-account/address');
+                    })
+            })  
             .catch(next);
     }
 

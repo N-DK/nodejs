@@ -42,7 +42,7 @@ class CartController {
 
     // [DELETE] /wishlist/delete/:id
     destroy(req, res, next) {
-        Wishlist.deleteOne({product_id: req.params.id})
+        Wishlist.deleteOne({product_id: req.params.id, user_id: req.body.user_id})
             .then(() => res.redirect('back'))
             .catch(next);
     }

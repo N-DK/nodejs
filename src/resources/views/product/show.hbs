@@ -5,7 +5,6 @@
                 <img class="w-100" src="{{product.image}}" alt="">
             </div>
         </div>
-        {{!-- parent: 1 1 1 1 children children--}}
         <div class="col-5">
             <div class="router--detail color--light--no-hover pb-4">
                 <a href="/" class="color--light text-decoration-none">Home </a>/
@@ -62,8 +61,8 @@
                     </div>
                 </div>
                 {{/if}}
-                <a href="#" class="color--light text-decoration-none text-uppercase mt-4 d-inline-block">
-                    <i class="fa-regular fa-heart"></i>
+                <a href="#" data-id="{{product._id}}" data-bs-target="#ModalWishlist" data-bs-toggle="modal" class="add-to-wishlist color--light text-decoration-none text-uppercase mt-4 d-inline-block">
+                    <i class="fa-regular fa-heart" data-id="{{product._id}}"></i>
                     add to wishlist
                 </a>
             </div>
@@ -325,8 +324,8 @@
         </div>    
         <div class="populated--container container">
             <ul class="product--list row p-0">
-                {{!-- {{#each products}}
-                <li class="product--items col-4">
+                {{#each (limit dataProduct 4)}}
+                <li class="product--items col-3">
                     <div class="product">
                         <a class="" href="/product/{{this.slug}}">
                             <div class="position-relative overflow-hidden">
@@ -373,171 +372,7 @@
                         </div>
                     </div>
                 </li>
-                {{/each}} --}}
-                <li class="product--items col-3">
-                    <div class="product">
-                        <a class="" href="#">
-                            <div class="position-relative overflow-hidden">
-                                <img class="w-100 h-100" src="/img/product-1.jpg" alt="">
-                                <button class="position-absolute start-50 bottom-0 mb-4 pt-3 pb-3 btn--primary text-uppercase border-0">add to cart</button>
-                                <ul class="product-action position-absolute top-0 pt-3 end-0 pe-3">
-                                    <li class="bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
-                                        <a class="text-dark" href="#">
-                                            <i class="fa-regular fa-heart"></i>
-                                        </a>
-                                    </li>
-                                    <li class="nth-2 bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
-                                        <a class="text-dark rotate-90" href="#">
-                                            <i class="fa-solid fa-arrow-right-arrow-left "></i>
-
-                                        </a>
-                                    </li>
-                                    <li class="nth-3 bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
-                                        <a class="text-dark" href="#">
-                                            <i class="fa-solid fa-eye"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                                <ul class="product-label position-absolute top-0 pt-3 start-0 ps-3">
-                                    <p class="label label--discount text-uppercase">-32%</p>
-                                    <p class="label label--hot text-uppercase">hot</p>
-                                    <p class="label label--new text-uppercase">new</p>
-                                </ul>
-                            </div>
-                        </a>
-                        <div class="product--content pt-4">
-                            <h6 class="product--name text-uppercase text-center">Cocomi</h6>
-                            <a href="#" class="product--desc text-uppercase text-center">Cocomi</a>
-                            <p class="text-center">
-                                <span class="pe-1 fs-5 fw-bold">$225</span>
-                                <span><del>$325</del></span>
-                            </p>
-                        </div>
-                    </div>
-                </li>
-                <li class="product--items col-3">
-                    <div class="product">
-                        <a class="" href="#">
-                            <div class="position-relative overflow-hidden">
-                                <img class="w-100 h-100" src="/img/product-1.jpg" alt="">
-                                <button class="position-absolute start-50 bottom-0 mb-4 pt-3 pb-3 btn--primary text-uppercase border-0">add to cart</button>
-                                <ul class="product-action position-absolute top-0 pt-3 end-0 pe-3">
-                                    <li class="bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
-                                        <a class="text-dark" href="#">
-                                            <i class="fa-regular fa-heart"></i>
-                                        </a>
-                                    </li>
-                                    <li class="nth-2 bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
-                                        <a class="text-dark rotate-90" href="#">
-                                            <i class="fa-solid fa-arrow-right-arrow-left "></i>
-
-                                        </a>
-                                    </li>
-                                    <li class="nth-3 bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
-                                        <a class="text-dark" href="#">
-                                            <i class="fa-solid fa-eye"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                                <ul class="product-label position-absolute top-0 pt-3 start-0 ps-3">
-                                    <p class="label label--discount text-uppercase">-32%</p>
-                                    <p class="label label--hot text-uppercase">hot</p>
-                                    <p class="label label--new text-uppercase">new</p>
-                                </ul>
-                            </div>
-                        </a>
-                        <div class="product--content pt-4">
-                            <h6 class="product--name text-uppercase text-center">Cocomi</h6>
-                            <a href="#" class="product--desc text-uppercase text-center">Cocomi</a>
-                            <p class="text-center">
-                                <span class="pe-1 fs-5 fw-bold">$225</span>
-                                <span><del>$325</del></span>
-                            </p>
-                        </div>
-                    </div>
-                </li>
-                <li class="product--items col-3">
-                    <div class="product">
-                        <a class="" href="#">
-                            <div class="position-relative overflow-hidden">
-                                <img class="w-100 h-100" src="/img/product-1.jpg" alt="">
-                                <button class="position-absolute start-50 bottom-0 mb-4 pt-3 pb-3 btn--primary text-uppercase border-0">add to cart</button>
-                                <ul class="product-action position-absolute top-0 pt-3 end-0 pe-3">
-                                    <li class="bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
-                                        <a class="text-dark" href="#">
-                                            <i class="fa-regular fa-heart"></i>
-                                        </a>
-                                    </li>
-                                    <li class="nth-2 bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
-                                        <a class="text-dark rotate-90" href="#">
-                                            <i class="fa-solid fa-arrow-right-arrow-left "></i>
-
-                                        </a>
-                                    </li>
-                                    <li class="nth-3 bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
-                                        <a class="text-dark" href="#">
-                                            <i class="fa-solid fa-eye"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                                <ul class="product-label position-absolute top-0 pt-3 start-0 ps-3">
-                                    <p class="label label--discount text-uppercase">-32%</p>
-                                    <p class="label label--hot text-uppercase">hot</p>
-                                    <p class="label label--new text-uppercase">new</p>
-                                </ul>
-                            </div>
-                        </a>
-                        <div class="product--content pt-4">
-                            <h6 class="product--name text-uppercase text-center">Cocomi</h6>
-                            <a href="#" class="product--desc text-uppercase text-center">Cocomi</a>
-                            <p class="text-center">
-                                <span class="pe-1 fs-5 fw-bold">$225</span>
-                                <span><del>$325</del></span>
-                            </p>
-                        </div>
-                    </div>
-                </li>
-                <li class="product--items col-3">
-                    <div class="product">
-                        <a class="" href="#">
-                            <div class="position-relative overflow-hidden">
-                                <img class="w-100 h-100" src="/img/product-1.jpg" alt="">
-                                <button class="position-absolute start-50 bottom-0 mb-4 pt-3 pb-3 btn--primary text-uppercase border-0">add to cart</button>
-                                <ul class="product-action position-absolute top-0 pt-3 end-0 pe-3">
-                                    <li class="bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
-                                        <a class="text-dark" href="#">
-                                            <i class="fa-regular fa-heart"></i>
-                                        </a>
-                                    </li>
-                                    <li class="nth-2 bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
-                                        <a class="text-dark rotate-90" href="#">
-                                            <i class="fa-solid fa-arrow-right-arrow-left "></i>
-
-                                        </a>
-                                    </li>
-                                    <li class="nth-3 bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
-                                        <a class="text-dark" href="#">
-                                            <i class="fa-solid fa-eye"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                                <ul class="product-label position-absolute top-0 pt-3 start-0 ps-3">
-                                    <p class="label label--discount text-uppercase">-32%</p>
-                                    <p class="label label--hot text-uppercase">hot</p>
-                                    <p class="label label--new text-uppercase">new</p>
-                                </ul>
-                            </div>
-                        </a>
-                        <div class="product--content pt-4">
-                            <h6 class="product--name text-uppercase text-center">Cocomi</h6>
-                            <a href="#" class="product--desc text-uppercase text-center">Cocomi</a>
-                            <p class="text-center">
-                                <span class="pe-1 fs-5 fw-bold">$225</span>
-                                <span><del>$325</del></span>
-                            </p>
-                        </div>
-                    </div>
-                </li>
+                {{/each}}
             </ul>
         </div>
     </section>
@@ -585,6 +420,7 @@
     })
 
     const btnAddToCart = $('.btn-add');
+    
     if(btnAddToCart !== null) {
         btnAddToCart.click((e) => {
             if($( "#cart--container" ).hasClass("d-none")) {
@@ -662,5 +498,91 @@
             localStorage.setItem('cart', JSON.stringify(carts))
         })
     }
+
+    $('.add-to-wishlist').click((e)=> {
+        if($( "#wishlist-table" ).hasClass("d-none")) {
+            $('#wishlist-table').removeClass("d-none");
+        }
+        if($('.no-wishlist').length === 1) {
+            $('.no-wishlist').addClass("d-none");
+        }
+        var isFound = false;
+        var product_id = $(e.target).data('id');
+        if($(e.target)[0].nodeName.toLowerCase() == "i") {
+            var product_name = $(e.target).parent().parent().parent().children("div.router--detail").children("span").text();
+            var product_price = parseInt(($(e.target).parent().parent().parent().children("p.router--priceContainer").children("span#price").text()).replace("$", ""));
+            var product_image = $(e.target).parent().parent().parent().parent().children("div#img_container").children("div.product__detail--img").children("img").attr("src");
+        } else {
+            console.log($(e.target)[0].nodeName.toLowerCase());
+            var product_name = $(e.target).parent().parent().children("div.router--detail").children("span").text();
+            var product_price = parseInt(($(e.target).parent().parent().children("p.router--priceContainer").children("span#price").text()).replace("$", ""));
+            var product_image = $(e.target).parent().parent().parent().children("div#img_container").children("div.product__detail--img").children("img").attr("src");
+        }
+        var createAt = create();
+        for(const wishlistItems of $('.wishlist--items')) {
+            if(wishlistItems.dataset.id === product_id) {
+                isFound = true;
+            }
+        }
+        if(!isFound) {
+            $('#wishlistQuantify').html(`${parseInt($('#wishlistQuantify').text()) + 1}`);
+            $('.wishlistQuantify').html(`${parseInt($('.wishlistQuantify').text()) + 1}`);
+            $('#tbody_wishlist').append(`
+                <tr class="wishlist--items" data-id="${product_id}">
+                    <td class="text-center"> 
+                        <div class="wishlist__product--clear">
+                            <i class="fa-solid fa-xmark" data-id="${product_id}"></i>
+                        </div>
+                    </td>
+                    <td id="wishlist__img" class="text-center">
+                        <div class="wishlist__product--img">
+                            <a href="#">
+                                <img width="80px" height="80px" src="${product_image}" alt="">
+                            </a>
+                        </div>
+                    </td>
+                    <td id="wishlist__content">
+                        <div class="wishlist__product--content fs-15">
+                            <a href="#" style="font-weight: 500;" class="fs-15 text--dark-hover text-dark text-decoration-none mb-1 d-inline-block">${product_name}</a>
+                            <p class="color--light--no-hover mb-2">$${product_price}</p>
+                            <p class="color--light--no-hover mb-1">${createAt}</p>
+                        </div>                              
+                    </td>
+                    <td>
+                        <div class="d-flex justify-content-center flex-column h-100">
+                            <p class="color--light--no-hover mb-2">In Stock</p>
+                            <a href="#" style="font-weight: 500;" data-bs-target="#modalCart" data-bs-toggle="modal" data-id="${product_id}" class="add-to-cart text--dark-hover text-dark text-decoration-none">Add to cart</a>
+                        </div>
+                    </td>
+                </tr>
+            `)
+        }
+        if($('#user_id').val() === undefined) {
+            const wishlist = JSON.parse(localStorage.getItem('wishlist')) ?? [];
+            const product = {
+                product_id: product_id,
+                product_image: product_image,
+                product_name: product_name,
+                product_price: product_price,
+                createAt,
+            }
+            const checkProductExist = wishlist.find((item) => item.product_name === product.product_name);
+            if(checkProductExist === undefined) {
+                wishlist.push(product);
+            }
+            localStorage.setItem('wishlist', JSON.stringify(wishlist))
+        } else {
+            $.ajax({
+                url: '/wishlist/add-to-wishlist/' + product_id,
+                type: 'POST',
+                data: {
+                    product_id: product_id,
+                    user_id: $('#user_id').val(),
+                },
+                success: function(response) {
+                }
+            });
+        }
+    })
     
 </script>

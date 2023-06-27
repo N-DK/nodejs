@@ -245,7 +245,8 @@
     </div>
 </section>
 <script>
-    $(".add-to-cart").click((e) => {
+    
+    $(document).on('click', '.add-to-cart', (e) => {
         if($( "#cart--container" ).hasClass("d-none")) {
             $('#cart--container').removeClass("d-none");
         }
@@ -258,9 +259,17 @@
         var total = 0;
         var isFound = false;
         var product_id = $(e.target).data('id');
-        var product_name = $(e.target).parent().parent().children("div.product--content").children("a.product--desc").text();
-        var product_price = parseInt(($(e.target).parent().parent().children("div.product--content").children("p").children("span.product--price").text()).replace("$", ""));
-        var product_image = $(e.target).parent().children("a").children("img").attr("src");
+        if($(e.target)[0].nodeName.toLowerCase() == "button") {
+            console.log("button");
+            var product_name = $(e.target).parent().parent().children("div.product--content").children("a.product--desc").text();
+            var product_price = parseInt(($(e.target).parent().parent().children("div.product--content").children("p").children("span.product--price").text()).replace("$", ""));
+            var product_image = $(e.target).parent().children("a").children("img").attr("src");
+        } else {
+            console.log("a");
+            var product_name = $(e.target).parent().parent().parent().children("td#wishlist__content").children("div.wishlist__product--content").children("a.wishlist__product--content-name").text();
+            var product_price = parseInt(($(e.target).parent().parent().parent().children("td#wishlist__content").children("div.wishlist__product--content").children("p.wishlist__product--content-price").text()).replace("$", ""));
+            var product_image = $(e.target).parent().parent().parent().children("td#wishlist__img").children("div.wishlist__product--img").children("a").children("img").attr("src");
+        }
         $('#cartQuantity').html(`${parseInt($('#cartQuantity').text()) + 1}`);
         $('.cartQuantity').html(`${parseInt($('.cartQuantity').text()) + 1}`);
         for(const cartItem of $('.cart--items')) {
@@ -347,10 +356,10 @@
         }
         var isFound = false;
         var product_id = $(e.target).data('id');
-        console.log($(e.target));
         var product_name = $(e.target).parent().parent().parent().parent().parent().children("div.product--content").children("a.product--desc").text();
         var product_price = parseInt(($(e.target).parent().parent().parent().parent().parent().children("div.product--content").children("p").children("span.product--price").text()).replace("$", ""));
         var product_image = $(e.target).parent().parent().parent().parent().children("a").children("img").attr("src");
+        var createAt = create();
         for(const wishlistItems of $('.wishlist--items')) {
             if(wishlistItems.dataset.id === product_id) {
                 isFound = true;
@@ -366,18 +375,18 @@
                             <i class="fa-solid fa-xmark" data-id="${product_id}"></i>
                         </div>
                     </td>
-                    <td class="text-center">
+                    <td id="wishlist__img" class="text-center">
                         <div class="wishlist__product--img">
                             <a href="#">
                                 <img width="80px" height="80px" src="${product_image}" alt="">
                             </a>
                         </div>
                     </td>
-                    <td>
+                    <td id="wishlist__content">
                         <div class="wishlist__product--content fs-15">
                             <a href="#" style="font-weight: 500;" class="fs-15 text--dark-hover text-dark text-decoration-none mb-1 d-inline-block">${product_name}</a>
                             <p class="color--light--no-hover mb-2">$${product_price}</p>
-                            <p class="color--light--no-hover mb-1">{{formatDate this.createdAt}}</p>
+                            <p class="color--light--no-hover mb-1">${createAt}</p>
                         </div>                              
                     </td>
                     <td>
@@ -396,6 +405,7 @@
                 product_image: product_image,
                 product_name: product_name,
                 product_price: product_price,
+                createAt,
             }
             const checkProductExist = wishlist.find((item) => item.product_name === product.product_name);
             if(checkProductExist === undefined) {

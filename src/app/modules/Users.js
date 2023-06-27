@@ -7,6 +7,7 @@ const User = new Schema({
     first_name: {type: String, default: ""},
     display_name: {type: String, default: ""},
     last_name: {type: String, default: ""},
+    address: {type: Object, default: {}},
     email: {type: String, default: ""},
     password: {type: String, default: ""},
 }, {    

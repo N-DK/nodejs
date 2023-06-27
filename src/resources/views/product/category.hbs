@@ -67,8 +67,8 @@
                                     <button class="add-to-cart position-absolute start-50 bottom-0 mb-4 pt-3 pb-3 btn--primary text-uppercase border-0 z-n1" data-id="{{this._id}}" data-bs-target="#modalCart" data-bs-toggle="modal">add to cart</button>
                                     <ul class="product-action position-absolute top-0 pt-3 end-0 pe-3">
                                         <li class="bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
-                                            <a class="text-dark" href="#">
-                                                <i class="fa-regular fa-heart"></i>
+                                            <a class=" add-to-wishlist text-dark" href="#" data-bs-target="#ModalWishlist" data-bs-toggle="modal">
+                                                <i class="fa-regular fa-heart" data-id="{{this._id}}"></i>
                                             </a>
                                         </li>
                                         <li class="nth-2 bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
@@ -118,7 +118,7 @@
 </div>
 </div>
 <script>
-    $(".add-to-cart").click((e) => {
+    $(document).on('click', '.add-to-cart', (e) => {
         if($( "#cart--container" ).hasClass("d-none")) {
             $('#cart--container').removeClass("d-none");
         }
@@ -128,9 +128,17 @@
         var total = 0;
         var isFound = false;
         var product_id = $(e.target).data('id');
-        var product_name = $(e.target).parent().parent().children("div.product--content").children("a.product--desc").text();
-        var product_price = parseInt(($(e.target).parent().parent().children("div.product--content").children("p").children("span.product--price").text()).replace("$", ""));
-        var product_image = $(e.target).parent().children("a").children("img").attr("src");
+        if($(e.target)[0].nodeName.toLowerCase() == "button") {
+            console.log("button");
+            var product_name = $(e.target).parent().parent().children("div.product--content").children("a.product--desc").text();
+            var product_price = parseInt(($(e.target).parent().parent().children("div.product--content").children("p").children("span.product--price").text()).replace("$", ""));
+            var product_image = $(e.target).parent().children("a").children("img").attr("src");
+        } else {
+            console.log("a");
+            var product_name = $(e.target).parent().parent().parent().children("td#wishlist__content").children("div.wishlist__product--content").children("a.wishlist__product--content-name").text();
+            var product_price = parseInt(($(e.target).parent().parent().parent().children("td#wishlist__content").children("div.wishlist__product--content").children("p.wishlist__product--content-price").text()).replace("$", ""));
+            var product_image = $(e.target).parent().parent().parent().children("td#wishlist__img").children("div.wishlist__product--img").children("a").children("img").attr("src");
+        }
         $('#cartQuantity').html(`${parseInt($('#cartQuantity').text()) + 1}`);
         $('.cartQuantity').html(`${parseInt($('.cartQuantity').text()) + 1}`);
         for(const cartItem of $('.cart--items')) {
@@ -140,6 +148,7 @@
             }
             total += parseInt(cartItem.querySelector('.product__items--quantify').innerText) * parseInt((cartItem.querySelector('.product__items--price').innerText).replace("$", ""));
         }
+
         if(!isFound) {
             if($('.cart--list').length === 0) {
                 $('#cart--container').append(`
@@ -207,6 +216,86 @@
             });
         }
     });
+    
+    $('.add-to-wishlist').click((e)=> {
+        if($( "#wishlist-table" ).hasClass("d-none")) {
+            $('#wishlist-table').removeClass("d-none");
+        }
+        if($('.no-wishlist').length === 1) {
+            $('.no-wishlist').addClass("d-none");
+        }
+        var isFound = false;
+        var product_id = $(e.target).data('id');
+        var product_name = $(e.target).parent().parent().parent().parent().parent().children("div.product--content").children("a.product--desc").text();
+        var product_price = parseInt(($(e.target).parent().parent().parent().parent().parent().children("div.product--content").children("p").children("span.product--price").text()).replace("$", ""));
+        var product_image = $(e.target).parent().parent().parent().parent().children("a").children("img").attr("src");
+        var createAt = create();
+        for(const wishlistItems of $('.wishlist--items')) {
+            if(wishlistItems.dataset.id === product_id) {
+                isFound = true;
+            }
+        }
+        if(!isFound) {
+            $('#wishlistQuantify').html(`${parseInt($('#wishlistQuantify').text()) + 1}`);
+            $('.wishlistQuantify').html(`${parseInt($('.wishlistQuantify').text()) + 1}`);
+            $('#tbody_wishlist').append(`
+                <tr class="wishlist--items" data-id="${product_id}">
+                    <td class="text-center"> 
+                        <div class="wishlist__product--clear">
+                            <i class="fa-solid fa-xmark" data-id="${product_id}"></i>
+                        </div>
+                    </td>
+                    <td id="wishlist__img" class="text-center">
+                        <div class="wishlist__product--img">
+                            <a href="#">
+                                <img width="80px" height="80px" src="${product_image}" alt="">
+                            </a>
+                        </div>
+                    </td>
+                    <td id="wishlist__content">
+                        <div class="wishlist__product--content fs-15">
+                            <a href="#" style="font-weight: 500;" class="fs-15 text--dark-hover text-dark text-decoration-none mb-1 d-inline-block">${product_name}</a>
+                            <p class="color--light--no-hover mb-2">$${product_price}</p>
+                            <p class="color--light--no-hover mb-1">${createAt}</p>
+                        </div>                              
+                    </td>
+                    <td>
+                        <div class="d-flex justify-content-center flex-column h-100">
+                            <p class="color--light--no-hover mb-2">In Stock</p>
+                            <a href="#" style="font-weight: 500;" data-bs-target="#modalCart" data-bs-toggle="modal" data-id="${product_id}" class="add-to-cart text--dark-hover text-dark text-decoration-none">Add to cart</a>
+                        </div>
+                    </td>
+                </tr>
+            `)
+        }
+        if($('#user_id').val() === undefined) {
+            const wishlist = JSON.parse(localStorage.getItem('wishlist')) ?? [];
+            const product = {
+                product_id: product_id,
+                product_image: product_image,
+                product_name: product_name,
+                product_price: product_price,
+                createAt,
+            }
+            const checkProductExist = wishlist.find((item) => item.product_name === product.product_name);
+            if(checkProductExist === undefined) {
+                wishlist.push(product);
+            }
+            localStorage.setItem('wishlist', JSON.stringify(wishlist))
+        } else {
+            $.ajax({
+                url: '/wishlist/add-to-wishlist/' + product_id,
+                type: 'POST',
+                data: {
+                    product_id: product_id,
+                    user_id: $('#user_id').val(),
+                },
+                success: function(response) {
+                }
+            });
+        }
+    })
+
     const pagination = $('.pagination');
     const per_page = 2;
     const page_active = pagination.data('active');
