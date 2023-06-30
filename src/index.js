@@ -38,9 +38,9 @@ app.engine('.hbs', handlebars.engine({
           return options.fn(this)
         }
       },
-      isZero: function(val, options) {
+      isZero: function(val, options, options_2) {
         if (val === 0){
-          return options.fn(this)
+          return options.fn(this);
         }
       },
       lengthArr: function (arr) {
