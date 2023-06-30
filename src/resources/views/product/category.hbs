@@ -7,8 +7,8 @@
 </div>
 <div class="pt-4">
     <div class="container mt-5">
-        <div class="row">
-            <div class="col-3">
+        <div class="row flex-wrap-reverse">
+            <div class="col-lg-3 col-md-3">
                 <div class="sidebar">
                     <div class="sidebar__items mb-5">
                         <h4 class="font--primary mb-5">Categories</h4>
@@ -25,18 +25,18 @@
                         <h4 class="font--primary mb-5">Product tags</h4>
                         <ul class="mt-4 p-0 d-flex flex-wrap">
                             <li class="me-2"> 
-                                <a href="#" class="bg--white--hover border--primary text-decoration-none color--light pt-2 pb-2 pe-3 ps-3 lh-1 d-inline-block">Life Style</a>
+                                <a href="#" class="bg--white--hover border--primary text-decoration-none color--light pt-2 pb-2 pe-3 ps-3 lh-1 d-inline-block mb-2">Life Style</a>
                             </li>
                             <li class="me-2">
-                                <a href="#" class="bg--white--hover border--primary text-decoration-none color--light pt-2 pb-2 pe-3 ps-3 lh-1 d-inline-block">Trend</a>
+                                <a href="#" class="bg--white--hover border--primary text-decoration-none color--light pt-2 pb-2 pe-3 ps-3 lh-1 d-inline-block mb-2">Trend</a>
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
-            <div class="col-9">
+            <div class="col-lg-9 col-md-9">
                 <div class="shop">
-                    <div class="d-flex justify-content-between mb-4 align-items-center">
+                    <div class="d-flex justify-content-between mb-4 align-items-center flex-wrap gap-3">
                         <p class="color--light--no-hover mb-0">There are <span class="text-dark">{{lengthArr products}} products</span> available</p>
                         <div class="d-flex align-items-center">
                             <div class="me-5 color--light--no-hover">
@@ -58,14 +58,14 @@
                     </div>
                     <div class="row">
                         {{#each products}}
-                        <div class="col-4">
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-6">
                             <div class="product">
                                 <div class="position-relative overflow-hidden">
                                     <a class="" href="/product/{{this.slug}}">
                                         <img class="w-100 h-100" src="{{this.image}}" alt="">
                                     </a>
                                     <button class="add-to-cart position-absolute start-50 bottom-0 mb-4 pt-3 pb-3 btn--primary text-uppercase border-0 z-n1" data-id="{{this._id}}" data-bs-target="#modalCart" data-bs-toggle="modal">add to cart</button>
-                                    <ul class="product-action position-absolute top-0 pt-3 end-0 pe-3">
+                                    <ul class="product-action hidden-mobile-tablet position-absolute top-0 pt-3 end-0 pe-3">
                                         <li class="bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
                                             <a class=" add-to-wishlist text-dark" href="#" data-bs-target="#ModalWishlist" data-bs-toggle="modal">
                                                 <i class="fa-regular fa-heart" data-id="{{this._id}}"></i>
@@ -369,7 +369,7 @@
     })    
 
     const pagination = $('.pagination');
-    const per_page = 2;
+    const per_page = 12;
     const page_active = pagination.data('active');
     const product_quantify = pagination.data('l-products');
     if(product_quantify > per_page) {

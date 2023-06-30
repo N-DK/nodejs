@@ -1,6 +1,6 @@
 <section class="banner">
-    <div class="banner--items container position-relative h-100">
-        <div class="content position-absolute top-50 translate-middle-y start-0">
+    <div class="banner--items container-xl position-relative h-100 d-flex align-items-center">
+        <div class="content">
             <div class="content__now d-inline-block rounded-pill bg-dark text-white pt-2 pb-2 ps-4 pe-4">
                 <span>Now Available</span>
             </div>
@@ -12,24 +12,24 @@
 <section class="mentor mt-4 mb-5">
     <div class="container-fluid">
         <div class="mentor--list row p-2">
-        <div class="col-4">
-            <a class="" href="#">
+        <div class=" col-lg-4 col-md-6">
+            <a class=" mb-4 d-block" href="#">
                 <div class="mentor--items position-relative overflow-hidden">
                     <img class="w-100 h-100" src="/img/mentor-1.png" alt="">
                     <span class="position-absolute start-50 translate-middle-x text-white bottom-0 font--primary pb-5 fs-1 w-100 text-center">Dress Watches</span>
                 </div>
             </a>
         </div>
-        <div class="col-4">
-            <a class="" href="#">
+        <div class=" col-lg-4 col-md-6">
+            <a class=" mb-4 d-block" href="#">
                 <div class="mentor--items position-relative overflow-hidden">
                     <img class="w-100 h-100" src="/img/mentor-2.png" alt="">
                     <span class="position-absolute start-50 translate-middle-x text-white bottom-0 font--primary pb-5 fs-1 w-100 text-center">Men's Watches</span>
                 </div>
             </a>
         </div>
-        <div class="col-4">
-            <a class="" href="#">
+        <div class=" col-lg-4 col-md-6">
+            <a class=" mb-4 d-block" href="#">
                 <div class="mentor--items position-relative overflow-hidden">
                     <img class="w-100 h-100" src="/img/mentor-3.png" alt="">
                     <span class="position-absolute start-50 translate-middle-x text-white bottom-0 font--primary pb-5 fs-1 w-100 text-center">Women's Watches</span>
@@ -40,25 +40,25 @@
     </div>
 </section>
 <section class="populated pt-5 mb-5">
-    <div class="w-50 m-auto">
+    <div class="w-100">
         <h1 class="text-center font--primary mb-4 populated--title">Trending Now</h1>
-        <p class="text-center fs-6 lh-lg pb-5">We are happy to introduce the new Lawson Collection. These are three quartz models
+        <p class="text-center fs-6 lh-lg pb-5 w-100 m-auto">We are happy to introduce the new Lawson Collection. These are three quartz models <br>
     designed with simplicity and elegance kept in mind</p>
     </div>
-    <div class="populated--container container">
+    <div class="populated--container container-xl">
         <ul class="product--list row p-0">
             {{#if session.user}}
             <input type="hidden" name="" value="{{session.user._id}}" id="user_id">
             {{/if}}
             {{#each (limit products 3)}}
-            <li class="product--items col-4">
+            <li class="product--items col-lg-4 col-md-6 col-6">
                 <div class="product">
                     <div class="position-relative overflow-hidden">
                         <a class="" href="/product/{{this.slug}}">
                             <img class="w-100 h-100" src="{{this.image}}" alt="">
                         </a>
                         <button class="add-to-cart position-absolute start-50 bottom-0 mb-4 pt-3 pb-3 btn--primary text-uppercase border-0 z-n1" data-id="{{this._id}}" data-bs-target="#modalCart" data-bs-toggle="modal">add to cart</button>
-                        <ul class="product-action position-absolute top-0 pt-3 end-0 pe-3">
+                        <ul class="product-action hidden-mobile-tablet position-absolute top-0 pt-3 end-0 pe-3">
                             <li class="bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
                                 <a class=" add-to-wishlist text-dark" href="#" data-bs-target="#ModalWishlist" data-bs-toggle="modal">
                                     <i class="fa-regular fa-heart" data-id="{{this._id}}"></i>
@@ -104,20 +104,20 @@
     </div>
 </section>
 <section class="populated pt-5 mb-5">
-    <div class="container">
+    <div class=" container-xl">
         <div class="populated__content">
             <div class="row align-items-center">
-                <div class="col-7">
-                    <div class="populated__img">
+                <div class="col-lg-7 col-md-7">
+                    <div class="populated__img mb-5">
                         <img class="w-100 h-100" src="img/lenos.jpg" alt="">
                     </div>
                 </div>
-                <div class="col-5">
+                <div class="col-lg-5 col-md-5">
                     <div class="populated__items--desc align-self-center">
                         <h1 class="font--primary populated--title">Spring Winter 2022</h1>
-                        <p class="mt-4 mb-4 lh-1-8">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.</p>
-                        <a  href="/shop" class=" text-decoration-none btn--dark text-white text-uppercase border-0 pt-3 pb-3 ps-5 pe-5 mt-4">shop the look</a>
-                    </div>
+                        <p class="mt-4 pb-3 lh-1-8">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.</p>
+                        <a  href="/shop" style="width: max-content" class="d-block text-decoration-none btn--dark text-white text-uppercase border-0 pt-3 pb-3 ps-5 pe-5 mt-5">shop the look</a>
+                    </div> 
                 </div>
             </div>
         </div>
@@ -125,43 +125,42 @@
 </section>
 <section class="populated pt-5 mb-5">
     <div class="populated--banner position-relative">
-        <div class="populated--content text-center position-absolute start-50 top-50 translate-middle text-white w-50">
+        <div class="populated--content text-center position-absolute start-50 top-50 translate-middle text-white w-100">
             <p class="fs-4 lh-1">10% Off & The Best Indie Art Ever!</p>
-            <h1 class="font--primary mt-5 mb-5" style="font-size: 80px">Be The First To <br> Get Limited Editions</h1>
+            <h1 class="font--primary mt-5 mb-5 text">Be The First To <br> Get Limited Editions</h1>
             <a href="/shop" class=" text-decoration-none text-dark btn--primary text-uppercase border-0 pt-3 pb-3 ps-5 pe-5">shop new collection</a>
         </div>
     </div>
 </section>
 <section class="populated pt-5 mb-5">
-    <div class="w-50 m-auto">
+    <div class="w-100">
         <h1 class="text-center font--primary mb-4 populated--title">Feature Product</h1>
-        <p class="text-center fs-6 lh-lg pb-5">Hurry up to own our best products on the occasion of discounts to <br> give to friends and relatives</p>
+        <p class="text-center fs-6 lh-lg pb-5 m-auto w-100">Hurry up to own our best products on the occasion of discounts to <br> give to friends and relatives</p>
     </div>
-    <div class="populated--container container">
+    <div class="populated--container container-xl">
         <ul class="product--list row p-0">
             {{#each (limit products 4)}}
-            <li class="product--items col-3">
+            <li class="product--items col-lg-3 col-md-6 col-6">
                 <div class="product">
                     <div class="position-relative overflow-hidden">
                         <a class="" href="/product/{{this.slug}}">
                             <img class="w-100 h-100" src="{{this.image}}" alt="">
                         </a>
                         <button class="add-to-cart position-absolute start-50 bottom-0 mb-4 pt-3 pb-3 btn--primary text-uppercase border-0 z-n1" data-id="{{this._id}}" data-bs-target="#modalCart" data-bs-toggle="modal">add to cart</button>
-                        <ul class="product-action position-absolute top-0 pt-3 end-0 pe-3">
+                        <ul class="product-action hidden-mobile-tablet position-absolute top-0 pt-3 end-0 pe-3">
                             <li class="bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
-                                <a class=" add-to-wishlist text-dark" href="#" data-id="{{this.product_id}}">
-                                    <i class="fa-regular fa-heart"></i>
+                                <a class=" add-to-wishlist text-dark" href="#" data-bs-target="#ModalWishlist" data-bs-toggle="modal">
+                                    <i class="fa-regular fa-heart" data-id="{{this._id}}"></i>
                                 </a>
                             </li>
                             <li class="nth-2 bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
                                 <a class="text-dark rotate-90" href="#">
                                     <i class="fa-solid fa-arrow-right-arrow-left"></i>
-
                                 </a>
                             </li>
                             <li class="nth-3 bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
-                                <a class="text-dark" href="#">
-                                    <i class="fa-solid fa-eye"></i>
+                                <a class="text-dark btn-open-view" data-bs-toggle="modal" data-bs-target="#modalView" href="#">
+                                    <i class="fa-solid fa-eye" data-id="{{this._id}}"></i>
                                 </a>
                             </li>
                         </ul>
@@ -183,12 +182,12 @@
                         <p class="text-center">
                             <span class="pe-1 fs-5 fw-bold product--price">${{calcCurrentPrice this.cost this.discount}}</span>
                             {{#isPositive this.discount}}
-                            <span><del>${{this.cost}}</del></span>
+                            <span class="product--cost"><del>${{this.cost}}</del></span>
                             {{/isPositive}}
                         </p>
                     </div>
                 </div>
-            </li>
+            </li>   
             {{/each}}
         </ul>
     </div>
@@ -198,49 +197,39 @@
         <h1 class="text-center font--primary mb-4 populated--title">@lenos.store</h1>
         <p class="text-center fs-6 lh-lg pb-5">Follow us on Instagram</p>
     </div>
-    <div class="populated--container container">
-        <ul class="product--list row p-0">
-            <li class="product--items col-2-4">
-                <div class="instagram--img position-relative">
-                    <img class="w-100" src="/img/insta-2.png" alt="">
-                    <div class="position-absolute w-100 h-100 top-0 bg-dark d-flex justify-content-center align-items-center">
-                        <i class="fa-brands fa-instagram text-white fs-2"></i>
-                    </div>
+    <div class="populated--container container-xl">
+        <div class="owl-carousel">
+            <div class="instagram--img position-relative">
+                <img class="w-100" src="/img/insta-1.png" alt="">
+                <div class="position-absolute w-100 h-100 top-0 bg-dark d-flex justify-content-center align-items-center">
+                    <i class="fa-brands fa-instagram text-white fs-2"></i>
                 </div>
-            </li>
-            <li class="product--items col-2-4">
-                <div class="instagram--img position-relative">
-                    <img class="w-100" src="/img/insta-3.png" alt="">
-                    <div class="position-absolute w-100 h-100 top-0 bg-dark d-flex justify-content-center align-items-center">
-                        <i class="fa-brands fa-instagram text-white fs-2"></i>
-                    </div>
+            </div>
+            <div class="instagram--img position-relative">
+                <img class="w-100" src="/img/insta-2.png" alt="">
+                <div class="position-absolute w-100 h-100 top-0 bg-dark d-flex justify-content-center align-items-center">
+                    <i class="fa-brands fa-instagram text-white fs-2"></i>
                 </div>
-            </li>
-            <li class="product--items col-2-4">
-                <div class="instagram--img position-relative">
-                    <img class="w-100" src="/img/insta-4.png" alt="">
-                    <div class="position-absolute w-100 h-100 top-0 bg-dark d-flex justify-content-center align-items-center">
-                        <i class="fa-brands fa-instagram text-white fs-2"></i>
-                    </div>
+            </div>
+            <div class="instagram--img position-relative">
+                <img class="w-100" src="/img/insta-3.png" alt="">
+                <div class="position-absolute w-100 h-100 top-0 bg-dark d-flex justify-content-center align-items-center">
+                    <i class="fa-brands fa-instagram text-white fs-2"></i>
                 </div>
-            </li>
-            <li class="product--items col-2-4">
-                <div class="instagram--img position-relative">
-                    <img class="w-100" src="/img/insta-5.png" alt="">
-                    <div class="position-absolute w-100 h-100 top-0 bg-dark d-flex justify-content-center align-items-center">
-                        <i class="fa-brands fa-instagram text-white fs-2"></i>
-                    </div>
+            </div>
+            <div class="instagram--img position-relative">
+                <img class="w-100" src="/img/insta-4.png" alt="">
+                <div class="position-absolute w-100 h-100 top-0 bg-dark d-flex justify-content-center align-items-center">
+                    <i class="fa-brands fa-instagram text-white fs-2"></i>
                 </div>
-            </li>
-            <li class="product--items col-2-4">
-                <div class="instagram--img position-relative">
-                    <img class="w-100" src="/img/insta-1.png" alt="">
-                    <div class="position-absolute w-100 h-100 top-0 bg-dark d-flex justify-content-center align-items-center">
-                        <i class="fa-brands fa-instagram text-white fs-2"></i>
-                    </div>
+            </div>
+            <div class="instagram--img position-relative">
+                <img class="w-100" src="/img/insta-5.png" alt="">
+                <div class="position-absolute w-100 h-100 top-0 bg-dark d-flex justify-content-center align-items-center">
+                    <i class="fa-brands fa-instagram text-white fs-2"></i>
                 </div>
-            </li>
-        </ul>
+            </div>
+        </div>
     </div>
 </section>
 <script>
@@ -495,6 +484,28 @@
         const input = $(e.target).closest('.form-type-number').find('input');
         if (input.is('input')) {
             input[0][isNegative ? 'stepDown' : 'stepUp']()
+        }
+    })
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    $('.owl-carousel').owlCarousel({
+        loop:true,
+        margin:10,
+        responsiveClass:true,
+        responsive:{
+            0:{
+                items:1,
+                nav:false
+            },
+            600:{
+                items:3,
+                nav:false
+            },
+            1000:{
+                items:5,
+                nav:true,
+            }
         }
     })
 </script>

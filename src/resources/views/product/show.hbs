@@ -1,18 +1,18 @@
-<div class="container">
+<div class="container-xl">
     <div class="row mb-5 pb-5">
-        <div id="img_container" class="col-7">
+        <div id="img_container" class="col-lg-7 col-md-12 mb-4">
             <div class="product__detail--img">
                 <img class="w-100" src="{{product.image}}" alt="">
             </div>
         </div>
-        <div class="col-5">
+        <div class="col-lg-5 col-md-12">
             <div class="router--detail color--light--no-hover pb-4">
                 <a href="/" class="color--light text-decoration-none">Home </a>/
                 <a href="" class="color--light text-decoration-none text-capitalize">{{product.category}} </a>/
                 <span class="text-capitalize">{{product.name}}</span>
             </div>
-            <h1 class="product--name font--primary text-uppercase fs-3 pt-2 ">{{product.name}}</h1>
-            <p class="pb-5 router--priceContainer">
+            <h1 class="product--name font--primary text-uppercase fs-3 pt-2">{{product.name}}</h1>
+            <p class="pb-3 pt-3 router--priceContainer">
                 <span id="price" class="pe-1 fs-4 color--primary">${{calcCurrentPrice product.cost product.discount}}</span>
                 {{#isPositive product.discount}}
                 <span class="fs-4"><del>${{product.cost}}</del></span>
@@ -101,7 +101,7 @@
         </div>
     </div>
     <div class="tab__container mb-5">
-        <div class="d-flex justify-content-center align-items-center pb-3 border-bottom-primary mb-5">
+        <div class="d-flex justify-content-center align-items-center pb-3 border-bottom-primary mb-5 flex-wrap gap-3">
             <h2 class="tab__panes font--primary me-3 ms-3 color--light active">Description</h2>
             <h2 class="tab__panes font--primary me-3 ms-3 color--light">Additional Information</h2>
             <h2 class="tab__panes font--primary me-3 ms-3 color--light">Reviews</h2>
@@ -110,7 +110,7 @@
         <div class="tab__list--content">
             <div class="tab__items--container active">
                 <div class="row">
-                    <div class="col-8">
+                    <div class="col-lg-8 col-md-8">
                         <div class="tab__items--desc">
                             <h5 class="mb-4">How it made?</h5>
                             <p class="mb-4 color--light--no-hover">Looking back over the last 50 years of watch design, we’ve taken notes from classic design principles to create this collection, both understated in silhouette and colour palette.</p>
@@ -123,9 +123,9 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="col-4">
+                    <div class="col-lg-4 col-md-4">
                         <div class="tab__items--desc-img">
-                            <img src="/img/descImg.jpg" alt="">
+                            <img class="w-100" src="/img/descImg.jpg" alt="">
                         </div>
                     </div>
                 </div>
@@ -148,8 +148,8 @@
             </div>
             <div class="tab__items--container">
                 <div class="row">
-                    <div class="col-3">
-                        <div class="board__reviews border--primary text-center p-4">
+                    <div class="col-lg-3">
+                        <div class="board__reviews border--primary text-center p-4 mb-4">
                             <h1 class="font--primary color--light--no-hover mb-4">0</h1>
                             <div class="rating d-flex justify-content-center mb-2 fs-13 color--primary">
                                 <i class="fa-solid fa-star"></i>
@@ -190,8 +190,8 @@
                             <button type="submit" class="btn--primary btn--light text-white border-0 pt-2 pb-2 w-100 mb-2">Ask a Question</button>
                         </div>
                     </div>
-                    <div class="col-9">
-                        <div class="info ps-4 pb-5 border-bottom-primary">
+                    <div class="col-lg-9">
+                        <div class="info pb-5 border-bottom-primary">
                             <div class="pb-2 your_star_rating d-flex align-items-center">
                                 <p class="m-0">Your rating: <span class=" text-danger me-3">*</span></p> 
                                 <div class="d-flex flex-row-reverse align-items-center">
@@ -248,8 +248,8 @@
             </div>
             <div class="tab__items--container">
                 <div class="row">
-                    <div class="col-3">
-                        <div class="board__reviews border--primary text-center p-4">
+                    <div class="col-lg-3">
+                        <div class="board__reviews border--primary text-center p-4 mb-4">
                             <h1 class="font--primary color--light--no-hover mb-4">0</h1>
                             <div class="rating d-flex justify-content-center mb-2 fs-13 color--primary">
                                 <i class="fa-solid fa-star"></i>
@@ -290,8 +290,8 @@
                             <button type="submit" class="btn--primary btn--light text-white border-0 pt-2 pb-2 w-100 mb-2">Ask a Question</button>
                         </div>
                     </div>
-                    <div class="col-9">
-                        <div class="info ps-4 pb-5 border-bottom-primary">
+                    <div class="col-lg-9">
+                        <div class="info pb-5 border-bottom-primary">
                             <div class="input--group mb-4">
                                 <div class="row">
                                     <div class="col-6">
@@ -322,52 +322,53 @@
         <div class="w-50 m-auto pt-4">
             <h1 class="text-center font--primary mb-4 populated--title pb-4">Related Products</h1>
         </div>    
-        <div class="populated--container container">
+        <div class="populated--container container-xl">
             <ul class="product--list row p-0">
                 {{#each (limit dataProduct 4)}}
-                <li class="product--items col-3">
+                <li class="product--items col-lg-3 col-md-6 col-6">
                     <div class="product">
-                        <a class="" href="/product/{{this.slug}}">
-                            <div class="position-relative overflow-hidden">
+                        <div class="position-relative overflow-hidden">
+                            <a class="" href="/product/{{this.slug}}">
                                 <img class="w-100 h-100" src="{{this.image}}" alt="">
-                                <button class="position-absolute start-50 bottom-0 mb-4 pt-3 pb-3 btn--primary text-uppercase border-0">add to cart</button>
-                                <ul class="product-action position-absolute top-0 pt-3 end-0 pe-3">
-                                    <li class="bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
-                                        <a class="text-dark" href="#">
-                                            <i class="fa-regular fa-heart"></i>
-                                        </a>
-                                    </li>
-                                    <li class="nth-2 bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
-                                        <a class="text-dark rotate-90" href="#">
-                                            <i class="fa-solid fa-arrow-right-arrow-left "></i>
-
-                                        </a>
-                                    </li>
-                                    <li class="nth-3 bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
-                                        <a class="text-dark" href="#">
-                                            <i class="fa-solid fa-eye"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                                <ul class="product-label position-absolute top-0 pt-3 start-0 ps-3">
-                                    {{#isPositive this.discount}}
-                                    <p class="label label--discount text-uppercase">-{{convertToPercent this.discount}}%</p>
-                                    {{/isPositive}}
-                                    {{#if this.hot}}
-                                    <p class="label label--hot text-uppercase">hot</p>
-                                    {{/if}}
-                                    {{#if this.new}}
-                                    <p class="label label--new text-uppercase">new</p>
-                                    {{/if}}
-                                </ul>
-                            </div>
-                        </a>
+                            </a>
+                            <button class="add-to-cart position-absolute start-50 bottom-0 mb-4 pt-3 pb-3 btn--primary text-uppercase border-0 z-n1" data-id="{{this._id}}" data-bs-target="#modalCart" data-bs-toggle="modal">add to cart</button>
+                            <ul class="product-action hidden-mobile-tablet position-absolute top-0 pt-3 end-0 pe-3">
+                                <li class="bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
+                                    <a class=" add-to-wishlist text-dark" href="#" data-bs-target="#ModalWishlist" data-bs-toggle="modal">
+                                        <i class="fa-regular fa-heart" data-id="{{this._id}}"></i>
+                                    </a>
+                                </li>
+                                <li class="nth-2 bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
+                                    <a class="text-dark rotate-90" href="#">
+                                        <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                                    </a>
+                                </li>
+                                <li class="nth-3 bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
+                                    <a class="text-dark btn-open-view" data-bs-toggle="modal" data-bs-target="#modalView" href="#">
+                                        <i class="fa-solid fa-eye" data-id="{{this._id}}"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="product-label position-absolute top-0 pt-3 start-0 ps-3">
+                                {{#isPositive this.discount}}
+                                <p class="label label--discount text-uppercase">-{{convertToPercent this.discount}}%</p>
+                                {{/isPositive}}
+                                {{#if this.hot}}
+                                <p class="label label--hot text-uppercase">hot</p>
+                                {{/if}}
+                                {{#if this.new}}
+                                <p class="label label--new text-uppercase">new</p>
+                                {{/if}}
+                            </ul>
+                        </div>
                         <div class="product--content pt-4">
                             <h6 class="product--name text-uppercase text-center">{{this.category}}</h6>
                             <a href="#" class="product--desc text-uppercase text-center">{{this.name}}</a>
                             <p class="text-center">
-                                <span class="pe-1 fs-5 fw-bold">${{calcCurrentPrice this.cost this.discount}}</span>
-                                <span><del>${{this.cost}}</del></span>
+                                <span class="pe-1 fs-5 fw-bold product--price">${{calcCurrentPrice this.cost this.discount}}</span>
+                                {{#isPositive this.discount}}
+                                <span class="product--cost"><del>${{this.cost}}</del></span>
+                                {{/isPositive}}
                             </p>
                         </div>
                     </div>

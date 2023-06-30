@@ -9,15 +9,15 @@
 <input type="hidden" name="" value="{{session.user._id}}" id="userIdCart">
 <input type="hidden" name="" value="{{cartQuantity}}" id="cartQuantify">
 {{/if}}
-<div class="container mt-5 pb-5">
+<div class="container-xl mt-5 pb-5">
     <div class="pt-4">
         {{#if session.user}}
         {{#if session.carts}}
         <div id="cart__content" class="row mb-5">
-            <div class="col-9">
+            <div class="col-lg-9 col-md-12">
                 <table class="table border--primary">
                     <tbody id="tbody">
-                        <tr>
+                        <tr class="hidden-mobile">
                             <td></td>
                             <td class="font--primary">Product</td>
                             <td class="font--primary">Price</td>
@@ -45,7 +45,7 @@
                                     </div>
                                 </div>
                             </td>
-                            <td>
+                            <td class="hidden-mobile">
                                 <div class="cart__product pt-3 pb-3">
                                     <div style="height: 80px" class=" d-flex align-items-center cart__product--img me-3">
                                         <span>${{this.product_price}}</span>
@@ -67,7 +67,7 @@
                                     </div>
                                 </div>
                             </td>
-                            <td>
+                            <td class="hidden-mobile">
                                 <div class="cart__product pt-3 pb-3">
                                     <div style="height: 80px" class=" d-flex align-items-center cart__product--img me-3">
                                         <span class="totalPrice">${{this.total_price}}</span>
@@ -78,14 +78,14 @@
                         {{/each}}
                     </tbody>
                 </table>
-                <div style="width: 400px; height: 50px" class="d-flex overflow-hidden">
+                <div style="width: 400px; height: 50px" class="d-flex overflow-hidden mb-4">
                     <div style="width: 60%" class="input--group">
                         <input type="text" name="" class="h-100 w-100 d-flex algin-items-center lh-1" id="" placeholder="Coupon code">
                     </div>
                     <button type="submit" class=" flex-grow-1 btn--primary btn--light text-white text-uppercase border-0 pt-2 pb-2">apply coupon</button>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-lg-3 col-md-12">
                 <div style="background-color: #f8f8f8;" class="cart--total">
                     <h5 style="background-color: #eeeeee;" class="font--primary p-3">Cart Totals</h5>
                     <div class="p-3">
@@ -107,10 +107,10 @@
         {{/if}}
         {{else}}
         <div id="cart__content" class="row mb-5">
-            <div class="col-9">
+            <div class="col-lg-9 col-md-12">
                 <table class="table border--primary">
                     <tbody id="tbody">
-                        <tr>
+                        <tr class="hidden-mobile">
                             <td></td>
                             <td class="font--primary">Product</td>
                             <td class="font--primary">Price</td>
@@ -119,14 +119,14 @@
                         </tr>
                     </tbody>
                 </table>
-                <div style="width: 400px; height: 50px" class="d-flex overflow-hidden">
+                <div style="width: 400px; height: 50px" class="d-flex overflow-hidden mb-4">
                     <div style="width: 60%" class="input--group">
                         <input type="text" name="" class="h-100 w-100 d-flex algin-items-center lh-1" id="" placeholder="Coupon code">
                     </div>
                     <button type="submit" class=" flex-grow-1 btn--primary btn--light text-white text-uppercase border-0 pt-2 pb-2">apply coupon</button>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-lg-3 col-md-12">
                 <div style="background-color: #f8f8f8;" class="cart--total">
                     <h5 style="background-color: #eeeeee;" class="font--primary p-3">Cart Totals</h5>
                     <div class="p-3">
@@ -227,7 +227,7 @@
                             </div>
                         </div>
                     </td>
-                    <td>
+                    <td class="hidden-mobile">
                         <div class="cart__product pt-3 pb-3">
                             <div style="height: 80px" class=" d-flex align-items-center cart__product--img me-3">
                                 <span>$${cart.product_price}</span>
@@ -249,7 +249,7 @@
                             </div>
                         </div>
                     </td>
-                    <td>
+                    <td class="hidden-mobile">
                         <div class="cart__product pt-3 pb-3">
                             <div style="height: 80px" class=" d-flex align-items-center cart__product--img me-3">
                                 <span class="totalPrice">$${cart.quantify * cart.product_price}</span>

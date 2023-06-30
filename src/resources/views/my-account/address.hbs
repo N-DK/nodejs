@@ -9,7 +9,7 @@
 <div class="container pt-5">
     {{#if isNotSession}}
     <div class="row">
-        <div class="col-6">
+        <div class="col-lg-6 col-md-6">
             {{#if isLoginFail}}
             <p class="text-danger">Email hoặc mật khẩu không đúng!</p>
             {{/if}}
@@ -35,7 +35,7 @@
                 <button type="submit" class="btn--primary btn--light text-white text-uppercase border-0 pt-2 pb-2 pe-5 ps-5 mt-2">log in</button>
             </form>
         </div>
-        <div class="col-6">
+        <div class="col-lg-6 col-md-6">
             <form onsubmit="createPassword()" method="POST" action="/my-account/handleRegister">
                 <h4 class="font--primary mb-4">Register</h4>
                 <div class="mb-3 input--group pt-2 pb-2">
@@ -53,16 +53,16 @@
     </div>
     {{else}}
     <div class="row">
-        <div class="col-3">
+        <div class="col-lg-3 col-md-12">
             <a class="d-block mb-3 text-decoration-none text-dark text--dark-hover" href="/my-account">Dashboard</a>
             <a class="d-block mb-3 text-decoration-none text-dark text--dark-hover" href="/my-account/orders">Order</a>
             <a class="d-block mb-3 color--primary text--dark-hover" href="/my-account/addresses">Addresses</a>
             <a class="d-block mb-3 text-decoration-none text-dark text--dark-hover" href="/my-account/edit-account">Account details</a>
             <form method="POST" action="/my-account/logout">
-                <button class=" border-0 bg-white text--dark-hover" type="submit">Logout</button>
+                <button class=" border-0 bg-white text--dark-hover mb-4" type="submit">Logout</button>
             </form>
         </div>
-        <div class="col-9">
+        <div class="col-lg-9 col-md-12">
             <p class="color--light--no-hover fs-15">The following addresses will be used on the checkout page by default.</p>
             <div>
                 <h3 class="font--primary mb-4">Shipping address</h3>

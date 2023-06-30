@@ -5,7 +5,7 @@ class ShopController {
 
     // [GET] /shop
     index(req, res, next) {
-        var per_page = req.params.per_page ?? 2;
+        var per_page = req.params.per_page ?? 12;
         var page = 1;
         var quantifySkip = (page - 1) * parseInt(per_page);
         Products.find({})
@@ -19,7 +19,7 @@ class ShopController {
 
     // [GET] /shop/page/:page
     show(req, res, next) {
-        var per_page = req.params.per_page ?? 2;
+        var per_page = req.params.per_page ?? 12;
         var page = parseInt(req.params.page);
         var quantifySkip = (page - 1) * parseInt(per_page);
         Products.find({})

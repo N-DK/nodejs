@@ -12,64 +12,66 @@
         <span class="text-capitalize">Order received</span>
     </div>
 </div>
-<div class="mt-5 pb-5">
-    <div class="d-flex justify-content-center">
-        <div class="order__container">
-            <h2 class="pb-3 text-center order__container--title">Your order is completed</h2>
-            <p class="color--light--no-hover text-center">Thank you! Your order has been received.</p>
-            <div style="background-color: #eeeeee;" class=" mt-5 p-3 d-flex justify-content-center mb-4">
-                <div class="text-center me-5">
-                    <p style="color: #858585;" class=" text-uppercase fs-13 fw-bold mb-1">DATE:</p>
-                    <span id="date-text" class=" fs-4">{{formatDate order.createdAt}}</span>
-                </div>
-                <div class="ms-5 me-5 text-center">
-                    <p style="color: #858585;" class=" text-uppercase fs-13 fw-bold mb-1">Total:</p>
-                    <span class=" fs-4">${{order.total}}</span>
-                </div>
-                <div class="text-center ms-5">
-                    <p style="color: #858585;" class=" text-uppercase fs-13 fw-bold mb-1">payment method:</p>
-                    <span class=" fs-4">{{order.payment_method}}</span>
-                </div>
-            </div>
-            <div class="border--primary p-5 fs-13">
-                <h4 class="text-center pb-4">Order details</h4>
-                <div class="pb-3 mb-4 border-bottom-primary">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class=" text-uppercase fw-bold">Products:</span>
-                        <span class="text-uppercase fw-bold">total</span>
+<div class="container-xl">
+    <div class="mt-5 pb-5">
+        <div class="d-flex justify-content-center">
+            <div class="order__container">
+                <h2 class="pb-3 text-center order__container--title">Your order is completed</h2>
+                <p class="color--light--no-hover text-center">Thank you! Your order has been received.</p>
+                <div style="background-color: #eeeeee;" class=" mt-5 p-3 d-flex justify-content-center mb-4">
+                    <div class="text-center me-5">
+                        <p style="color: #858585;" class=" text-uppercase fs-13 fw-bold mb-1">DATE:</p>
+                        <span id="date-text" class=" fs-4">{{formatDate order.createdAt}}</span>
                     </div>
-                    <ul style="overflow-y: overlay; max-height: 200px" class="pt-2 p-0 m-0 ">
-                        {{#each order.products}}
-                        <div class="product__items d-flex justify-content-between align-items-center mt-2">
-                            <div class="d-flex align-items-center">
-                                <div style="width: 50px; height: 50px" class="product__items--img">
-                                    <img class="w-100 h-100" src="{{this.product_image}}" alt="">
-                                </div>
-                                <a href="#" class="ms-2 me-2 text-decoration-none product__items--name">{{this.product_name}}</a>
-                                <p class="m-0">
-                                    <span class="product__items--quantify">x {{this.quantify}}</span>
-                                </p>
-                            </div>
-                            <span class=" fw-bold">${{this.product_price}}</span>
+                    <div class="ms-5 me-5 text-center">
+                        <p style="color: #858585;" class=" text-uppercase fs-13 fw-bold mb-1">Total:</p>
+                        <span class=" fs-4">${{order.total}}</span>
+                    </div>
+                    <div class="text-center ms-5">
+                        <p style="color: #858585;" class=" text-uppercase fs-13 fw-bold mb-1">payment method:</p>
+                        <span class=" fs-4">{{order.payment_method}}</span>
+                    </div>
+                </div>
+                <div class="border--primary p-5 fs-13">
+                    <h4 class="text-center pb-4">Order details</h4>
+                    <div class="pb-3 mb-4 border-bottom-primary">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class=" text-uppercase fw-bold">Products:</span>
+                            <span class="text-uppercase fw-bold">total</span>
                         </div>
-                        {{/each}}
-                    </ul>
-                </div>
-                <div class="d-flex justify-content-between pb-3 mb-4 align-items-center border-bottom-primary">
-                    <span class=" text-uppercase fw-bold">subtotal:</span>
-                    <span class=" fw-bold">${{minus order.total order.shipping}}</span>
-                </div>
-                <div class="d-flex justify-content-between pb-3 mb-4 align-items-center border-bottom-primary">
-                    <span class=" text-uppercase fw-bold">shipping:</span>
-                    <p class="m-0 color--light--no-hover"><span class="color--primary">$20</span> via Flat rate</p>
-                </div>
-                <div class="d-flex justify-content-between pb-3 mb-4 align-items-center border-bottom-primary">
-                    <span class=" text-uppercase fw-bold">payment method:</span>
-                    <span class="color--light--no-hover">{{order.payment_method}}</span>
-                </div>
-                <div class="d-flex justify-content-between pb-3 mb-4 align-items-center">
-                    <span class=" text-uppercase fw-bold">total:</span>
-                    <span class="color--primary fw-bold">${{order.total}}</span>
+                        <ul style="overflow-y: overlay; max-height: 200px" class="pt-2 p-0 m-0 ">
+                            {{#each order.products}}
+                            <div class="product__items d-flex justify-content-between align-items-center mt-2">
+                                <div class="d-flex align-items-center">
+                                    <div style="width: 50px; height: 50px" class="product__items--img">
+                                        <img class="w-100 h-100" src="{{this.product_image}}" alt="">
+                                    </div>
+                                    <a href="#" class="ms-2 me-2 text-decoration-none product__items--name">{{this.product_name}}</a>
+                                    <p class="m-0">
+                                        <span class="product__items--quantify">x {{this.quantify}}</span>
+                                    </p>
+                                </div>
+                                <span class=" fw-bold">${{this.product_price}}</span>
+                            </div>
+                            {{/each}}
+                        </ul>
+                    </div>
+                    <div class="d-flex justify-content-between pb-3 mb-4 align-items-center border-bottom-primary">
+                        <span class=" text-uppercase fw-bold">subtotal:</span>
+                        <span class=" fw-bold">${{minus order.total order.shipping}}</span>
+                    </div>
+                    <div class="d-flex justify-content-between pb-3 mb-4 align-items-center border-bottom-primary">
+                        <span class=" text-uppercase fw-bold">shipping:</span>
+                        <p class="m-0 color--light--no-hover"><span class="color--primary">$20</span> via Flat rate</p>
+                    </div>
+                    <div class="d-flex justify-content-between pb-3 mb-4 align-items-center border-bottom-primary">
+                        <span class=" text-uppercase fw-bold">payment method:</span>
+                        <span class="color--light--no-hover">{{order.payment_method}}</span>
+                    </div>
+                    <div class="d-flex justify-content-between pb-3 mb-4 align-items-center">
+                        <span class=" text-uppercase fw-bold">total:</span>
+                        <span class="color--primary fw-bold">${{order.total}}</span>
+                    </div>
                 </div>
             </div>
         </div>

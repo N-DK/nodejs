@@ -5,7 +5,7 @@
         </a>
     </div>
     <div class="header__nav">
-        <ul class="nav justify-content-center">
+        <ul class="hidden-mobile-tablet nav justify-content-center">
             <li class="nav-item">
                 <a class="nav-link hover--primary text-uppercase text-dark" href="/" aria-current="page">Home</a>
             </li>
@@ -25,7 +25,7 @@
     </div>
     <div class="header__nav--account">
         <ul class="nav justify-content-center">
-            <li class="nav-item">
+            <li class="nav-item hidden-mobile-tablet">
                 {{#if session.user}}
                     <a class="nav-link hover--primary fs-5 text-dark" href="/my-account">
                         <i class="fa-regular fa-user"></i>
@@ -47,6 +47,11 @@
                     <i class="fa-solid fa-bag-shopping"></i>
                 </a>
                 <span class="quantify position-absolute d-flex justify-content-center align-items-center text-white" id="cartQuantity">{{cartQuantity}}</span>
+            </li>
+            <li class="nav-item hidden-pc show-tablet">
+                <a class="nav-link hover--primary fs-5 text-dark" href="#" aria-current="page" data-bs-target="#modalMenu" data-bs-toggle="modal">
+                    <i class="fa-solid fa-bars"></i>
+                </a>
             </li>
         </ul>
     </div>

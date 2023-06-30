@@ -7,9 +7,9 @@
     </div>
 </div>
 <div class="pt-4">
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-3">
+    <div class="container-xl mt-5">
+        <div class="row flex-wrap-reverse">
+            <div class="col-lg-3 col-md-3">
                 <div class="sidebar">
                     <div class="sidebar__items mb-5">
                         <h4 class="font--primary mb-5">Categories</h4>
@@ -60,51 +60,27 @@
                     <div class="sidebar__items mb-5">
                         <h4 class="font--primary mb-5">Recent Posts</h4>
                         <ul class="mt-4 p-0">
+                            {{#each (limit dataBlogs 3)}}
                             <li class="d-flex mb-3">
                                 <div class="recent-posts__items">
                                     <div class="d-flex align-items-center ">
                                         <div class="recent-posts__items--img overflow-hidden me-3">
-                                            <img style="object-fit: cover; object-position: center" width="60px" height="60px" class="" src="/img/blog-1.jpg" alt="">
+                                            <img style="object-fit: cover; object-position: center" width="60px" height="60px" class="" src="{{this.image}}" alt="">
                                         </div>
                                         <div class="recent-posts__items--content fs-13">
-                                            <a href="#" class="text--dark-hover text-dark text-decoration-none">Gentlemen Perfer Digital</a>
-                                            <p class="color--light--no-hover text-uppercase mb-0">march 11, 2022</p>
+                                            <a href="/blogs/{{this.slug}}" class="text--dark-hover text-dark text-decoration-none">{{this.name}}</a>
+                                            <p class="color--light--no-hover text-uppercase mb-0">{{formatDate this.createdAt}}</p>
                                         </div>
                                     </div>
                                 </div>
                             </li>
-                            <li class="d-flex mb-3">
-                                <div class="recent-posts__items">
-                                    <div class="d-flex align-items-center ">
-                                        <div class="recent-posts__items--img overflow-hidden me-3">
-                                            <img style="object-fit: cover; object-position: center" width="60px" height="60px" class="" src="/img/blog-2.jpg" alt="">
-                                        </div>
-                                        <div class="recent-posts__items--content fs-13">
-                                            <a href="#" class="text--dark-hover text-dark text-decoration-none">Gentlemen Perfer Digital</a>
-                                            <p class="color--light--no-hover text-uppercase mb-0">march 11, 2022</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="d-flex mb-3">
-                                <div class="recent-posts__items">
-                                    <div class="d-flex align-items-center ">
-                                        <div class="recent-posts__items--img overflow-hidden me-3">
-                                            <img style="object-fit: cover; object-position: center" width="60px" height="60px" class="" src="/img/blog-3.jpg" alt="">
-                                        </div>
-                                        <div class="recent-posts__items--content fs-13">
-                                            <a href="#" class="text--dark-hover text-dark text-decoration-none">Gentlemen Perfer Digital</a>
-                                            <p class="color--light--no-hover text-uppercase mb-0">march 11, 2022</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
+                            {{/each}}
                         </ul>
                     </div>
                 </div>
             </div>
-            <div class="col-9">
-                <div class="blog ps-3">
+            <div class="col-lg-9 col-md-9">
+                <div class="blog">
                     <div class="posts__list">
                         <div class="posts__items">
                             {{#each blogs}}
