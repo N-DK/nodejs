@@ -8,7 +8,7 @@
         <div class="col-lg-5 col-md-12">
             <div class="router--detail color--light--no-hover pb-4">
                 <a href="/" class="color--light text-decoration-none">Home </a>/
-                <a href="" class="color--light text-decoration-none text-capitalize">{{product.category}} </a>/
+                <a href="/product/category/{{product.slug_category}}" class="color--light text-decoration-none text-capitalize">{{product.category}} </a>/
                 <span class="text-capitalize">{{product.name}}</span>
             </div>
             <h1 class="product--name font--primary text-uppercase fs-3 pt-2">{{product.name}}</h1>
@@ -331,7 +331,7 @@
                             <a class="" href="/product/{{this.slug}}">
                                 <img class="w-100 h-100" src="{{this.image}}" alt="">
                             </a>
-                            <button class="add-to-cart position-absolute start-50 bottom-0 mb-4 pt-3 pb-3 btn--primary text-uppercase border-0 z-n1" data-id="{{this._id}}" data-bs-target="#modalCart" data-bs-toggle="modal">add to cart</button>
+                            <button class="add-to-cart hidden-mobile-tablet position-absolute start-50 bottom-0 mb-4 pt-3 pb-3 btn--primary text-uppercase border-0 z-n1" data-id="{{this._id}}" data-bs-target="#modalCart" data-bs-toggle="modal">add to cart</button>
                             <ul class="product-action hidden-mobile-tablet position-absolute top-0 pt-3 end-0 pe-3">
                                 <li class="bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
                                     <a class=" add-to-wishlist text-dark" href="#" data-bs-target="#ModalWishlist" data-bs-toggle="modal">

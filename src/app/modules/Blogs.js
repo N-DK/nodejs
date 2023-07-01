@@ -8,7 +8,8 @@ const Blog = new Schema({
     content: { type: String, default: "Nothing information" },
     image: { type: String},
     category: { type: String},
-    slug: { type: String, slug: "name" }
+    slug: { type: String, slug: "name" },
+    slug_category: {type: String, slug: "category"},
 }, {
     timestamps: true,
 });

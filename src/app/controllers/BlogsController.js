@@ -4,7 +4,7 @@ const { mongooseToObject, multipleMongooseToObject } = require('../../util/mongo
 class BlogsController {
 
     index(req, res, next) {
-        var per_page = req.params.per_page ?? 2;
+        var per_page = req.params.per_page ?? 3;
         var page = 1;
         var quantifySkip = (page - 1) * parseInt(per_page);
         Blog.find({})
@@ -41,7 +41,7 @@ class BlogsController {
 
     // [GET] blogs/page/:page
     changePage(req, res, next) {
-        var per_page = req.params.per_page ?? 2;
+        var per_page = req.params.per_page ?? 3;
         var page = parseInt(req.params.page);
         var quantifySkip = (page - 1) * parseInt(per_page);
         Blog.find({})

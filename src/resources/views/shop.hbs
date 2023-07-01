@@ -15,7 +15,7 @@
                         <ul class="mt-4 p-0">
                             {{#each (getCategory dataProduct)}}
                             <li class="d-flex color--light--no-hover mb-3">
-                                <a class="text-dark text--dark-hover text-decoration-none flex-grow-1" href="/product/category/{{this.slug}}">{{this.name}}</a>
+                                <a class="text-dark text--dark-hover text-decoration-none flex-grow-1 text-capitalize" href="/product/category/{{this.slug}}">{{this.name}}</a>
                                 <span>({{this.quantify}})</span>
                             </li>
                             {{/each}}
@@ -64,7 +64,7 @@
                                     <a class="" href="/product/{{this.slug}}">
                                         <img class="w-100 h-100" src="{{this.image}}" alt="">
                                     </a>
-                                    <button class="add-to-cart position-absolute start-50 bottom-0 mb-4 pt-3 pb-3 btn--primary text-uppercase border-0 z-n1" data-id="{{this._id}}" data-bs-target="#modalCart" data-bs-toggle="modal">add to cart</button>
+                                    <button class="add-to-cart hidden-mobile-tablet position-absolute start-50 bottom-0 mb-4 pt-3 pb-3 btn--primary text-uppercase border-0 z-n1" data-id="{{this._id}}" data-bs-target="#modalCart" data-bs-toggle="modal">add to cart</button>
                                     <ul class="hidden-mobile-tablet product-action position-absolute top-0 pt-3 end-0 pe-3">
                                         <li class="bg-white mb-3 rounded-circle d-flex justify-content-center align-items-center">
                                             <a class=" add-to-wishlist text-dark" href="#" data-bs-target="#ModalWishlist" data-bs-toggle="modal">
@@ -376,14 +376,14 @@
     const product_quantify = pagination.data('l-products');
     if(product_quantify > per_page) {
         var html = page_active == 1 ? "" : `<a href="/shop/page/${page_active - 1}" style="height: 40px; width: 40px;" class=" d-flex justify-content-center align-items-center bg--white--hover border--primary text-decoration-none color--light lh-1 d-inline-block me-2"><i class="fa-solid fa-arrow-left-long fs-13"></i></a>`;
-        for(var i = 0; i <= product_quantify/per_page; i++) {
+        for(var i = 0; i < product_quantify/per_page; i++) {
             if(page_active == (i + 1)) {
                 html += `<a href="/shop/page/${i+1}" style="height: 40px; width: 40px;" class="active d-flex justify-content-center align-items-center bg--white--hover border--primary text-decoration-none color--light lh-1 d-inline-block me-2">${i+1}</a>`
             } else {
                 html += `<a href="/shop/page/${i+1}" style="height: 40px; width: 40px;" class="d-flex justify-content-center align-items-center bg--white--hover border--primary text-decoration-none color--light lh-1 d-inline-block me-2">${i+1}</a>`
             }
         }
-        html += page_active == product_quantify - 1 ? "" : `<a href="/shop/page/${page_active + 1}" style="height: 40px; width: 40px;" class=" d-flex justify-content-center align-items-center bg--white--hover border--primary text-decoration-none color--light lh-1 d-inline-block me-2"><i class="fa-solid fa-arrow-right-long fs-13 "></i></a>`
+        html += page_active == Math.ceil(product_quantify/per_page) ? "" : `<a href="/shop/page/${page_active + 1}" style="height: 40px; width: 40px;" class=" d-flex justify-content-center align-items-center bg--white--hover border--primary text-decoration-none color--light lh-1 d-inline-block me-2"><i class="fa-solid fa-arrow-right-long fs-13 "></i></a>`
         pagination.append(html);
     }
 

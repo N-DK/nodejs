@@ -89,7 +89,7 @@
                                         <img style="object-fit: cover; object-position: center" class="w-100" src="{{this.image}}" alt="">
                                     </div>
                                     <div class="posts--author mb-2">
-                                        <a href="#" class="color--primary-hover text-decoration-none text-capitalize">{{this.category}}</a>-
+                                        <a href="/blogs/category/{{this.slug_category}}" class="color--primary-hover text-decoration-none text-capitalize">{{this.category}}</a> -
                                         <span class="color--light--no-hover">{{formatDate this.createdAt}}</span>
                                    </div>
                                     <a href="/blogs/{{this.slug}}" class="posts--name text-decoration-none text--dark-hover text-dark font--primary fs-4 ">{{this.name}}</a>
@@ -109,19 +109,19 @@
 </div>
 <script>
     const pagination = $('.pagination');
-    const per_page = 2;
+    const per_page = 3;
     const page_active = pagination.data('active');
     const product_quantify = pagination.data('l-blogs');
     if(product_quantify > per_page) {
         var html = page_active == 1 ? "" : `<a href="/blogs/page/${page_active - 1}" style="height: 40px; width: 40px;" class=" d-flex justify-content-center align-items-center bg--white--hover border--primary text-decoration-none color--light lh-1 d-inline-block me-2"><i class="fa-solid fa-arrow-left-long fs-13"></i></a>`;
-        for(var i = 0; i <= product_quantify/per_page; i++) {
+        for(var i = 0; i < product_quantify/per_page; i++) {
             if(page_active == (i + 1)) {
                 html += `<a href="/blogs/page/${i+1}" style="height: 40px; width: 40px;" class="active d-flex justify-content-center align-items-center bg--white--hover border--primary text-decoration-none color--light lh-1 d-inline-block me-2">${i+1}</a>`
             } else {
                 html += `<a href="/blogs/page/${i+1}" style="height: 40px; width: 40px;" class="d-flex justify-content-center align-items-center bg--white--hover border--primary text-decoration-none color--light lh-1 d-inline-block me-2">${i+1}</a>`
             }
         }
-        html += page_active == product_quantify - 1 ? "" : `<a href="/blogs/page/${page_active + 1}" style="height: 40px; width: 40px;" class=" d-flex justify-content-center align-items-center bg--white--hover border--primary text-decoration-none color--light lh-1 d-inline-block me-2"><i class="fa-solid fa-arrow-right-long fs-13 "></i></a>`
+        html += page_active == Math.ceil(product_quantify/per_page) ? "" : `<a href="/blogs/page/${page_active + 1}" style="height: 40px; width: 40px;" class=" d-flex justify-content-center align-items-center bg--white--hover border--primary text-decoration-none color--light lh-1 d-inline-block me-2"><i class="fa-solid fa-arrow-right-long fs-13 "></i></a>`
         pagination.append(html);
     }
 </script>
