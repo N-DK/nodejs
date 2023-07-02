@@ -5,8 +5,7 @@ async function connect() {
     
     try {
         // show loading
-        // process.env.MONGODB_CONNECT_URI
-        await mongoose.connect('mongodb://127.0.0.1/ndk_sellWatch_dev');
+        await mongoose.connect(process.env.MONGODB_CONNECT_URI);
         console.log("Connect successfully");
         // hide loading
     } catch (error) {
