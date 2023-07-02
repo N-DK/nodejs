@@ -19,7 +19,7 @@ class MyAccountController {
         var password = req.body.password;
 
         User.findOne({email})
-            .then((data) => {
+            .then(async (data) => {
                 if(!data) {
                     const transporter = nodemailer.createTransport({
                         port: 465,
@@ -42,18 +42,16 @@ class MyAccountController {
                             console.log('Email sent: ' + info.response);
                         }
                     });
-                    return new User(req.body);
+                    const user = new User(req.body);
+                    await user.save()
+                    .then((user) => {
+                        req.session.email = user.email;
+                        return res.redirect('/my-account');
+                    });
                 }else {
-                    return res.redirect('/my-account');
+                    res.render('my-account', {isRegisterFail: true, isNotSession: true});
                 }
             })
-            .then(async (user) => {
-                await user.save()
-                .then((user) => {
-                    req.session.email = user.email;
-                    return res.redirect('/my-account');
-                }); 
-            }) 
             .catch(next);
         
     }

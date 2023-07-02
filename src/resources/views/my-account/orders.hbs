@@ -9,11 +9,14 @@
 <div class="container-xl pt-5">
     {{#if isNotSession}}
     <div class="row">
+        {{#if isRegisterFail}}
+        <p class="text-danger">Email đã tồn tại</p>
+        {{/if}}
+        {{#if isLoginFail}}
+        <p class="text-danger">Email hoặc mật khẩu không đúng!</p>
+        {{/if}}
         <div class="col-lg-6 col-md-6">
-            {{#if isLoginFail}}
-            <p class="text-danger">Email hoặc mật khẩu không đúng!</p>
-            {{/if}}
-            <form method="POST" action="/my-account/handleLogin">
+            <form method="POST" action="/my-account/handleLogin" class="mb-4">
                 <h4 class="font--primary mb-4">Login</h4>
                 <div class="mb-3 input--group pt-2 pb-2">
                     <label for="name" class="form-label">Username or email address <span class="text-danger">*</span></label>
@@ -36,6 +39,7 @@
             </form>
         </div>
         <div class="col-lg-6 col-md-6">
+
             <form onsubmit="createPassword()" method="POST" action="/my-account/handleRegister">
                 <h4 class="font--primary mb-4">Register</h4>
                 <div class="mb-3 input--group pt-2 pb-2">
