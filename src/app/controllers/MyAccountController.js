@@ -44,7 +44,7 @@ class MyAccountController {
                     });
                     return new User(req.body);
                 }else {
-                    res.render('my-account', {isExist: true});
+                    return res.redirect('/my-account');
                 }
             })
             .then(async (user) => {
