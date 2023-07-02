@@ -25,10 +25,12 @@
   },
   "homepage": "https://github.com/N-DK/nodejs#readme",
   "dependencies": {
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-handlebars": "^7.0.7",
     "express-session": "^1.17.3",
     "method-override": "^3.0.0",
+    "mongodb": "^5.6.0",
     "mongoose": "^7.2.2",
     "mongoose-slug-generator": "^1.0.4",
     "nodemailer": "^6.9.3"

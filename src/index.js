@@ -8,6 +8,7 @@ const handlebars = require('express-handlebars');
 const path = require('path');
 const port = 3000
 const route = require('./routes');
+require('dotenv').config()
 const db = require('./config/db');
 var methodOverride = require('method-override');
 
@@ -91,6 +92,8 @@ app.set('views', path.join(__dirname, 'resources/views'));
 
 route(app);
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+const PORT = process.env.PORT;
+
+app.listen(PORT, () => {
+  console.log(`Example app listening on port ${PORT}`);
 })
